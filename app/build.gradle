@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.unicorn.csp"
-        minSdkVersion 14
+        minSdkVersion 15
         targetSdkVersion 22
         versionCode 1
         versionName "1.0"
@@ -27,4 +27,5 @@ dependencies {
     compile(name: 'ShadowLayout-1.0.3-mc', ext: 'aar')
     compile(name: 'FlatButton-mc', ext: 'aar')
     compile 'com.rengwuxian.materialedittext:library:2.1.4'
+    compile 'net.grandcentrix.tray:tray:0.9.2'
 }
