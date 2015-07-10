@@ -24,9 +24,10 @@ dependencies {
     compile(name: 'GreenMatter-dev', ext: 'aar')
     compile 'com.android.support:appcompat-v7:22.2.0'
     compile 'com.jakewharton:butterknife:7.0.1'
-    compile(name: 'ShadowLayout-1.0.3-mc', ext: 'aar')
+    compile(name: 'ZDepthShadowLayout-1.0.4', ext: 'aar')
     compile(name: 'FlatButton-mc', ext: 'aar')
     compile 'com.rengwuxian.materialedittext:library:2.1.4'
     compile 'net.grandcentrix.tray:tray:0.9.2'
     compile 'com.afollestad:material-dialogs:0.7.6.0'
+    compile 'com.github.navasmdc:MaterialDesign:1.5@aar'
 }
