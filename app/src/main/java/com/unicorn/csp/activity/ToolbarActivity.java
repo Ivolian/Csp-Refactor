@@ -11,13 +11,13 @@ import com.unicorn.csp.R;
 import butterknife.Bind;
 
 
-public class ToolbarActivity extends ButterKnifeActivity {
-
-    @Bind(R.id.tv_toolbar_title)
-    TextView tvToolbarTitle;
+public abstract class ToolbarActivity extends ButterKnifeActivity {
 
     @Bind(R.id.toolbar)
     Toolbar toolbar;
+
+    @Bind(R.id.tv_toolbar_title)
+    TextView tvToolbarTitle;
 
 
     // ========================== home键后退 ==========================

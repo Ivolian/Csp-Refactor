@@ -25,4 +25,6 @@ dependencies {
     compile 'com.android.support:appcompat-v7:22.2.0'
     compile 'com.jakewharton:butterknife:7.0.1'
     compile(name: 'ShadowLayout-1.0.3-mc', ext: 'aar')
+    compile(name: 'FlatButton-mc', ext: 'aar')
+    compile 'com.rengwuxian.materialedittext:library:2.1.4'
 }
