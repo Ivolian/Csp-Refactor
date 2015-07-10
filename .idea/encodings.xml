@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/unicorn/csp/MainActivity.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/unicorn/www/csp/Icon.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/unicorn/www/csp/IconDetailsActivity.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/unicorn/www/csp/IconsAdapter.java" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/unicorn/www/csp/MainActivity.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/drawable-hdpi" charset="GBK" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/drawable-mdpi" charset="GBK" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/drawable-xhdpi" charset="GBK" />

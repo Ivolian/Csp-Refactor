@@ -1,4 +1,4 @@
-package com.unicorn.www.csp;
+package com.unicorn.csp;
 
 import android.app.Activity;
 import android.os.Bundle;
