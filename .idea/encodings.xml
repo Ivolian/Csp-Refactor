@@ -12,6 +12,8 @@
     <file url="file://$PROJECT_DIR$/app/src/main/res/drawable-xxxhdpi" charset="GBK" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/layout" charset="GBK" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/layout-v21" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/layout/toolbar.xml" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/layout/toolbar_with_shadow.xml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/values" charset="GBK" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/values-v21" charset="GBK" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/values-w312dp" charset="GBK" />
