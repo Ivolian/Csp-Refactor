@@ -21,4 +21,6 @@ android {
 
 dependencies {
     compile 'com.malinskiy:materialicons:1.0.2'
+    compile(name: 'GreenMatter-dev', ext: 'aar')
+    compile 'com.android.support:appcompat-v7:22.2.0'
 }
