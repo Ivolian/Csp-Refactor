@@ -4,7 +4,7 @@ import android.support.annotation.LayoutRes;
 
 import butterknife.ButterKnife;
 
-public class ButterKnifeActivity extends ColorActivity {
+public abstract class ButterKnifeActivity extends ColorActivity {
 
     @Override
     public void setContentView(@LayoutRes int layoutResId) {

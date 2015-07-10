@@ -24,4 +24,5 @@ dependencies {
     compile(name: 'GreenMatter-dev', ext: 'aar')
     compile 'com.android.support:appcompat-v7:22.2.0'
     compile 'com.jakewharton:butterknife:7.0.1'
+    compile 'com.github.dmytrodanylyk.shadow-layout:library:1.0.3'
 }
