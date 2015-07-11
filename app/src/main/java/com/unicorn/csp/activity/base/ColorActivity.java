@@ -2,7 +2,7 @@ package com.unicorn.csp.activity.base;
 
 import com.negusoft.greenmatter.MatPalette;
 import com.negusoft.greenmatter.activity.MatActivity;
-import com.unicorn.csp.greenmatter.ColorOverrider;
+import com.unicorn.csp.other.greenmatter.ColorOverrider;
 
 
 public abstract class ColorActivity extends MatActivity {

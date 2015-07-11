@@ -1,4 +1,4 @@
-package com.unicorn.csp.greenmatter;
+package com.unicorn.csp.other.greenmatter;
 
 import android.content.Context;
 import android.content.res.Resources;
