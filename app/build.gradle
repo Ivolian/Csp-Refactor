@@ -29,4 +29,7 @@ dependencies {
     compile 'com.rengwuxian.materialedittext:library:2.1.4'
     compile 'com.afollestad:material-dialogs:0.7.6.0'
     compile 'com.bugsnag:bugsnag-android:3.2.6'
+    compile('com.mikepenz:materialdrawer:3.0.9@aar') {
+        transitive = true // 传递依赖
+    }
 }

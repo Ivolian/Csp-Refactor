@@ -88,4 +88,10 @@ public abstract class ToolbarActivity extends ButterKnifeActivity {
         startActivity(new Intent(this, activityClass));
     }
 
+    protected void startActivityAndFinish(Class activityClass){
+
+        startActivity(activityClass);
+        finish();
+    }
+
 }

@@ -87,8 +87,7 @@ public class LoginActivity extends ToolbarActivity {
         // todo login
         ToastUtils.show(this, "登录成功！");
         storeLoginInfo();
-        startActivity(MainActivity.class);
-        finish();
+        startActivityAndFinish(MainActivity.class);
     }
 
 
