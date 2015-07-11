@@ -1,4 +1,4 @@
-package com.unicorn.csp.activity;
+package com.unicorn.csp.activity.base;
 
 import com.negusoft.greenmatter.MatPalette;
 import com.negusoft.greenmatter.activity.MatActivity;

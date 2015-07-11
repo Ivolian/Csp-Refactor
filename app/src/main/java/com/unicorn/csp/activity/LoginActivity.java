@@ -6,9 +6,9 @@ import android.widget.CheckBox;
 import com.ivo.flatbutton.FlatButton;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.unicorn.csp.R;
+import com.unicorn.csp.activity.base.ToolbarActivity;
+import com.unicorn.csp.other.TinyDB;
 import com.unicorn.csp.utils.ToastUtils;
-
-import net.grandcentrix.tray.TrayAppPreferences;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -87,6 +87,8 @@ public class LoginActivity extends ToolbarActivity {
         // todo login
         ToastUtils.show(this, "登录成功！");
         storeLoginInfo();
+        startActivity(MainActivity.class);
+        finish();
     }
 
 
@@ -94,25 +96,19 @@ public class LoginActivity extends ToolbarActivity {
 
     private void storeLoginInfo() {
 
-        TrayAppPreferences trayAppPreferences = new TrayAppPreferences(this);
-        trayAppPreferences.put(SF_ACCOUNT, getAccount());
-        trayAppPreferences.put(SF_PASSWORD, getPassword());
-        trayAppPreferences.put(SF_REMEMBER_ME, cbRememberMe.isChecked());
+        TinyDB tinyDB = new TinyDB(this);
+        tinyDB.putString(SF_ACCOUNT, getAccount());
+        tinyDB.putString(SF_PASSWORD, getPassword());
+        tinyDB.putBoolean(SF_REMEMBER_ME, cbRememberMe.isChecked());
     }
 
     private void restoreLoginInfo() {
 
-        try {
-            TrayAppPreferences trayAppPreferences = new TrayAppPreferences(this);
-            String account = trayAppPreferences.getString(SF_ACCOUNT);
-            String password = trayAppPreferences.getString(SF_PASSWORD);
-            boolean rememberMe = trayAppPreferences.getBoolean(SF_REMEMBER_ME, false);
-            if (rememberMe) {
-                etAccount.setText(account);
-                etPassword.setText(password);
-            }
-        } catch (Exception e) {
-            //
+        TinyDB tinyDB = new TinyDB(this);
+        cbRememberMe.setChecked(tinyDB.getBoolean(SF_REMEMBER_ME, false));
+        if (cbRememberMe.isChecked()) {
+            etAccount.setText(tinyDB.getString(SF_ACCOUNT));
+            etPassword.setText(tinyDB.getString(SF_PASSWORD));
         }
     }
 

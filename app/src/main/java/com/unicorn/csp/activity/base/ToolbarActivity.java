@@ -1,4 +1,4 @@
-package com.unicorn.csp.activity;
+package com.unicorn.csp.activity.base;
 
 import android.content.Intent;
 import android.support.v7.widget.Toolbar;

@@ -2,10 +2,21 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.unicorn.csp">
 
+    <!-- Required: Used to deliver Bugsnag crash reports -->
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <!-- Optional: To provide network connectivity information to Bugsnag -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <!-- Optional: To see which Activity was active at the time of a crash -->
+    <uses-permission android:name="android.permission.GET_TASKS"/>
+
     <application
+        android:name=".MyApplication"
         android:allowBackup="true"
         android:label="@string/app_name"
         android:theme="@style/AppTheme.NoActionBar">
+
+        <meta-data android:name="com.bugsnag.android.API_KEY" android:value="444a63569379f99a2ae116597cb1ccca"/>
+
         <activity android:name=".activity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -13,10 +24,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <!--<activity-->
-            <!--android:name=".MainActivity"-->
-            <!--android:label="@string/app_name"></activity>-->
-
+        <activity android:name=".activity.MainActivity"/>
     </application>
 
 </manifest>
