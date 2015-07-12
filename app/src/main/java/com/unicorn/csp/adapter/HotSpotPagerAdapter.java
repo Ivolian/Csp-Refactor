@@ -13,6 +13,8 @@ public class HotSpotPagerAdapter extends FragmentStatePagerAdapter {
         super(fm);
     }
 
+    private String[] titles = {"司改动态", "时政新闻", "贵州要闻", "法院动态"};
+
     @Override
     public Fragment getItem(int position) {
 
@@ -21,24 +23,13 @@ public class HotSpotPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public int getCount() {
-        return 4;
+        return titles.length;
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
 
-        switch (position) {
-            case 0:
-                return "司改动态";
-            case 1:
-                return "时政新闻";
-            case 2:
-                return "贵州要闻";
-            case 3:
-                return "法院动态";
-            default:
-                throw new RuntimeException("position 过大");
-        }
+        return titles[position];
     }
 
 }
