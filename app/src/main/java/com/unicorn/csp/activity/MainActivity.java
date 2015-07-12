@@ -22,6 +22,7 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.OnCheckedChangeListener;
 import com.unicorn.csp.R;
 import com.unicorn.csp.activity.base.ToolbarActivity;
+import com.unicorn.csp.fragment.HotSpotFragment;
 import com.unicorn.csp.other.greenmatter.ColorOverrider;
 import com.unicorn.csp.other.greenmatter.SelectColorActivity;
 import com.unicorn.csp.utils.ToastUtils;
@@ -39,7 +40,6 @@ public class MainActivity extends ToolbarActivity {
     final String SELECTED = "selected";
 
     int selected = -1;
-
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -168,8 +168,8 @@ public class MainActivity extends ToolbarActivity {
 
     @SuppressWarnings("SuspiciousMethodCalls")
     @OnClick({R.id.llHotSpot, R.id.llStudyField, R.id.llBookCity, R.id.llMyStudy, R.id.llSocialRegion})
-    public void onBottomTabClick(LinearLayout v) {
-        selectBottomTab(bottomTabList.indexOf(v), true);
+    public void onBottomTabClick(LinearLayout bottomTab) {
+        selectBottomTab(bottomTabList.indexOf(bottomTab), true);
     }
 
     private void initBottomTabList() {
@@ -223,6 +223,7 @@ public class MainActivity extends ToolbarActivity {
 
     private void replaceFragment(int index) {
 
+        replaceFragment_(new HotSpotFragment());
         // todo
     }
 
