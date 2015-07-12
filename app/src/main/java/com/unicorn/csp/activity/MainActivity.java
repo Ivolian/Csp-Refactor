@@ -15,6 +15,7 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.OnCheckedChangeListener;
 import com.unicorn.csp.R;
 import com.unicorn.csp.activity.base.ToolbarActivity;
+import com.unicorn.csp.utils.ToastUtils;
 
 public class MainActivity extends ToolbarActivity {
 
@@ -31,6 +32,7 @@ public class MainActivity extends ToolbarActivity {
 
         initDrawer();
     }
+
 
     // ========================== 侧滑菜单 ==========================
 
@@ -73,6 +75,26 @@ public class MainActivity extends ToolbarActivity {
                         return false;
                     }
                 }).build();
+    }
+
+
+    // ========================== 再按一次退出 ==========================
+
+    long exitTime = 0;
+
+    @Override
+    public void onBackPressed() {
+
+        if (drawer.isDrawerOpen()) {
+            drawer.closeDrawer();
+        } else {
+            if (System.currentTimeMillis() - exitTime > 2000) {
+                ToastUtils.show(this, "再按一次退出");
+                exitTime = System.currentTimeMillis();
+            } else {
+                super.onBackPressed();
+            }
+        }
     }
 
 }
