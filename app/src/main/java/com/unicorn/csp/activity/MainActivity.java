@@ -1,6 +1,8 @@
 package com.unicorn.csp.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
@@ -15,6 +17,7 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.OnCheckedChangeListener;
 import com.unicorn.csp.R;
 import com.unicorn.csp.activity.base.ToolbarActivity;
+import com.unicorn.csp.other.greenmatter.SelectColorActivity;
 import com.unicorn.csp.utils.ToastUtils;
 
 public class MainActivity extends ToolbarActivity {
@@ -24,11 +27,11 @@ public class MainActivity extends ToolbarActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        initToolbar("",false);
+        initToolbar("", false);
         initViews();
     }
 
-    private void initViews(){
+    private void initViews() {
 
         initDrawer();
     }
@@ -70,6 +73,7 @@ public class MainActivity extends ToolbarActivity {
                             case 2:
                                 break;
                             case 4:
+                                startSelectColorActivity();
                                 break;
                         }
                         return false;
@@ -95,6 +99,32 @@ public class MainActivity extends ToolbarActivity {
                 super.onBackPressed();
             }
         }
+    }
+
+
+    // ========================== 选择主题色彩后的处理 ==========================
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (resultCode == SelectColorActivity.SELECT_COLOR_SUCCESS) {
+            new Handler().post(new Runnable() {
+                @Override
+                public void run() {
+                    recreate();
+                }
+            });
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+
+    // ========================== 基础方法 ==========================
+
+    private void startSelectColorActivity(){
+
+        Intent intent = new Intent(this, SelectColorActivity.class);
+        startActivityForResult(intent, 2333);
     }
 
 }

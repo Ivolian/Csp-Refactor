@@ -33,5 +33,5 @@ dependencies {
         transitive = true // 传递依赖
     }
     compile 'de.hdodenhof:circleimageview:1.3.0'
-
+    compile 'com.melnykov:floatingactionbutton:1.3.0'
 }
