@@ -1,11 +1,16 @@
 package com.unicorn.csp.activity;
 
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.mikepenz.iconics.typeface.FontAwesome;
 import com.mikepenz.materialdrawer.Drawer;
@@ -17,10 +22,34 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.OnCheckedChangeListener;
 import com.unicorn.csp.R;
 import com.unicorn.csp.activity.base.ToolbarActivity;
+import com.unicorn.csp.other.greenmatter.ColorOverrider;
 import com.unicorn.csp.other.greenmatter.SelectColorActivity;
 import com.unicorn.csp.utils.ToastUtils;
 
+import java.util.List;
+
+import butterknife.Bind;
+import butterknife.OnClick;
+
 public class MainActivity extends ToolbarActivity {
+
+
+    // ========================== 保存选中项 ==========================
+
+    final String SELECTED = "selected";
+
+    int selected = -1;
+
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+
+        super.onSaveInstanceState(outState);
+        outState.putInt(SELECTED, selected);
+    }
+
+
+    // ========================== onCreate ==========================
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,11 +58,18 @@ public class MainActivity extends ToolbarActivity {
         setContentView(R.layout.activity_main);
         initToolbar("", false);
         initViews();
+
+        if (savedInstanceState == null) {
+            selectBottomTab(0, true);
+        } else {
+            selectBottomTab(savedInstanceState.getInt(SELECTED), false);
+        }
     }
 
     private void initViews() {
 
         initDrawer();
+        initBottomTabList();
     }
 
 
@@ -102,7 +138,7 @@ public class MainActivity extends ToolbarActivity {
     }
 
 
-    // ========================== 选择主题色彩后的处理 ==========================
+    // ========================== 主题色彩 ==========================
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -118,13 +154,81 @@ public class MainActivity extends ToolbarActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-
-    // ========================== 基础方法 ==========================
-
-    private void startSelectColorActivity(){
+    private void startSelectColorActivity() {
 
         Intent intent = new Intent(this, SelectColorActivity.class);
         startActivityForResult(intent, 2333);
+    }
+
+
+    // ========================== 底部栏 ==========================
+
+    @Bind({R.id.llHotSpot, R.id.llStudyField, R.id.llBookCity, R.id.llMyStudy, R.id.llSocialRegion})
+    List<LinearLayout> bottomTabList;
+
+    @SuppressWarnings("SuspiciousMethodCalls")
+    @OnClick({R.id.llHotSpot, R.id.llStudyField, R.id.llBookCity, R.id.llMyStudy, R.id.llSocialRegion})
+    public void onBottomTabClick(LinearLayout v) {
+        selectBottomTab(bottomTabList.indexOf(v), true);
+    }
+
+    private void initBottomTabList() {
+
+        for (LinearLayout bottomTab : bottomTabList) {
+            changeBottomTabColor(bottomTab, getResources().getColor(R.color.tab_unselected));
+        }
+    }
+
+    private void selectBottomTab(int index, boolean replaceFragment) {
+
+        // 如果已经选中
+        if (index == selected) {
+            return;
+        }
+        changeBottomTabColor(bottomTabList.get(index), ColorOverrider.getInstance(this).getColorAccent());
+        if (selected != -1) {
+            changeBottomTabColor(bottomTabList.get(selected), getResources().getColor(R.color.tab_unselected));
+        }
+        changeToolbarTitle(index);
+        if (replaceFragment) replaceFragment(index);
+        selected = index;
+    }
+
+    private void changeBottomTabColor(LinearLayout bottomTab, int color) {
+
+        ((ImageView) bottomTab.getChildAt(0)).setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+        ((TextView) bottomTab.getChildAt(1)).setTextColor(color);
+    }
+
+    private void changeToolbarTitle(int index) {
+
+        switch (index) {
+            case 0:
+                setToolbarTitle(R.string.hot_spot);
+                break;
+            case 1:
+                setToolbarTitle(R.string.study_field);
+                break;
+            case 2:
+                setToolbarTitle(R.string.book_city);
+                break;
+            case 3:
+                setToolbarTitle(R.string.my_study);
+                break;
+            case 4:
+                setToolbarTitle(R.string.social_region);
+                break;
+        }
+    }
+
+    private void replaceFragment(int index) {
+
+        // todo
+    }
+
+    private void replaceFragment_(Fragment fragment) {
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
     }
 
 }

@@ -1,6 +1,7 @@
 package com.unicorn.csp.activity.base;
 
 import android.content.Intent;
+import android.support.annotation.StringRes;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -46,6 +47,11 @@ public abstract class ToolbarActivity extends ButterKnifeActivity {
         tvToolbarTitle.setText(toolbarTitle);
     }
 
+    protected void setToolbarTitle(@StringRes int toolbarTitle) {
+
+        tvToolbarTitle.setText(toolbarTitle);
+    }
+
     protected void setToolbarTitle(String toolbarTitle) {
 
         tvToolbarTitle.setText(toolbarTitle);
@@ -88,7 +94,7 @@ public abstract class ToolbarActivity extends ButterKnifeActivity {
         startActivity(new Intent(this, activityClass));
     }
 
-    protected void startActivityAndFinish(Class activityClass){
+    protected void startActivityAndFinish(Class activityClass) {
 
         startActivity(activityClass);
         finish();
