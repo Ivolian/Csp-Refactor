@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.SeekBar;
 
+import com.r0adkll.slidr.Slidr;
 import com.unicorn.csp.R;
 import com.unicorn.csp.activity.base.ToolbarActivity;
 
@@ -44,6 +45,7 @@ public class SelectColorActivity extends ToolbarActivity {
         setContentView(R.layout.activity_select_color);
         initToolbar("主题色彩", true);
 
+        Slidr.attach(this);
 
         // 成功设置主题
         final ColorOverrider overrider = ColorOverrider.getInstance(this);

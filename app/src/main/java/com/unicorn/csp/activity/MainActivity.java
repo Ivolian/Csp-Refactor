@@ -107,6 +107,7 @@ public class MainActivity extends ToolbarActivity {
                     public boolean onItemClick(AdapterView<?> parent, View view, int position, long id, IDrawerItem drawerItem) {
                         switch (drawerItem.getIdentifier()) {
                             case 2:
+                                startActivity(QuestionActivity.class);
                                 break;
                             case 4:
                                 startSelectColorActivity();
