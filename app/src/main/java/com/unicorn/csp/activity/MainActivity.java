@@ -32,7 +32,7 @@ public class MainActivity extends ToolbarActivity {
         initDrawer();
     }
 
-    // ========================== ²à»¬²Ëµ¥ ==========================
+    // ========================== ä¾§æ»‘èœå• ==========================
 
     Drawer drawer;
 
@@ -43,17 +43,17 @@ public class MainActivity extends ToolbarActivity {
                 .withTranslucentStatusBar(false)
                 .withToolbar(getToolbar())
                 .withActionBarDrawerToggleAnimated(true)
-//                .withHeader(R.layout.a_drawer_header)
+                .withHeader(R.layout.drawer_header)
                 .withHeaderDivider(true)
                 .addDrawerItems(
-                        new PrimaryDrawerItem().withName("ÎÒµÄÊÕ²Ø").withIcon(FontAwesome.Icon.faw_star).withIdentifier(1).withCheckable(false),
-                        new PrimaryDrawerItem().withName("ÎÒÒªÌáÎÊ").withIcon(FontAwesome.Icon.faw_question_circle).withIdentifier(2).withCheckable(false),
+                        new PrimaryDrawerItem().withName("æˆ‘çš„æ”¶è—").withIcon(FontAwesome.Icon.faw_star).withIdentifier(1).withCheckable(false).withBadge("12"),
+                        new PrimaryDrawerItem().withName("æˆ‘è¦æé—®").withIcon(FontAwesome.Icon.faw_question_circle).withIdentifier(2).withCheckable(false),
                         new DividerDrawerItem(),
-                        new PrimaryDrawerItem().withName("ĞŞ¸ÄÃÜÂë").withIcon(FontAwesome.Icon.faw_lock).withIdentifier(3).withCheckable(false),
-                        new PrimaryDrawerItem().withName("Ö÷ÌâÉ«²Ê").withIcon(FontAwesome.Icon.faw_paint_brush).withIdentifier(4).withCheckable(false),
-                        new PrimaryDrawerItem().withName("¸ü¶àÉèÖÃ").withIcon(FontAwesome.Icon.faw_cog).withIdentifier(5).withCheckable(false),
+                        new PrimaryDrawerItem().withName("ä¿®æ”¹å¯†ç ").withIcon(FontAwesome.Icon.faw_lock).withIdentifier(3).withCheckable(false),
+                        new PrimaryDrawerItem().withName("ä¸»é¢˜è‰²å½©").withIcon(FontAwesome.Icon.faw_paint_brush).withIdentifier(4).withCheckable(false),
+                        new PrimaryDrawerItem().withName("æ›´å¤šè®¾ç½®").withIcon(FontAwesome.Icon.faw_cog).withIdentifier(5).withCheckable(false),
                         new DividerDrawerItem(),
-                        new SwitchDrawerItem().withName("Òş²Ø±êÌâÀ¸").withChecked(false).withOnCheckedChangeListener(new OnCheckedChangeListener() {
+                        new SwitchDrawerItem().withName("éšè—æ ‡é¢˜æ ").withChecked(false).withOnCheckedChangeListener(new OnCheckedChangeListener() {
                             @Override
                             public void onCheckedChanged(IDrawerItem iDrawerItem, CompoundButton compoundButton, boolean b) {
                                 toggleToolbar();
