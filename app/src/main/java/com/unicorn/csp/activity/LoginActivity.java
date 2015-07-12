@@ -1,8 +1,10 @@
 package com.unicorn.csp.activity;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.widget.CheckBox;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.ivo.flatbutton.FlatButton;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.unicorn.csp.R;
@@ -18,7 +20,7 @@ import butterknife.OnTextChanged;
 public class LoginActivity extends ToolbarActivity {
 
 
-    // ========================== 常量 ==========================
+    // ========================== SF 常量 ==========================
 
     final String SF_ACCOUNT = "account";
 
@@ -84,10 +86,28 @@ public class LoginActivity extends ToolbarActivity {
     @OnClick(R.id.btn_login)
     public void login() {
 
-        // todo login
-        ToastUtils.show(this, "登录成功！");
-        storeLoginInfo();
-        startActivityAndFinish(MainActivity.class);
+        final MaterialDialog loginDialog = showLoginDialog();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                loginDialog.dismiss();
+
+                // todo login
+                ToastUtils.show(LoginActivity.this, "登录成功！");
+                storeLoginInfo();
+                startActivityAndFinish(MainActivity.class);
+            }
+        }, 1500);
+    }
+
+    private MaterialDialog showLoginDialog() {
+
+        return new MaterialDialog.Builder(this)
+                .title("登录中")
+                .content("请稍后...")
+                .progress(true, 0)
+                .cancelable(false)
+                .show();
     }
 
 

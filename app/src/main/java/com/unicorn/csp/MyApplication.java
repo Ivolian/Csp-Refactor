@@ -13,4 +13,5 @@ public class MyApplication extends Application {
         super.onCreate();
         Bugsnag.init(this);
     }
+
 }
