@@ -4,9 +4,7 @@ import com.unicorn.csp.R;
 
 import me.alexrs.recyclerviewrenderers.interfaces.Renderable;
 
-/**
- * Created by Administrator on 2015/7/13.
- */
+
 public class ItemBender implements Renderable {
 
     private String title;

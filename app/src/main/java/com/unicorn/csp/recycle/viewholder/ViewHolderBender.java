@@ -10,9 +10,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import me.alexrs.recyclerviewrenderers.viewholder.RenderViewHolder;
 
-/**
- * Created by Administrator on 2015/7/13.
- */
+
 public class ViewHolderBender extends RenderViewHolder<ItemBender> {
 
     @Bind(R.id.tv_title)

@@ -8,7 +8,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
+import com.nispok.snackbar.Snackbar;
+import com.nispok.snackbar.SnackbarManager;
 import com.unicorn.csp.R;
 import com.unicorn.csp.fragment.base.ButterKnifeFragment;
 import com.unicorn.csp.other.greenmatter.ColorOverrider;
@@ -30,6 +33,9 @@ public class NewsFragment extends ButterKnifeFragment {
 
     @Bind(R.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
+
+    @Bind(R.id.container)
+    FrameLayout container;
 
     @Override
     public int getLayoutResId() {
@@ -64,7 +70,7 @@ public class NewsFragment extends ButterKnifeFragment {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-
+                NewsFragment.this.onRefresh();
             }
         });
     }
@@ -91,7 +97,11 @@ public class NewsFragment extends ButterKnifeFragment {
 
     private void showMsgAfterRefresh() {
 
-//        SnackBarUtils.showMsgInContainer(getActivity(), container, "有10条资讯热点更新！");
+        SnackbarManager.show(Snackbar.with(getActivity())
+                .position(Snackbar.SnackbarPosition.TOP)
+                .color(0xff4caf50)
+                .margin(25, 25)
+                .text("有10条资讯热点更新！"), container);
     }
 
     private List<ItemBender> getItems() {
@@ -103,6 +113,5 @@ public class NewsFragment extends ButterKnifeFragment {
 
         return itemBenders;
     }
-
 
 }
