@@ -17,6 +17,7 @@ import com.unicorn.csp.fragment.base.ButterKnifeFragment;
 import com.unicorn.csp.other.greenmatter.ColorOverrider;
 import com.unicorn.csp.recycle.factory.Factory;
 import com.unicorn.csp.recycle.item.News1Item;
+import com.unicorn.csp.recycle.item.News2Item;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -25,6 +26,7 @@ import java.util.List;
 import butterknife.Bind;
 import me.alexrs.recyclerviewrenderers.adapter.RendererAdapter;
 import me.alexrs.recyclerviewrenderers.builder.RendererBuilder;
+import me.alexrs.recyclerviewrenderers.interfaces.Renderable;
 
 
 public class NewsFragment extends ButterKnifeFragment {
@@ -105,14 +107,14 @@ public class NewsFragment extends ButterKnifeFragment {
                 .text("有10条资讯热点更新！"), container);
     }
 
-    private List<News1Item> getItems() {
+    private List<Renderable> getItems() {
 
-        List<News1Item> news1Items = new ArrayList<>();
-        for (int i = 0; i != 10; i++) {
-            news1Items.add(new News1Item("最高人民法院出台服务保障“一带一路”意见",new Date(),11));
+        List<Renderable> items = new ArrayList<>();
+        for (int i = 0; i != 5; i++) {
+            items.add(new News1Item("最高人民法院出台服务保障“一带一路”意见",new Date(),11));
+            items.add(new News2Item("最高人民法院出台服务保障“一带一路”意见",new Date(),33));
         }
-
-        return news1Items;
+        return items;
     }
 
 }

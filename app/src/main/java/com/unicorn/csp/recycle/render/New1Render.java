@@ -11,9 +11,9 @@ import me.alexrs.recyclerviewrenderers.viewholder.RenderViewHolder;
 
 
 
-public class GeneralRender extends Renderer {
+public class New1Render extends Renderer {
 
-    public GeneralRender(int id) {
+    public New1Render(int id) {
         super(id);
     }
 
