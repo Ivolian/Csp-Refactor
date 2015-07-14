@@ -1,9 +1,11 @@
 package com.unicorn.csp.recycle.viewholder;
 
+import android.content.Intent;
 import android.view.View;
 import android.widget.TextView;
 
 import com.unicorn.csp.R;
+import com.unicorn.csp.activity.WebViewActivity;
 import com.unicorn.csp.recycle.item.News1;
 import com.unicorn.csp.utils.DateUtils;
 
@@ -26,10 +28,16 @@ public class News1ViewHolder extends RenderViewHolder<News1> {
     @Bind(R.id.tv_comment_count)
     TextView tvCommentCount;
 
-    public News1ViewHolder(View itemView) {
+    public News1ViewHolder(final View itemView) {
 
         super(itemView);
-        ButterKnife.bind(this,itemView);
+        ButterKnife.bind(this, itemView);
+        tvTitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                itemView.getContext().startActivity(new Intent(itemView.getContext(), WebViewActivity.class));
+            }
+        });
     }
 
     @Override

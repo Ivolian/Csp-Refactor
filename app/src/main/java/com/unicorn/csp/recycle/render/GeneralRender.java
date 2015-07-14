@@ -30,6 +30,6 @@ public class GeneralRender extends Renderer {
                 return new News2ViewHolder(itemView);
         }
 
-        return new News1ViewHolder(itemView);
+        return new News2ViewHolder(itemView);
     }
 }
