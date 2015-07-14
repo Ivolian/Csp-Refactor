@@ -35,41 +35,87 @@
         android:layout_marginTop="10dp"
         android:background="#ccc" />
 
-    <com.unicorn.csp.other.PercentLinearLayout
+
+    <FrameLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="horizontal"
         app:layout_widthPercent="66%">
 
-
-        <com.malinskiy.materialicons.widget.IconTextView
-            android:layout_width="0dp"
-            android:layout_height="30dp"
+        <com.unicorn.csp.other.PercentLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:gravity="center"
-            android:text="{zmdi-comment-alt-text}"
-            android:textColor="#ccc"
-            android:textSize="30dp"
-            app:layout_widthPercent="33%" />
+            android:orientation="horizontal">
 
-        <com.malinskiy.materialicons.widget.IconTextView
-            android:layout_width="0dp"
-            android:layout_height="30dp"
+            <com.malinskiy.materialicons.widget.IconTextView
+                android:id="@+id/itv_comment"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:gravity="center"
+                android:text="{zmdi-comment-alt-text}"
+                android:textColor="#ccc"
+                android:textSize="30dp"
+                app:layout_widthPercent="23%"
+                app:layout_marginLeftPercent="5%"
+                app:layout_marginRightPercent="5%" />
+
+            <com.malinskiy.materialicons.widget.IconTextView
+                android:id="@+id/itv_thumb"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:gravity="center"
+                android:text="{zmdi-thumb-up}"
+                android:textColor="#ccc"
+                android:textSize="30dp"
+                app:layout_widthPercent="23%"
+                app:layout_marginLeftPercent="5%"
+                app:layout_marginRightPercent="5%" />
+
+            <com.malinskiy.materialicons.widget.IconTextView
+                android:id="@+id/itv_star"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:gravity="center"
+                android:text="{zmdi-star}"
+                android:textColor="#ccc"
+                android:textSize="30dp"
+                app:layout_widthPercent="23%"
+                app:layout_marginLeftPercent="5%"
+                app:layout_marginRightPercent="5%" />
+
+        </com.unicorn.csp.other.PercentLinearLayout>
+
+        <com.unicorn.csp.other.PercentLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:gravity="center"
-            android:text="{zmdi-thumb-up}"
-            android:textColor="#ccc"
-            android:textSize="30dp"
-            app:layout_widthPercent="33%" />
+            android:orientation="horizontal">
 
-        <com.malinskiy.materialicons.widget.IconTextView
-            android:layout_width="0dp"
-            android:layout_height="30dp"
-            android:gravity="center"
-            android:text="{zmdi-star}"
-            android:textColor="#ccc"
-            android:textSize="30dp"
-            app:layout_widthPercent="33%" />
+            <FrameLayout
+                android:id="@+id/comment_badge"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                app:layout_widthPercent="23%"
+                app:layout_marginLeftPercent="5%"
+                app:layout_marginRightPercent="5%" />
 
-    </com.unicorn.csp.other.PercentLinearLayout>
+            <FrameLayout
+                android:id="@+id/thumb_badge"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                app:layout_widthPercent="23%"
+                app:layout_marginLeftPercent="5%"
+                app:layout_marginRightPercent="5%" />
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                app:layout_widthPercent="23%"
+                app:layout_marginLeftPercent="5%"
+                app:layout_marginRightPercent="5%" />
+
+        </com.unicorn.csp.other.PercentLinearLayout>
+
+    </FrameLayout>
 
 </com.unicorn.csp.other.PercentLinearLayout>
