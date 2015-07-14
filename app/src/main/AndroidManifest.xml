@@ -28,6 +28,7 @@
         <activity android:name=".other.greenmatter.SelectColorActivity"/>
         <activity android:name=".activity.QuestionActivity"/>
         <activity android:name=".activity.WebViewActivity"/>
+        <activity android:name=".activity.CommentActivity"/>
     </application>
 
 </manifest>

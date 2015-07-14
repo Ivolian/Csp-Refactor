@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.unicorn.csp.R;
+import com.unicorn.csp.recycle.viewholder.CommentViewHolder;
 import com.unicorn.csp.recycle.viewholder.News1ViewHolder;
 import com.unicorn.csp.recycle.viewholder.News2ViewHolder;
 
@@ -20,16 +21,18 @@ public class GeneralRender extends Renderer {
 
     @Override
     public RenderViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View itemView = LayoutInflater.from(viewGroup.getContext())
-                .inflate(id, viewGroup, false);
 
-        switch (id){
+        View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(id, viewGroup, false);
+
+        switch (id) {
             case R.layout.item_new_type1:
                 return new News1ViewHolder(itemView);
             case R.layout.item_new_type2:
                 return new News2ViewHolder(itemView);
+            case R.layout.item_comment:
+                return new CommentViewHolder(itemView);
         }
 
-        return new News2ViewHolder(itemView);
+        return null;
     }
 }

@@ -15,7 +15,6 @@ public class News1 implements Renderable {
         return R.layout.item_new_type1;
     }
 
-
     private String title;
 
     private Date time;

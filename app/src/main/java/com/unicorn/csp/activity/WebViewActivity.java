@@ -89,4 +89,10 @@ boolean star = false;
         ToastUtils.show(this,"已取消关注");
     }
 
+
+    @OnClick(R.id.itv_comment)
+    public void comment(){
+
+        startActivity(CommentActivity.class);
+    }
 }

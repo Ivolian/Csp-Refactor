@@ -78,7 +78,7 @@
                 android:gravity="center"
                 android:text="{zmdi-star}"
                 android:textColor="#ccc"
-                android:textSize="30dp"
+                android:textSize="31dp"
                 app:layout_widthPercent="23%"
                 app:layout_marginLeftPercent="5%"
                 app:layout_marginRightPercent="5%" />
