@@ -31,19 +31,16 @@ import me.alexrs.recyclerviewrenderers.interfaces.Renderable;
 
 public class NewsFragment extends ButterKnifeFragment {
 
+    @Override
+    public int getLayoutResId() {
+        return R.layout.fragment_news;
+    }
+
     @Bind(R.id.recyclerView)
     RecyclerView recyclerView;
 
     @Bind(R.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
-
-    @Bind(R.id.container)
-    FrameLayout container;
-
-    @Override
-    public int getLayoutResId() {
-        return R.layout.fragment_news;
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -90,23 +87,6 @@ public class NewsFragment extends ButterKnifeFragment {
         }, 2000);
     }
 
-
-    private LinearLayoutManager getLinearLayoutManager() {
-
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
-        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        return linearLayoutManager;
-    }
-
-    private void showMsgAfterRefresh() {
-
-        SnackbarManager.show(Snackbar.with(getActivity())
-                .position(Snackbar.SnackbarPosition.TOP)
-                .color(0xff4caf50)
-                .margin(25, 25)
-                .text("有10条资讯热点更新！"), container);
-    }
-
     private List<Renderable> getItems() {
 
         List<Renderable> items = new ArrayList<>();
@@ -116,5 +96,31 @@ public class NewsFragment extends ButterKnifeFragment {
         }
         return items;
     }
+
+
+    // ========================== 下拉刷新提示信息 ==========================
+
+    @Bind(R.id.container)
+    FrameLayout container;
+
+    private void showMsgAfterRefresh() {
+
+        SnackbarManager.show(Snackbar.with(getActivity())
+                .position(Snackbar.SnackbarPosition.TOP)
+                .color(0xff4caf50)
+                .margin(25, 25)
+                .text("有10条资讯热点更新！"),container);
+    }
+
+
+    // ========================== 基础方法 ==========================
+
+    private LinearLayoutManager getLinearLayoutManager() {
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        return linearLayoutManager;
+    }
+
 
 }
