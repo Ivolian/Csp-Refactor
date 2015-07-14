@@ -16,8 +16,8 @@ import com.unicorn.csp.R;
 import com.unicorn.csp.fragment.base.ButterKnifeFragment;
 import com.unicorn.csp.other.greenmatter.ColorOverrider;
 import com.unicorn.csp.recycle.factory.Factory;
-import com.unicorn.csp.recycle.item.News1Item;
-import com.unicorn.csp.recycle.item.News2Item;
+import com.unicorn.csp.recycle.item.News1;
+import com.unicorn.csp.recycle.item.News2;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -111,8 +111,8 @@ public class NewsFragment extends ButterKnifeFragment {
 
         List<Renderable> items = new ArrayList<>();
         for (int i = 0; i != 5; i++) {
-            items.add(new News1Item("最高人民法院出台服务保障“一带一路”意见",new Date(),11));
-            items.add(new News2Item("最高人民法院出台服务保障“一带一路”意见",new Date(),33));
+            items.add(new News1("最高人民法院出台服务保障“一带一路”意见",new Date(),11));
+            items.add(new News2("最高人民法院出台服务保障“一带一路”意见",new Date(),33));
         }
         return items;
     }

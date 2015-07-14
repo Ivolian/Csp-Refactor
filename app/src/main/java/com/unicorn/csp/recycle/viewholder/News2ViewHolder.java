@@ -4,7 +4,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.unicorn.csp.R;
-import com.unicorn.csp.recycle.item.News2Item;
+import com.unicorn.csp.recycle.item.News2;
 import com.unicorn.csp.utils.DateUtils;
 
 import butterknife.Bind;
@@ -12,7 +12,7 @@ import butterknife.ButterKnife;
 import me.alexrs.recyclerviewrenderers.viewholder.RenderViewHolder;
 
 
-public class News2ViewHolder extends RenderViewHolder<News2Item> {
+public class News2ViewHolder extends RenderViewHolder<News2> {
 
     @Bind(R.id.tv_title)
     TextView tvTitle;
@@ -30,11 +30,11 @@ public class News2ViewHolder extends RenderViewHolder<News2Item> {
     }
 
     @Override
-    public void onBindView(News2Item news2Item) {
+    public void onBindView(News2 news2) {
 
-        tvTitle.setText(news2Item.getTitle());
-        tvTime.setText(DateUtils.getFormatDateString(news2Item.getTime()));
-        tvCommentCount.setText("评论 " +news2Item.getCommentCount()+"");
+        tvTitle.setText(news2.getTitle());
+        tvTime.setText(DateUtils.getFormatDateString(news2.getTime()));
+        tvCommentCount.setText("评论 " + news2.getCommentCount()+"");
     }
 
 }

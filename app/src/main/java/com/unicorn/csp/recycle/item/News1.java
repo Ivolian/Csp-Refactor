@@ -8,7 +8,7 @@ import me.alexrs.recyclerviewrenderers.interfaces.Renderable;
 
 
 // 数据原型和布局绑定
-public class News1Item implements Renderable {
+public class News1 implements Renderable {
 
     @Override
     public int getRenderableId() {
@@ -22,7 +22,7 @@ public class News1Item implements Renderable {
 
     private int commentCount;
 
-    public News1Item(String title, Date time, int commentCount) {
+    public News1(String title, Date time, int commentCount) {
         this.title = title;
         this.time = time;
         this.commentCount = commentCount;
