@@ -10,11 +10,16 @@ import android.widget.SeekBar;
 import com.r0adkll.slidr.Slidr;
 import com.unicorn.csp.R;
 import com.unicorn.csp.activity.base.ToolbarActivity;
+import com.unicorn.csp.other.TinyDB;
 
 import butterknife.Bind;
 
 
 public class SelectColorActivity extends ToolbarActivity {
+
+    public static final String SF_ENABLE = "enable";
+
+    public static final String SF_ACCENT_HUE = "accent_hue";
 
     public static final int SELECT_COLOR_SUCCESS = 2333;
 
@@ -55,6 +60,11 @@ public class SelectColorActivity extends ToolbarActivity {
                 overrider.setEnabled(mOverrideSwitch.isChecked());
                 overrider.setAccentHue(mAccentSeekbar.getProgress());
                 overrider.setPrimaryHue(mAccentSeekbar.getProgress());
+
+                TinyDB tinyDB = new TinyDB(SelectColorActivity.this);
+                tinyDB.putBoolean(SF_ENABLE,mOverrideSwitch.isChecked());
+                tinyDB.putFloat(SF_ACCENT_HUE,mAccentSeekbar.getProgress());
+
                 setResult(SELECT_COLOR_SUCCESS);
                 finish();
             }

@@ -5,7 +5,9 @@ import android.content.res.Resources;
 import android.graphics.Color;
 
 import com.negusoft.greenmatter.MatPalette;
+import com.unicorn.csp.MyApplication;
 import com.unicorn.csp.R;
+import com.unicorn.csp.other.TinyDB;
 
 
 /**
@@ -24,7 +26,15 @@ public class ColorOverrider {
             int primaryDark = res.getColor(R.color.primary);
             int primaryLight = res.getColor(R.color.primary_light);
             sInstance = new ColorOverrider(accent, primaryDark, primaryLight);
+
+            TinyDB tinyDB = new TinyDB(c);
+            if (tinyDB.getFloat(SelectColorActivity.SF_ACCENT_HUE,-1f) != -1f){
+                sInstance.setEnabled(tinyDB.getBoolean(SelectColorActivity.SF_ENABLE, false));
+                sInstance.setAccentHue(tinyDB.getFloat(SelectColorActivity.SF_ACCENT_HUE, -1));
+                sInstance.setPrimaryHue(tinyDB.getFloat(SelectColorActivity.SF_ACCENT_HUE, -1));
+            }
         }
+
         return sInstance;
     }
 
@@ -92,11 +102,14 @@ public class ColorOverrider {
 
     public int getColorAccent() {
 
-        // todo
+        if (!mEnabled){
+           return MyApplication.getInstance().getResources().getColor(R.color.accent);
+        }
         return mColorAccent;
     }
 
     public void setColorAccent(int colorAccent) {
+
         mColorAccent = colorAccent;
     }
 
