@@ -4,12 +4,13 @@ import android.os.Bundle;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.r0adkll.slidr.Slidr;
 import com.unicorn.csp.R;
-import com.unicorn.csp.activity.base.ButterKnifeActivity;
+import com.unicorn.csp.activity.base.ToolbarActivity;
 
 import butterknife.Bind;
 
-public class WebViewActivity extends ButterKnifeActivity {
+public class WebViewActivity extends ToolbarActivity {
 
     @Bind(R.id.webView)
     WebView webView;
@@ -19,7 +20,10 @@ public class WebViewActivity extends ButterKnifeActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_webview);
+        initToolbar(getIntent().getStringExtra("title"), true);
         initViews();
+
+        Slidr.attach(this);
     }
 
     private void initViews() {

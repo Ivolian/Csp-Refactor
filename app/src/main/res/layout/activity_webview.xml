@@ -2,10 +2,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
     <WebView
         android:id="@+id/webView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize" />
+
+    <include layout="@layout/toolbar_with_shadow" />
 
 </FrameLayout>
 

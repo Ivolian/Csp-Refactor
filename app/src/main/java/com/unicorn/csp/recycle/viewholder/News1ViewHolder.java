@@ -35,7 +35,9 @@ public class News1ViewHolder extends RenderViewHolder<News1> {
         tvTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                itemView.getContext().startActivity(new Intent(itemView.getContext(), WebViewActivity.class));
+                Intent intent = new Intent(itemView.getContext(), WebViewActivity.class);
+                intent.putExtra("title",tvTitle.getText().toString().trim());
+                itemView.getContext().startActivity(intent);
             }
         });
     }
