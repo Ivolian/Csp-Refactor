@@ -77,7 +77,6 @@ boolean star = false;
         }
     }
 
-
     public void star(){
 
         itvStar.setTextColor(ColorOverrider.getInstance(this).getColorAccent());

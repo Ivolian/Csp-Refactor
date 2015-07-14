@@ -32,12 +32,14 @@ public class News1ViewHolder extends RenderViewHolder<News1> {
 
         super(itemView);
         ButterKnife.bind(this, itemView);
+
         tvTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(itemView.getContext(), WebViewActivity.class);
                 intent.putExtra("title",tvTitle.getText().toString().trim());
                 itemView.getContext().startActivity(intent);
+
             }
         });
     }

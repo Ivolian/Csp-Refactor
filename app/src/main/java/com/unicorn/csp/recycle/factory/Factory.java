@@ -12,13 +12,6 @@ public class Factory implements RendererFactory {
     public Renderer getRenderer(int id) {
 
         return new GeneralRender(id);
-//        switch (id) {
-//            case R.layout.item_new_type1:
-//                return new New1Render(id);
-//            case R.layout.item_new_type2:
-//                return new New2Render(id);
-//        }
-//        return null;
     }
 
 }
