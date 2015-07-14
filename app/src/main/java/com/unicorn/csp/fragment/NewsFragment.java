@@ -16,9 +16,10 @@ import com.unicorn.csp.R;
 import com.unicorn.csp.fragment.base.ButterKnifeFragment;
 import com.unicorn.csp.other.greenmatter.ColorOverrider;
 import com.unicorn.csp.recycle.factory.Factory;
-import com.unicorn.csp.recycle.items.ItemBender;
+import com.unicorn.csp.recycle.item.News1Item;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.Bind;
@@ -104,14 +105,14 @@ public class NewsFragment extends ButterKnifeFragment {
                 .text("有10条资讯热点更新！"), container);
     }
 
-    private List<ItemBender> getItems() {
+    private List<News1Item> getItems() {
 
-        List<ItemBender> itemBenders = new ArrayList<>();
+        List<News1Item> news1Items = new ArrayList<>();
         for (int i = 0; i != 10; i++) {
-            itemBenders.add(new ItemBender(i + ""));
+            news1Items.add(new News1Item("最高人民法院出台服务保障“一带一路”意见",new Date(),11));
         }
 
-        return itemBenders;
+        return news1Items;
     }
 
 }
