@@ -95,4 +95,11 @@ boolean star = false;
 
         startActivity(CommentActivity.class);
     }
+
+    @OnClick(R.id.add_comment)
+    public void startAddCommentActivity(){
+
+        startActivity(AddCommentActivity.class);
+    }
+
 }

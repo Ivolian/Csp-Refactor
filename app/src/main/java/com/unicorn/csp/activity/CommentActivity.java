@@ -21,6 +21,7 @@ import me.alexrs.recyclerviewrenderers.adapter.RendererAdapter;
 import me.alexrs.recyclerviewrenderers.builder.RendererBuilder;
 import me.alexrs.recyclerviewrenderers.interfaces.Renderable;
 
+
 public class CommentActivity extends ToolbarActivity {
 
     @Bind(R.id.recyclerView)
