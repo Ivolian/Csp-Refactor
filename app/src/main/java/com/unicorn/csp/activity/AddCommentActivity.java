@@ -23,7 +23,7 @@ public class AddCommentActivity extends ToolbarActivity{
     public boolean onCreateOptionsMenu(Menu menu) {
 
         getMenuInflater().inflate(R.menu.activity_add_comment,menu);
-        menu.findItem(R.id.action_settings).setIcon(
+        menu.findItem(R.id.add_comment).setIcon(
                 new IconDrawable(this, Iconify.IconValue.zmdi_mail_send)
                         .colorRes(android.R.color.white)
                         .actionBarSize());

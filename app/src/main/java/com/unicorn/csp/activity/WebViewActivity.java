@@ -7,7 +7,6 @@ import android.webkit.WebViewClient;
 
 import com.jauker.widget.BadgeView;
 import com.malinskiy.materialicons.widget.IconTextView;
-import com.r0adkll.slidr.Slidr;
 import com.unicorn.csp.R;
 import com.unicorn.csp.activity.base.ToolbarActivity;
 import com.unicorn.csp.other.greenmatter.ColorOverrider;
@@ -36,7 +35,6 @@ public class WebViewActivity extends ToolbarActivity {
         initToolbar(getIntent().getStringExtra("title"), true);
         initViews();
 
-        Slidr.attach(this);
     }
 
     private void initViews() {
@@ -57,47 +55,47 @@ public class WebViewActivity extends ToolbarActivity {
     }
 
     @OnClick(R.id.itv_thumb)
-    public void thumb(){
+    public void thumb() {
 
         itvThumb.setTextColor(ColorOverrider.getInstance(this).getColorAccent());
         ToastUtils.show(this, "已赞");
     }
 
-boolean star = false;
+    boolean star = false;
 
     @OnClick(R.id.itv_star)
-    public void onStarClick(){
+    public void onStarClick() {
 
-        if (star){
+        if (star) {
             unStar();
             star = false;
-        }else {
+        } else {
             star();
             star = true;
         }
     }
 
-    public void star(){
+    public void star() {
 
         itvStar.setTextColor(ColorOverrider.getInstance(this).getColorAccent());
-        ToastUtils.show(this,"已关注");
+        ToastUtils.show(this, "已关注");
     }
 
-    public void unStar(){
+    public void unStar() {
 
         itvStar.setTextColor(Color.parseColor("#cccccc"));
-        ToastUtils.show(this,"已取消关注");
+        ToastUtils.show(this, "已取消关注");
     }
 
 
     @OnClick(R.id.itv_comment)
-    public void comment(){
+    public void comment() {
 
         startActivity(CommentActivity.class);
     }
 
     @OnClick(R.id.add_comment)
-    public void startAddCommentActivity(){
+    public void startAddCommentActivity() {
 
         startActivity(AddCommentActivity.class);
     }

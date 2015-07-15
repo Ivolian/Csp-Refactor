@@ -39,7 +39,6 @@ public class CommentActivity extends ToolbarActivity {
         initRecyclerView();
     }
 
-
     private void initRecyclerView() {
 
         recyclerView.setHasFixedSize(false);
@@ -53,6 +52,7 @@ public class CommentActivity extends ToolbarActivity {
     @OnClick(R.id.fab)
     public void onFabClick() {
 
+        startActivity(AddCommentActivity.class);
     }
 
     private List<Renderable> getItems() {
