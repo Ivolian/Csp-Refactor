@@ -23,6 +23,7 @@ import com.mikepenz.materialdrawer.model.interfaces.OnCheckedChangeListener;
 import com.unicorn.csp.R;
 import com.unicorn.csp.activity.base.ToolbarActivity;
 import com.unicorn.csp.fragment.HotSpotFragment;
+import com.unicorn.csp.fragment.TestFragment;
 import com.unicorn.csp.other.greenmatter.ColorOverrider;
 import com.unicorn.csp.other.greenmatter.SelectColorActivity;
 import com.unicorn.csp.utils.ToastUtils;
@@ -224,8 +225,11 @@ public class MainActivity extends ToolbarActivity {
 
     private void replaceFragment(int index) {
 
-        replaceFragment_(new HotSpotFragment());
         // todo
+        if (index == 0)
+        replaceFragment_(new HotSpotFragment());
+        else
+            replaceFragment_(new TestFragment());
     }
 
     private void replaceFragment_(Fragment fragment) {

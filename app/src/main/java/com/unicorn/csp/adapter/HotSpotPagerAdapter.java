@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.unicorn.csp.fragment.NewsFragment;
+import com.unicorn.csp.fragment.TestFragment;
 
 
 public class HotSpotPagerAdapter extends FragmentStatePagerAdapter {
@@ -18,6 +19,9 @@ public class HotSpotPagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int position) {
 
+        if(position!=0) {
+return new TestFragment();
+        }
         return new NewsFragment();
     }
 

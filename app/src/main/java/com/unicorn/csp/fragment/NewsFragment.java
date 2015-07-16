@@ -14,9 +14,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.unicorn.csp.R;
+import com.unicorn.csp.adapter.ItemViewAdapter;
 import com.unicorn.csp.fragment.base.ButterKnifeFragment;
 import com.unicorn.csp.other.greenmatter.ColorOverrider;
-import com.unicorn.csp.recycle.factory.Factory;
 import com.unicorn.csp.recycle.item.News;
 import com.unicorn.csp.utils.JSONUtils;
 import com.unicorn.csp.utils.ToastUtils;
@@ -31,9 +31,6 @@ import java.util.Date;
 import java.util.List;
 
 import butterknife.Bind;
-import me.alexrs.recyclerviewrenderers.adapter.RendererAdapter;
-import me.alexrs.recyclerviewrenderers.builder.RendererBuilder;
-import me.alexrs.recyclerviewrenderers.interfaces.Renderable;
 
 
 public class NewsFragment extends ButterKnifeFragment {
@@ -50,8 +47,8 @@ public class NewsFragment extends ButterKnifeFragment {
     @Bind(R.id.recyclerView)
     RecyclerView recyclerView;
 
-    RendererAdapter rendererAdapter;
 
+    ItemViewAdapter itemViewAdapter;
     // ==================== pager data ====================
 
     final Integer pagerSize = 5;
@@ -83,6 +80,7 @@ public class NewsFragment extends ButterKnifeFragment {
 
     private void reload() {
 
+
         initPagerData();
 
 
@@ -99,7 +97,7 @@ public class NewsFragment extends ButterKnifeFragment {
                     public void onResponse(JSONObject response) {
                         swipeRefreshLayout.setRefreshing(false);
                         JSONArray contents = JSONUtils.getJSONArray(response, "content", null);
-                        List<Renderable> newsList = new ArrayList<>();
+                        List<News> newsList = new ArrayList<>();
                         for (int i = 0; i != contents.length(); i++) {
                             JSONObject content = JSONUtils.getJSONObject(contents, i);
                             String title = JSONUtils.getString(content, "title", "");
@@ -112,7 +110,9 @@ public class NewsFragment extends ButterKnifeFragment {
 
                             newsList.add(new News(title, time, data, commentCount));
                         }
-                        rendererAdapter.update(newsList);
+                        itemViewAdapter.setNewsList(newsList);
+
+                        itemViewAdapter.notifyDataSetChanged();
                     }
                 },
                 new Response.ErrorListener() {
@@ -148,7 +148,7 @@ public class NewsFragment extends ButterKnifeFragment {
 
 
                         JSONArray contents = JSONUtils.getJSONArray(response, "content", null);
-                        List<Renderable> newsList = new ArrayList<>();
+                        List<News> newsList = new ArrayList<>();
                         for (int i = 0; i != contents.length(); i++) {
                             JSONObject content = JSONUtils.getJSONObject(contents, i);
                             String title = JSONUtils.getString(content, "title", "");
@@ -161,11 +161,9 @@ public class NewsFragment extends ButterKnifeFragment {
 
                             newsList.add(new News(title, time, data, commentCount));
                         }
-                        for (Renderable item:newsList){
-                            rendererAdapter.add(item,rendererAdapter.getItemCount());
 
-                        }
-                            rendererAdapter.notifyDataSetChanged();
+                        itemViewAdapter.getNewsList().addAll(newsList);
+                        itemViewAdapter.notifyDataSetChanged();
                         currentPager++;
 
                     }
@@ -182,11 +180,11 @@ public class NewsFragment extends ButterKnifeFragment {
 
     private void initRecyclerView() {
 
-        recyclerView.setHasFixedSize(false);
+        recyclerView.setHasFixedSize(true);
         final LinearLayoutManager linearLayoutManager = getLinearLayoutManager();
         recyclerView.setLayoutManager(linearLayoutManager);
-        rendererAdapter = new RendererAdapter(new ArrayList<Renderable>(), new RendererBuilder(new Factory()));
-        recyclerView.setAdapter(rendererAdapter);
+    itemViewAdapter = new ItemViewAdapter(getActivity(),new ArrayList<News>());
+        recyclerView.setAdapter(itemViewAdapter);
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {

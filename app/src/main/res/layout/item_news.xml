@@ -58,8 +58,7 @@
             android:id="@+id/picture"
             android:layout_width="110dp"
             android:layout_height="85dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/news" />
+            />
 
     </LinearLayout>
 
