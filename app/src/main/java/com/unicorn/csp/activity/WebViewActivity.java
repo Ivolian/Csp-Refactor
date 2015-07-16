@@ -9,6 +9,7 @@ import com.jauker.widget.BadgeView;
 import com.malinskiy.materialicons.widget.IconTextView;
 import com.unicorn.csp.R;
 import com.unicorn.csp.activity.base.ToolbarActivity;
+import com.unicorn.csp.model.News;
 import com.unicorn.csp.other.greenmatter.ColorOverrider;
 import com.unicorn.csp.utils.ToastUtils;
 
@@ -31,9 +32,14 @@ public class WebViewActivity extends ToolbarActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_webview);
-        initToolbar(getIntent().getStringExtra("title"), true);
+        initToolbar(getNews().getTitle(), true);
         initViews();
 
+    }
+
+    private News getNews(){
+
+       return getIntent().getParcelableExtra("news");
     }
 
     private void initViews() {
@@ -47,10 +53,10 @@ public class WebViewActivity extends ToolbarActivity {
 
     private void initWebView() {
 
-        String source = getIntent().getStringExtra("data");
+     ;
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setDefaultTextEncodingName("UTF-8");
-        webView.loadData(source, "text/html; charset=UTF-8", null);
+        webView.loadData(getNews().getData(), "text/html; charset=UTF-8", null);
         webView.setWebViewClient(new WebViewClient());
     }
 

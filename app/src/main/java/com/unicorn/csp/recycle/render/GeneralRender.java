@@ -6,7 +6,6 @@ import android.view.ViewGroup;
 
 import com.unicorn.csp.R;
 import com.unicorn.csp.recycle.viewholder.CommentViewHolder;
-import com.unicorn.csp.recycle.viewholder.NewsViewHolder;
 
 import me.alexrs.recyclerviewrenderers.renderer.Renderer;
 import me.alexrs.recyclerviewrenderers.viewholder.RenderViewHolder;
@@ -24,8 +23,6 @@ public class GeneralRender extends Renderer {
         View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(id, viewGroup, false);
 
         switch (id) {
-            case R.layout.item_news:
-                return new NewsViewHolder(itemView);
             case R.layout.item_comment:
                 return new CommentViewHolder(itemView);
         }

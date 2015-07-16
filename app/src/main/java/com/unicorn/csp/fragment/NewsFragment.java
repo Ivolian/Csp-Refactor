@@ -16,7 +16,7 @@ import com.unicorn.csp.R;
 import com.unicorn.csp.adapter.recycle.NewsAdapter;
 import com.unicorn.csp.fragment.base.ButterKnifeFragment;
 import com.unicorn.csp.other.greenmatter.ColorOverrider;
-import com.unicorn.csp.recycle.item.News;
+import com.unicorn.csp.model.News;
 import com.unicorn.csp.utils.JSONUtils;
 import com.unicorn.csp.utils.RecycleViewUtils;
 import com.unicorn.csp.utils.ToastUtils;
