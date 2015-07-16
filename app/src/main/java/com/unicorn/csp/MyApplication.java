@@ -3,6 +3,7 @@ package com.unicorn.csp;
 import android.app.Application;
 
 import com.bugsnag.android.Bugsnag;
+import com.unicorn.csp.volley.MyVolley;
 
 
 public class MyApplication extends Application {
@@ -20,6 +21,7 @@ public class MyApplication extends Application {
         super.onCreate();
         instance = this;
         Bugsnag.init(instance);
+        MyVolley.init(instance);
     }
 
 }

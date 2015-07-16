@@ -43,4 +43,5 @@ dependencies {
     compile 'com.nispok:snackbar:2.10.10'
     compile files('libs/badgeview.jar')
     compile 'com.yqritc:recyclerview-flexibledivider:1.2.5'
+    compile 'com.mcxiaoke.volley:library:1.0.17'
 }
