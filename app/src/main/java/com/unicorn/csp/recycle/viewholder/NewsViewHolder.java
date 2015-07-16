@@ -30,7 +30,7 @@ public class NewsViewHolder extends RenderViewHolder<News> {
     @Bind(R.id.tv_comment_count)
     TextView tvCommentCount;
 
-    @Bind(R.id.picture)
+    @Bind(R.id.niv_picture)
     NetworkImageView nivPicture;
 
     News news;

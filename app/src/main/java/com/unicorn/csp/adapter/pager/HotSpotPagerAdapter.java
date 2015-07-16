@@ -1,4 +1,4 @@
-package com.unicorn.csp.adapter;
+package com.unicorn.csp.adapter.pager;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

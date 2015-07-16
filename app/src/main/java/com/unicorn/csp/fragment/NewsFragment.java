@@ -2,7 +2,6 @@ package com.unicorn.csp.fragment;
 
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,11 +13,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.unicorn.csp.R;
-import com.unicorn.csp.adapter.ItemViewAdapter;
+import com.unicorn.csp.adapter.recycle.NewsAdapter;
 import com.unicorn.csp.fragment.base.ButterKnifeFragment;
 import com.unicorn.csp.other.greenmatter.ColorOverrider;
 import com.unicorn.csp.recycle.item.News;
 import com.unicorn.csp.utils.JSONUtils;
+import com.unicorn.csp.utils.RecycleViewUtils;
 import com.unicorn.csp.utils.ToastUtils;
 import com.unicorn.csp.volley.MyVolley;
 import com.unicorn.csp.volley.toolbox.VolleyErrorHelper;
@@ -41,6 +41,8 @@ public class NewsFragment extends ButterKnifeFragment {
     }
 
 
+    // ==================== views ====================
+
     @Bind(R.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
 
@@ -48,27 +50,23 @@ public class NewsFragment extends ButterKnifeFragment {
     RecyclerView recyclerView;
 
 
-    ItemViewAdapter itemViewAdapter;
-    // ==================== pager data ====================
+    // ==================== newsAdapter ====================
 
-    final Integer pagerSize = 5;
+    NewsAdapter newsAdapter;
 
-    Integer currentPager;
 
-    Boolean noData;
+    // ==================== page data ====================
 
-    Boolean allDataLoaded;
+    final Integer PAGE_SIZE = 5;
+
+    Integer pageNo;
 
     boolean loadingMore;
 
+    boolean lastPage;
 
-    private void initPagerData() {
 
-        currentPager = 1;
-        noData = false;
-        allDataLoaded = false;
-    }
-
+    // ==================== onCreateView ====================
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -78,120 +76,35 @@ public class NewsFragment extends ButterKnifeFragment {
         return rootView;
     }
 
-    private void reload() {
-
-
-        initPagerData();
-
-
-
-//        String url = "http://192.168.1.101:3002/withub/api/v1/news?pageNo=1&pageSize=10";
-        Uri.Builder builder = Uri.parse("http://192.168.1.101:3002/withub/api/v1/news?").buildUpon();
-        builder.appendQueryParameter("pageNo", currentPager.toString());
-        builder.appendQueryParameter("pageSize", "5");
-
-
-        MyVolley.getRequestQueue().add(new JsonObjectRequest(builder.toString(),
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        swipeRefreshLayout.setRefreshing(false);
-                        JSONArray contents = JSONUtils.getJSONArray(response, "content", null);
-                        List<News> newsList = new ArrayList<>();
-                        for (int i = 0; i != contents.length(); i++) {
-                            JSONObject content = JSONUtils.getJSONObject(contents, i);
-                            String title = JSONUtils.getString(content, "title", "");
-                            JSONObject contentData = JSONUtils.getJSONObject(content, "contentData", null);
-                            String data = JSONUtils.getString(contentData, "data", "");
-
-                            // todo img
-                            Date time = new Date();
-                            int commentCount = 11;
-
-                            newsList.add(new News(title, time, data, commentCount));
-                        }
-                        itemViewAdapter.setNewsList(newsList);
-
-                        itemViewAdapter.notifyDataSetChanged();
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError volleyError) {
-                        swipeRefreshLayout.setRefreshing(false);
-                        ToastUtils.show(VolleyErrorHelper.getErrorMessage(volleyError));
-                    }
-                }));
-    }
-
     private void initViews() {
 
-
-        initRecyclerView();
         initSwipeRefreshLayout();
-        initPagerData();
+        initRecyclerView();
         reload();
     }
 
-    private void loadMore() {
+    private void initSwipeRefreshLayout() {
 
-       loadingMore = true;
-        Uri.Builder builder = Uri.parse("http://192.168.1.101:3002/withub/api/v1/news?").buildUpon();
-        builder.appendQueryParameter("pageNo", (currentPager+1)+"");
-        builder.appendQueryParameter("pageSize", "5");
-
-        MyVolley.getRequestQueue().add(new JsonObjectRequest(builder.toString(),
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        loadingMore = false;
-
-
-                        JSONArray contents = JSONUtils.getJSONArray(response, "content", null);
-                        List<News> newsList = new ArrayList<>();
-                        for (int i = 0; i != contents.length(); i++) {
-                            JSONObject content = JSONUtils.getJSONObject(contents, i);
-                            String title = JSONUtils.getString(content, "title", "");
-                            JSONObject contentData = JSONUtils.getJSONObject(content, "contentData", null);
-                            String data = JSONUtils.getString(contentData, "data", "");
-
-                            // todo img
-                            Date time = new Date();
-                            int commentCount = 11;
-
-                            newsList.add(new News(title, time, data, commentCount));
-                        }
-
-                        itemViewAdapter.getNewsList().addAll(newsList);
-                        itemViewAdapter.notifyDataSetChanged();
-                        currentPager++;
-
-
-
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError volleyError) {
-                      loadingMore = false;
-                        ToastUtils.show(VolleyErrorHelper.getErrorMessage(volleyError));
-                    }
-                }));
+        swipeRefreshLayout.setColorSchemeColors(ColorOverrider.getInstance(getActivity()).getColorAccent());
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                reload();
+            }
+        });
     }
-
 
     private void initRecyclerView() {
 
         recyclerView.setHasFixedSize(true);
-        final LinearLayoutManager linearLayoutManager = getLinearLayoutManager();
+        final LinearLayoutManager linearLayoutManager = RecycleViewUtils.getLinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
-    itemViewAdapter = new ItemViewAdapter(getActivity(),new ArrayList<News>());
-        recyclerView.setAdapter(itemViewAdapter);
+        recyclerView.setAdapter(newsAdapter = new NewsAdapter());
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
 
-                if (noData || allDataLoaded || loadingMore) {
+                if (lastPage || loadingMore) {
                     return;
                 }
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
@@ -209,41 +122,98 @@ public class NewsFragment extends ButterKnifeFragment {
         });
     }
 
-    private void initSwipeRefreshLayout() {
+    private void reload() {
 
-        swipeRefreshLayout.setColorSchemeColors(ColorOverrider.getInstance(getActivity()).getColorAccent());
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                reload();
-            }
-        });
+        clearPageData();
+        MyVolley.addRequest(new JsonObjectRequest(getUrl(),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        swipeRefreshLayout.setRefreshing(false);
+                        newsAdapter.setNewsList(parseNewsList(response));
+                        newsAdapter.notifyDataSetChanged();
+                        checkLastPage(response);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+                        swipeRefreshLayout.setRefreshing(false);
+                        ToastUtils.show(VolleyErrorHelper.getErrorMessage(volleyError));
+                    }
+                }));
     }
 
-    private void onRefresh() {
+    private void loadMore() {
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                swipeRefreshLayout.setRefreshing(false);
-            }
-        }, 2000);
+        pageNo++;
+        loadingMore = true;
+        MyVolley.getRequestQueue().add(new JsonObjectRequest(getUrl(),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        loadingMore = false;
+                        newsAdapter.getNewsList().addAll(parseNewsList(response));
+                        newsAdapter.notifyDataSetChanged();
+                        checkLastPage(response);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+                        loadingMore = false;
+                        ToastUtils.show(VolleyErrorHelper.getErrorMessage(volleyError));
+                    }
+                }));
     }
-
-
-
-
-
 
 
     // ========================== 基础方法 ==========================
 
-    private LinearLayoutManager getLinearLayoutManager() {
+    private void clearPageData() {
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
-        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        return linearLayoutManager;
+        pageNo = 1;
+        lastPage = false;
     }
+
+    private String getUrl() {
+
+        Uri.Builder builder = Uri.parse("http://192.168.1.101:3002/withub/api/v1/news?").buildUpon();
+        builder.appendQueryParameter("pageNo", pageNo.toString());
+        builder.appendQueryParameter("pageSize", PAGE_SIZE.toString());
+
+        return builder.toString();
+    }
+
+
+    private List<News> parseNewsList(JSONObject response) {
+
+        JSONArray contents = JSONUtils.getJSONArray(response, "content", null);
+        List<News> newsList = new ArrayList<>();
+        for (int i = 0; i != contents.length(); i++) {
+            JSONObject content = JSONUtils.getJSONObject(contents, i);
+            String title = JSONUtils.getString(content, "title", "");
+            JSONObject contentData = JSONUtils.getJSONObject(content, "contentData", null);
+            String data = JSONUtils.getString(contentData, "data", "");
+            newsList.add(new News(title, new Date(), data, 11));
+        }
+
+        return newsList;
+    }
+
+    private boolean isLastPage(JSONObject response) {
+
+        return JSONUtils.getBoolean(response, "lastPage", false);
+    }
+
+    private void checkLastPage(JSONObject response) {
+
+        if (lastPage = isLastPage(response)) {
+            ToastUtils.show("已加载全部数据");
+        }
+    }
+
+
 
     // ========================== 下拉刷新提示信息 ==========================
 

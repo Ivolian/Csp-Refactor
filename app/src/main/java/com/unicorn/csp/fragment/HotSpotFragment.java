@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.unicorn.csp.R;
-import com.unicorn.csp.adapter.HotSpotPagerAdapter;
+import com.unicorn.csp.adapter.pager.HotSpotPagerAdapter;
 import com.unicorn.csp.fragment.base.ButterKnifeFragment;
 import com.unicorn.csp.other.greenmatter.ColorOverrider;
 
