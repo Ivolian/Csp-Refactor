@@ -54,7 +54,8 @@
 
         </LinearLayout>
 
-        <ImageView
+        <com.android.volley.toolbox.NetworkImageView
+            android:id="@+id/picture"
             android:layout_width="110dp"
             android:layout_height="85dp"
             android:scaleType="fitXY"

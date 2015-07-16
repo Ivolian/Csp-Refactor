@@ -47,8 +47,6 @@ public class WebViewActivity extends ToolbarActivity {
 
     private void initWebView() {
 
-//        String url = "http://www.sc.xinhuanet.com/content/2015-07/08/c_1115856116.htm";
-
         String source = getIntent().getStringExtra("data");
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setDefaultTextEncodingName("UTF-8");

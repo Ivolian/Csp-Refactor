@@ -4,10 +4,12 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.TextView;
 
+import com.android.volley.toolbox.NetworkImageView;
 import com.unicorn.csp.R;
 import com.unicorn.csp.activity.WebViewActivity;
 import com.unicorn.csp.recycle.item.News;
 import com.unicorn.csp.utils.DateUtils;
+import com.unicorn.csp.volley.MyVolley;
 
 import java.text.SimpleDateFormat;
 import java.util.Locale;
@@ -27,6 +29,9 @@ public class NewsViewHolder extends RenderViewHolder<News> {
 
     @Bind(R.id.tv_comment_count)
     TextView tvCommentCount;
+
+    @Bind(R.id.picture)
+    NetworkImageView nivPicture;
 
     News news;
 
@@ -54,6 +59,7 @@ public class NewsViewHolder extends RenderViewHolder<News> {
         tvTitle.setText(news.getTitle());
         tvTime.setText(DateUtils.getFormatDateString(news.getTime(),new SimpleDateFormat("MM-dd HH:mm", Locale.CHINA)));
         tvCommentCount.setText("评论 " + news.getCommentCount()+"");
+        nivPicture.setImageUrl("http://img0.imgtn.bdimg.com/it/u=3740790558,105985812&fm=21&gp=0.jpg", MyVolley.getImageLoader());
     }
 
 }
