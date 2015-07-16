@@ -87,7 +87,7 @@ public class MapUtils {
      *         <li>if key is null or empty, return false</li>
      *         <li>if value is null or empty, put defaultValue, return true</li>
      *         <li>if value is neither null nor empty
-     *         £¬put value, return true</li>
+     *         put value, return true</li>
      *         </ul>
      */
     public static boolean putMapNotEmptyKeyAndValue(Map<String, String> map, String key, String value,

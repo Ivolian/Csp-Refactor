@@ -1,6 +1,8 @@
 package com.unicorn.csp.volley;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.support.v4.util.LruCache;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -8,7 +10,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 import com.unicorn.csp.utils.ToastUtils;
-import com.unicorn.csp.volley.toolbox.BitmapLruCache;
 import com.unicorn.csp.volley.toolbox.VolleyErrorHelper;
 
 
@@ -26,7 +27,16 @@ public class MyVolley {
 
         final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
         final int cacheSize = maxMemory / 8;
-        mImageLoader = new ImageLoader(mRequestQueue, new BitmapLruCache(cacheSize));
+        mImageLoader = new ImageLoader(mRequestQueue, new ImageLoader.ImageCache() {
+            private final LruCache<String, Bitmap> mCache = new LruCache<>(cacheSize);
+            public void putBitmap(String url, Bitmap bitmap) {
+                mCache.put(url, bitmap);
+            }
+            public Bitmap getBitmap(String url) {
+                return mCache.get(url);
+            }
+        });
+
     }
 
 

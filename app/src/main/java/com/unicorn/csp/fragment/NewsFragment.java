@@ -166,6 +166,8 @@ public class NewsFragment extends ButterKnifeFragment {
                         itemViewAdapter.notifyDataSetChanged();
                         currentPager++;
 
+
+
                     }
                 },
                 new Response.ErrorListener() {
