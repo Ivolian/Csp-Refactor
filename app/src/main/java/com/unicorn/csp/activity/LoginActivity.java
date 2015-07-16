@@ -5,12 +5,17 @@ import android.os.Handler;
 import android.widget.CheckBox;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.ivo.flatbutton.FlatButton;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.unicorn.csp.R;
 import com.unicorn.csp.activity.base.ToolbarActivity;
 import com.unicorn.csp.other.TinyDB;
 import com.unicorn.csp.utils.ToastUtils;
+import com.unicorn.csp.volley.MyVolley;
+import com.unicorn.csp.volley.toolbox.VolleyErrorHelper;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -93,11 +98,31 @@ public class LoginActivity extends ToolbarActivity {
                 loginDialog.dismiss();
 
                 // todo login
+
+//                test();
                 ToastUtils.show(LoginActivity.this, "登录成功");
                 storeLoginInfo();
                 startActivityAndFinish(MainActivity.class);
             }
         }, 1500);
+    }
+
+    private void test(){
+
+        String url = "http://192.168.1.101:3002/withub/api/v1/news?pageNo=1&pageSize=10";
+        MyVolley.getRequestQueue().add(new StringRequest(url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        ToastUtils.show(response.toString());
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+                        ToastUtils.show(VolleyErrorHelper.getErrorMessage(volleyError));
+                    }
+                }));
     }
 
     private MaterialDialog showLoginDialog() {

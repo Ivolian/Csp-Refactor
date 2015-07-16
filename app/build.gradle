@@ -44,4 +44,5 @@ dependencies {
     compile files('libs/badgeview.jar')
     compile 'com.yqritc:recyclerview-flexibledivider:1.2.5'
     compile 'com.mcxiaoke.volley:library:1.0.17'
+    compile 'org.sufficientlysecure:html-textview:1.2'
 }
