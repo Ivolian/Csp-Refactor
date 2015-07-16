@@ -8,22 +8,25 @@ import me.alexrs.recyclerviewrenderers.interfaces.Renderable;
 
 
 // 数据原型和布局绑定
-public class News1 implements Renderable {
+public class News implements Renderable {
 
     @Override
     public int getRenderableId() {
-        return R.layout.item_new_type1;
+        return R.layout.item_news;
     }
 
     private String title;
 
     private Date time;
 
+    private String data;
+
     private int commentCount;
 
-    public News1(String title, Date time, int commentCount) {
+    public News(String title, Date time, String data, int commentCount) {
         this.title = title;
         this.time = time;
+        this.data = data;
         this.commentCount = commentCount;
     }
 
@@ -41,6 +44,14 @@ public class News1 implements Renderable {
 
     public void setTime(Date time) {
         this.time = time;
+    }
+
+    public String getData() {
+        return data;
+    }
+
+    public void setData(String data) {
+        this.data = data;
     }
 
     public int getCommentCount() {

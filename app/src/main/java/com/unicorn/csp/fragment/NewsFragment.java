@@ -10,14 +10,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
 import com.unicorn.csp.R;
 import com.unicorn.csp.fragment.base.ButterKnifeFragment;
 import com.unicorn.csp.other.greenmatter.ColorOverrider;
 import com.unicorn.csp.recycle.factory.Factory;
-import com.unicorn.csp.recycle.item.News1;
-import com.unicorn.csp.recycle.item.News2;
+import com.unicorn.csp.recycle.item.News;
+import com.unicorn.csp.utils.JSONUtils;
+import com.unicorn.csp.utils.ToastUtils;
+import com.unicorn.csp.volley.MyVolley;
+import com.unicorn.csp.volley.toolbox.VolleyErrorHelper;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -38,6 +47,7 @@ public class NewsFragment extends ButterKnifeFragment {
 
     @Bind(R.id.recyclerView)
     RecyclerView recyclerView;
+    RendererAdapter adapter;
 
     @Bind(R.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
@@ -50,17 +60,50 @@ public class NewsFragment extends ButterKnifeFragment {
         return rootView;
     }
 
+    private void askForData() {
+
+        String url = "http://192.168.1.101:3002/withub/api/v1/news?pageNo=1&pageSize=10";
+        MyVolley.getRequestQueue().add(new JsonObjectRequest(url,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        JSONArray contents = JSONUtils.getJSONArray(response, "content", null);
+                      List<Renderable> newsList = new ArrayList<>();
+                        for (int i=0;i!=contents.length();i++){
+                          JSONObject content = JSONUtils.getJSONObject(contents,i);
+                          String title = JSONUtils.getString(content, "title", "");
+                            JSONObject contentData = JSONUtils.getJSONObject(content, "contentData", null);
+                            String data = JSONUtils.getString(contentData,"data","");
+
+                                    // todo img
+                          Date time = new Date();
+                            int commentCount = 11;
+
+                            newsList.add(new News(title,time,data,commentCount));
+                      }
+        adapter.update(newsList);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+                        ToastUtils.show(VolleyErrorHelper.getErrorMessage(volleyError));
+                    }
+                }));
+    }
+
     private void initViews() {
 
         initRecyclerView();
         initSwipeRefreshLayout();
+        askForData();
     }
 
     private void initRecyclerView() {
 
         recyclerView.setHasFixedSize(false);
         recyclerView.setLayoutManager(getLinearLayoutManager());
-        RendererAdapter adapter = new RendererAdapter(getItems(), new RendererBuilder(new Factory()));
+         adapter = new RendererAdapter(new ArrayList<Renderable>(), new RendererBuilder(new Factory()));
         recyclerView.setAdapter(adapter);
     }
 
@@ -90,9 +133,8 @@ public class NewsFragment extends ButterKnifeFragment {
     private List<Renderable> getItems() {
 
         List<Renderable> items = new ArrayList<>();
-        for (int i = 0; i != 5; i++) {
-            items.add(new News1("最高人民法院出台服务保障“一带一路”意见",new Date(),11));
-            items.add(new News2("最高人民法院出台服务保障“一带一路”意见",new Date(),33));
+        for (int i = 0; i != 10; i++) {
+            items.add(new News("最高人民法院出台服务保障“一带一路”意见", new Date(), "asdfasf", 11));
         }
         return items;
     }
@@ -109,7 +151,7 @@ public class NewsFragment extends ButterKnifeFragment {
                 .position(Snackbar.SnackbarPosition.TOP)
                 .color(0xff4caf50)
                 .margin(25, 25)
-                .text("有10条资讯热点更新！"),container);
+                .text("有10条资讯热点更新！"), container);
     }
 
 
