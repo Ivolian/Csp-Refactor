@@ -96,7 +96,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         viewHolder.tvTime.setText(DateUtils.getFormatDateString(news.getTime(), new SimpleDateFormat("MM-dd HH:mm", Locale.CHINA)));
         viewHolder.tvCommentCount.setText("评论 " + news.getCommentCount() + "");
         viewHolder.nivPicture.setDefaultImageResId(R.drawable.news);
-        viewHolder.nivPicture.setImageUrl(JPGS[position % 10], MyVolley.getImageLoader());
+        String pre = "http://192.168.1.101:3000/withub";
+        viewHolder.nivPicture.setImageUrl(pre+news.getPicture(), MyVolley.getImageLoader());
     }
 
     public List<News> getNewsList() {

@@ -16,6 +16,8 @@ public class News implements Parcelable {
 
     private int commentCount;
 
+    private String picture;
+
 
     @Override
     public int describeContents() {
@@ -28,16 +30,10 @@ public class News implements Parcelable {
         dest.writeLong(time != null ? time.getTime() : -1);
         dest.writeString(this.data);
         dest.writeInt(this.commentCount);
+        dest.writeString(this.picture);
     }
 
     public News() {
-    }
-
-    public News(String title, Date time, String data, int commentCount) {
-        this.title = title;
-        this.time = time;
-        this.data = data;
-        this.commentCount = commentCount;
     }
 
     protected News(Parcel in) {
@@ -46,9 +42,10 @@ public class News implements Parcelable {
         this.time = tmpTime == -1 ? null : new Date(tmpTime);
         this.data = in.readString();
         this.commentCount = in.readInt();
+        this.picture = in.readString();
     }
 
-    public static final Parcelable.Creator<News> CREATOR = new Parcelable.Creator<News>() {
+    public static final Creator<News> CREATOR = new Creator<News>() {
         public News createFromParcel(Parcel source) {
             return new News(source);
         }
@@ -57,6 +54,14 @@ public class News implements Parcelable {
             return new News[size];
         }
     };
+
+    public News(String title, Date time, String data, int commentCount, String picture) {
+        this.title = title;
+        this.time = time;
+        this.data = data;
+        this.commentCount = commentCount;
+        this.picture = picture;
+    }
 
     public String getTitle() {
         return title;
@@ -88,5 +93,17 @@ public class News implements Parcelable {
 
     public void setCommentCount(int commentCount) {
         this.commentCount = commentCount;
+    }
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
+    }
+
+    public static Creator<News> getCREATOR() {
+        return CREATOR;
     }
 }

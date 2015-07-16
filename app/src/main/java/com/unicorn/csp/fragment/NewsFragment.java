@@ -178,7 +178,7 @@ public class NewsFragment extends ButterKnifeFragment {
 
     private String getUrl() {
 
-        Uri.Builder builder = Uri.parse("http://192.168.1.101:3002/withub/api/v1/news?").buildUpon();
+        Uri.Builder builder = Uri.parse("http://192.168.1.101:3000/withub/api/v1/news?").buildUpon();
         builder.appendQueryParameter("pageNo", pageNo.toString());
         builder.appendQueryParameter("pageSize", PAGE_SIZE.toString());
 
@@ -195,7 +195,8 @@ public class NewsFragment extends ButterKnifeFragment {
             String title = JSONUtils.getString(content, "title", "");
             JSONObject contentData = JSONUtils.getJSONObject(content, "contentData", null);
             String data = JSONUtils.getString(contentData, "data", "");
-            newsList.add(new News(title, new Date(), data, 11));
+            String picture = JSONUtils.getString(content,"picture","");
+            newsList.add(new News(title, new Date(), data, 11,picture));
         }
 
         return newsList;
