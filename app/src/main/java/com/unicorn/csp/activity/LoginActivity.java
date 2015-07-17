@@ -7,6 +7,7 @@ import android.widget.CheckBox;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.ivo.flatbutton.FlatButton;
 import com.rengwuxian.materialedittext.MaterialEditText;
+import com.unicorn.csp.MyApplication;
 import com.unicorn.csp.R;
 import com.unicorn.csp.activity.base.ToolbarActivity;
 import com.unicorn.csp.other.TinyDB;
@@ -91,13 +92,21 @@ public class LoginActivity extends ToolbarActivity {
             @Override
             public void run() {
                 loginDialog.dismiss();
-
+                test();
                 // todo login
                 ToastUtils.show(LoginActivity.this, "登录成功");
                 storeLoginInfo();
                 startActivityAndFinish(MainActivity.class);
             }
         }, 1500);
+    }
+
+
+    private void test(){
+
+        MyApplication.getMenuDao().deleteAll();
+
+
     }
 
     private MaterialDialog showLoginDialog() {
