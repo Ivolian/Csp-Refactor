@@ -19,8 +19,8 @@ public class HotSpotPagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int position) {
 
-        if(position!=0) {
-return new TestFragment();
+        if (position != 0) {
+            return new TestFragment();
         }
         return new NewsFragment();
     }

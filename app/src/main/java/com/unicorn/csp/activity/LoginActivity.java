@@ -93,8 +93,6 @@ public class LoginActivity extends ToolbarActivity {
                 loginDialog.dismiss();
 
                 // todo login
-
-//                test();
                 ToastUtils.show(LoginActivity.this, "登录成功");
                 storeLoginInfo();
                 startActivityAndFinish(MainActivity.class);

@@ -215,20 +215,4 @@ public class NewsFragment extends ButterKnifeFragment {
         }
     }
 
-
-
-    // ========================== 下拉刷新提示信息 ==========================
-
-//    @Bind(R.id.container)
-//    FrameLayout container;
-//
-//    private void showMsgAfterRefresh() {
-//
-//        SnackbarManager.show(Snackbar.with(getActivity())
-//                .position(Snackbar.SnackbarPosition.TOP)
-//                .color(0xff4caf50)
-//                .margin(25, 25)
-//                .text("有10条资讯热点更新！"), container);
-//    }
-
 }
