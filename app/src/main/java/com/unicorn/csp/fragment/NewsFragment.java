@@ -17,6 +17,7 @@ import com.unicorn.csp.adapter.recycle.NewsAdapter;
 import com.unicorn.csp.fragment.base.ButterKnifeFragment;
 import com.unicorn.csp.other.greenmatter.ColorOverrider;
 import com.unicorn.csp.model.News;
+import com.unicorn.csp.utils.ConfigUtils;
 import com.unicorn.csp.utils.JSONUtils;
 import com.unicorn.csp.utils.RecycleViewUtils;
 import com.unicorn.csp.utils.ToastUtils;
@@ -148,7 +149,7 @@ public class NewsFragment extends ButterKnifeFragment {
 
         pageNo++;
         loadingMore = true;
-        MyVolley.getRequestQueue().add(new JsonObjectRequest(getUrl(),
+        MyVolley.addRequest(new JsonObjectRequest(getUrl(),
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -178,7 +179,7 @@ public class NewsFragment extends ButterKnifeFragment {
 
     private String getUrl() {
 
-        Uri.Builder builder = Uri.parse("http://192.168.1.101:3000/withub/api/v1/news?").buildUpon();
+        Uri.Builder builder = Uri.parse(ConfigUtils.getBaseUrl()+"/api/v1/news?").buildUpon();
         builder.appendQueryParameter("pageNo", pageNo.toString());
         builder.appendQueryParameter("pageSize", PAGE_SIZE.toString());
 

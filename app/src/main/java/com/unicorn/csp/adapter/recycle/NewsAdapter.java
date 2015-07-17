@@ -11,6 +11,7 @@ import com.android.volley.toolbox.NetworkImageView;
 import com.unicorn.csp.R;
 import com.unicorn.csp.activity.WebViewActivity;
 import com.unicorn.csp.model.News;
+import com.unicorn.csp.utils.ConfigUtils;
 import com.unicorn.csp.utils.DateUtils;
 import com.unicorn.csp.volley.MyVolley;
 
@@ -24,22 +25,6 @@ import butterknife.ButterKnife;
 
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
-
-    // todo delete
-    public String[] JPGS = {
-            "http://pic1.nipic.com/2008-09-08/200898163242920_2.jpg",
-            "http://pic.nipic.com/2007-11-09/2007119122519868_2.jpg",
-            "http://pic25.nipic.com/20121209/9252150_194258033000_2.jpg",
-            "http://pic2.ooopic.com/01/26/61/83bOOOPIC72.jpg",
-            "http://pic1.nipic.com/2008-08-12/200881211331729_2.jpg",
-            "http://pica.nipic.com/2007-11-09/2007119124413448_2.jpg",
-            "http://pic1.nipic.com/2008-09-08/200898163242920_2.jpg",
-            "http://pic.nipic.com/2007-11-09/2007119122519868_2.jpg",
-            "http://pic25.nipic.com/20121209/9252150_194258033000_2.jpg",
-            "http://pic2.ooopic.com/01/26/61/83bOOOPIC72.jpg",
-            "http://pic1.nipic.com/2008-08-12/200881211331729_2.jpg"
-    };
-
 
     private List<News> newsList = new ArrayList<>();
 
@@ -96,8 +81,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         viewHolder.tvTime.setText(DateUtils.getFormatDateString(news.getTime(), new SimpleDateFormat("MM-dd HH:mm", Locale.CHINA)));
         viewHolder.tvCommentCount.setText("评论 " + news.getCommentCount() + "");
         viewHolder.nivPicture.setDefaultImageResId(R.drawable.news);
-        String pre = "http://192.168.1.101:3000/withub";
-        viewHolder.nivPicture.setImageUrl(pre+news.getPicture(), MyVolley.getImageLoader());
+        viewHolder.nivPicture.setImageUrl(ConfigUtils.getBaseUrl()+news.getPicture(), MyVolley.getImageLoader());
     }
 
     public List<News> getNewsList() {
