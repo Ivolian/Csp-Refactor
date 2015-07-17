@@ -132,7 +132,7 @@ public class LoginActivity extends ToolbarActivity {
     }
 
 
-    // ========================== 基础方法 ==========================
+    // ========================== 底层方法 ==========================
 
     private boolean isAccountEmpty() {
 
