@@ -26,6 +26,12 @@ public class HotSpotFragment extends ButterKnifeFragment {
     @Bind(R.id.viewpager)
     ViewPager viewPager;
 
+    private com.unicorn.csp.greendao.Menu menu;
+
+    public void setMenu(com.unicorn.csp.greendao.Menu menu) {
+        this.menu = menu;
+    }
+
     @Override
     public int getLayoutResId() {
         return R.layout.fragment_viewpager;
@@ -58,8 +64,10 @@ public class HotSpotFragment extends ButterKnifeFragment {
 
     private void initViews() {
 
-        viewPager.setAdapter(new HotSpotPagerAdapter(getActivity().getSupportFragmentManager()));
-        viewPager.setOffscreenPageLimit(4);
+        boolean result = menu.getName().equals("新法速递");
+
+        viewPager.setAdapter(new HotSpotPagerAdapter(result?getChildFragmentManager():getActivity().getSupportFragmentManager(),this.menu));
+//        viewPager.setOffscreenPageLimit(4);
         pagerSlidingTabStrip.setViewPager(viewPager);
         pagerSlidingTabStrip.setIndicatorColor(ColorOverrider.getInstance(getActivity()).getColorAccent());
     }

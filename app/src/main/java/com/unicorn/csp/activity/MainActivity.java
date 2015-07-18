@@ -20,6 +20,7 @@ import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.SwitchDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.OnCheckedChangeListener;
+import com.unicorn.csp.MyApplication;
 import com.unicorn.csp.R;
 import com.unicorn.csp.activity.base.ToolbarActivity;
 import com.unicorn.csp.fragment.HotSpotFragment;
@@ -60,6 +61,8 @@ public class MainActivity extends ToolbarActivity {
         setContentView(R.layout.activity_main);
         initToolbar("", false);
         initViews();
+
+
 
         if (savedInstanceState == null) {
             selectBottomTab(0, true);
@@ -230,8 +233,13 @@ public class MainActivity extends ToolbarActivity {
     private void replaceFragment(int index) {
 
         // todo
-        if (index == 0)
-        replaceFragment_(new HotSpotFragment());
+        if (index == 0) {
+            String key = "8ea8e8e9-155d-448e-ad83-496a37292422";
+            com.unicorn.csp.greendao.Menu menu = MyApplication.getMenuDao().load(key);
+HotSpotFragment hotSpotFragment = new HotSpotFragment();
+            hotSpotFragment.setMenu(menu);
+            replaceFragment_(hotSpotFragment);
+        }
         else
             replaceFragment_(new TestFragment());
     }
