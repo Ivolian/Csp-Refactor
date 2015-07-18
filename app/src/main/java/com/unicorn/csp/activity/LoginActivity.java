@@ -5,13 +5,21 @@ import android.os.Handler;
 import android.widget.CheckBox;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.android.volley.Response;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.ivo.flatbutton.FlatButton;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.unicorn.csp.MyApplication;
 import com.unicorn.csp.R;
 import com.unicorn.csp.activity.base.ToolbarActivity;
+import com.unicorn.csp.greendao.Menu;
 import com.unicorn.csp.other.TinyDB;
+import com.unicorn.csp.utils.JSONUtils;
 import com.unicorn.csp.utils.ToastUtils;
+import com.unicorn.csp.volley.MyVolley;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -92,7 +100,9 @@ public class LoginActivity extends ToolbarActivity {
             @Override
             public void run() {
                 loginDialog.dismiss();
-                test();
+
+                syncMenuFromServer();
+
                 // todo login
                 ToastUtils.show(LoginActivity.this, "登录成功");
                 storeLoginInfo();
@@ -102,12 +112,55 @@ public class LoginActivity extends ToolbarActivity {
     }
 
 
-    private void test(){
+    private void syncMenuFromServer() {
 
-        MyApplication.getMenuDao().deleteAll();
+        MyVolley.addRequest(new JsonObjectRequest("http://192.168.1.101:3000/withub/api/v1/region/all",
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
 
-
+                        MyApplication.getMenuDao().deleteAll();
+                        persistenceMenu(response);
+                    }
+                },
+                MyVolley.getDefaultErrorListener()));
     }
+
+
+    private void persistenceMenu(JSONObject rootItem) {
+
+        Menu rootMenu = itemToMenuSimple(rootItem);
+        rootMenu.setParent(null);
+        MyApplication.getMenuDao().insert(rootMenu);
+        copyItems(rootItem, rootMenu);
+    }
+
+    private void copyItems(JSONObject item, Menu menu) {
+
+        JSONArray items = JSONUtils.getJSONArray(item, "items", null);
+        if (items != null) {
+            for (int i = 0; i != items.length(); i++) {
+                JSONObject subItem = JSONUtils.getJSONObject(items, i);
+                Menu subMenu = itemToMenuSimple(subItem);
+                subMenu.setParent(menu);
+                MyApplication.getMenuDao().insert(subMenu);
+                copyItems(subItem, subMenu);
+            }
+        }
+    }
+
+    private Menu itemToMenuSimple(JSONObject item) {
+
+        Menu menu = new Menu();
+        menu.setId(JSONUtils.getString(item, "id", ""));
+        menu.setName(JSONUtils.getString(item, "name", ""));
+        // todo server change code => type
+        menu.setType(JSONUtils.getString(item, "code", ""));
+        menu.setOrderNo(JSONUtils.getInt(item, "orderNo", 0));
+
+        return menu;
+    }
+
 
     private MaterialDialog showLoginDialog() {
 

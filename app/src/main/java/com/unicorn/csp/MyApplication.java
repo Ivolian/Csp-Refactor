@@ -37,8 +37,6 @@ public class MyApplication extends Application {
     private static DaoSession daoSession;
 
 
-
-
     public static MenuDao getMenuDao(){
 
         return  daoSession.getMenuDao();

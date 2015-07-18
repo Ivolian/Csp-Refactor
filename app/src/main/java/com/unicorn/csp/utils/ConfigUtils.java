@@ -5,7 +5,7 @@ public class ConfigUtils {
 
     public static String getBaseUrl(){
 
-        return "http://192.168.42.126:3000/withub";
+        return "http://192.168.1.101:3000/withub";
     }
 
 }
