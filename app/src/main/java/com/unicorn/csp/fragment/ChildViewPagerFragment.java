@@ -64,7 +64,8 @@ public class ChildViewPagerFragment extends ButterKnifeFragment {
 
         viewPager.setAdapter(new HotSpotPagerAdapter(getChildFragmentManager(), this.menu));
         smartTabLayout.setViewPager(viewPager);
-        smartTabLayout.setAlpha(0.8f);
+        smartTabLayout.setAlpha(0.7f);
+        smartTabLayout.setBackgroundColor(0xffffffff);
     }
 
 }
