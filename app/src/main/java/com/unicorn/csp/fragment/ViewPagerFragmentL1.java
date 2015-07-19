@@ -3,9 +3,6 @@ package com.unicorn.csp.fragment;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -38,20 +35,6 @@ public class ViewPagerFragmentL1 extends ButterKnifeFragment {
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         initViews();
         return rootView;
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-
-//        inflater.inflate(R.menu.a_menu_general_fragment, menu);
-//        SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
-//        searchView.setQueryHint("请输入查询内容");
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        return super.onOptionsItemSelected(item);
     }
 
     private void initViews() {

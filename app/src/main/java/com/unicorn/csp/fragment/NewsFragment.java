@@ -2,6 +2,7 @@ package com.unicorn.csp.fragment;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,9 +15,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.unicorn.csp.R;
 import com.unicorn.csp.adapter.recycle.NewsAdapter;
-import com.unicorn.csp.fragment.base.ButterKnifeFragment;
-import com.unicorn.csp.other.greenmatter.ColorOverrider;
+import com.unicorn.csp.fragment.base.LazyLoadFragment;
 import com.unicorn.csp.model.News;
+import com.unicorn.csp.other.greenmatter.ColorOverrider;
 import com.unicorn.csp.utils.ConfigUtils;
 import com.unicorn.csp.utils.JSONUtils;
 import com.unicorn.csp.utils.RecycleViewUtils;
@@ -34,7 +35,7 @@ import java.util.List;
 import butterknife.Bind;
 
 
-public class NewsFragment extends ButterKnifeFragment {
+public class NewsFragment extends LazyLoadFragment {
 
     @Override
     public int getLayoutResId() {
@@ -73,8 +74,13 @@ public class NewsFragment extends ButterKnifeFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        initViews();
         return rootView;
+    }
+
+    @Override
+    public void onFirstUserVisible() {
+
+        initViews();
     }
 
     private void initViews() {
@@ -83,6 +89,8 @@ public class NewsFragment extends ButterKnifeFragment {
         initRecyclerView();
         reload();
     }
+
+
 
     private void initSwipeRefreshLayout() {
 
@@ -125,7 +133,14 @@ public class NewsFragment extends ButterKnifeFragment {
 
     private void reload() {
 
+
         clearPageData();
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                swipeRefreshLayout.setRefreshing(true);
+            }
+        });
         MyVolley.addRequest(new JsonObjectRequest(getUrl(),
                 new Response.Listener<JSONObject>() {
                     @Override
