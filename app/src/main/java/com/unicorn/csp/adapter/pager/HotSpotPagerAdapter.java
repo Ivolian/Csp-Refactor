@@ -4,8 +4,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.unicorn.csp.fragment.HotSpotFragment;
 import com.unicorn.csp.fragment.TestFragment;
+import com.unicorn.csp.fragment.ViewPagerFragment;
 import com.unicorn.csp.greendao.Menu;
 
 
@@ -24,9 +24,18 @@ public class HotSpotPagerAdapter extends FragmentStatePagerAdapter {
 
         Menu subMenu = menu.getChildren().get(position);
             if (subMenu.getChildren().size()!=0){
-                HotSpotFragment hotSpotFragment =new HotSpotFragment();
-                hotSpotFragment.setMenu(subMenu);
-                return  hotSpotFragment;
+
+//                if (menu.getDepth() == 3){
+//                    ChildViewPagerFragment childViewPagerFragment = new ChildViewPagerFragment();
+//                    childViewPagerFragment.setMenu(menu);
+//                    return  childViewPagerFragment;
+//                }else {
+                    ViewPagerFragment viewPagerFragment =new ViewPagerFragment();
+                    viewPagerFragment.setMenu(subMenu);
+                    return viewPagerFragment;
+
+//                }
+
             }else {
                 return new TestFragment();
             }

@@ -23,7 +23,7 @@ import com.mikepenz.materialdrawer.model.interfaces.OnCheckedChangeListener;
 import com.unicorn.csp.MyApplication;
 import com.unicorn.csp.R;
 import com.unicorn.csp.activity.base.ToolbarActivity;
-import com.unicorn.csp.fragment.HotSpotFragment;
+import com.unicorn.csp.fragment.ViewPagerFragment;
 import com.unicorn.csp.fragment.TestFragment;
 import com.unicorn.csp.other.greenmatter.ColorOverrider;
 import com.unicorn.csp.other.greenmatter.SelectColorActivity;
@@ -236,9 +236,9 @@ public class MainActivity extends ToolbarActivity {
         if (index == 0) {
             String key = "8ea8e8e9-155d-448e-ad83-496a37292422";
             com.unicorn.csp.greendao.Menu menu = MyApplication.getMenuDao().load(key);
-HotSpotFragment hotSpotFragment = new HotSpotFragment();
-            hotSpotFragment.setMenu(menu);
-            replaceFragment_(hotSpotFragment);
+ViewPagerFragment viewPagerFragment = new ViewPagerFragment();
+            viewPagerFragment.setMenu(menu);
+            replaceFragment_(viewPagerFragment);
         }
         else
             replaceFragment_(new TestFragment());
