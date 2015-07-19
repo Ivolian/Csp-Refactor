@@ -23,8 +23,10 @@ import com.mikepenz.materialdrawer.model.interfaces.OnCheckedChangeListener;
 import com.unicorn.csp.MyApplication;
 import com.unicorn.csp.R;
 import com.unicorn.csp.activity.base.ToolbarActivity;
-import com.unicorn.csp.fragment.ViewPagerFragmentL1;
 import com.unicorn.csp.fragment.TestFragment;
+import com.unicorn.csp.fragment.ViewPagerFragmentL1;
+import com.unicorn.csp.greendao.Menu;
+import com.unicorn.csp.greendao.MenuDao;
 import com.unicorn.csp.other.greenmatter.ColorOverrider;
 import com.unicorn.csp.other.greenmatter.SelectColorActivity;
 import com.unicorn.csp.utils.ToastUtils;
@@ -231,21 +233,33 @@ public class MainActivity extends ToolbarActivity {
 
     private void replaceFragment(int index) {
 
-        // todo
-        if (index == 0) {
-            String key = "8ea8e8e9-155d-448e-ad83-496a37292422";
-            ViewPagerFragmentL1 viewPagerFragmentL1 = new ViewPagerFragmentL1();
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("menu", MyApplication.getMenuDao().load(key));
-            viewPagerFragmentL1.setArguments(bundle);
-            replaceFragment_(viewPagerFragmentL1);
-        } else
+        String[] names = {"资讯热点", "学习园地", "网上书城", "我的学习", "互动专区"};
+        Menu menu = findMenuByName(names[index]);
+        if (menu.getChildren().size() == 0) {
             replaceFragment_(new TestFragment());
+            return;
+        }
+
+        ViewPagerFragmentL1 viewPagerFragmentL1 = new ViewPagerFragmentL1();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("menu", menu);
+        viewPagerFragmentL1.setArguments(bundle);
+        replaceFragment_(viewPagerFragmentL1);
     }
 
     private void replaceFragment_(Fragment fragment) {
 
         getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
+    }
+
+
+    private Menu findMenuByName(String name) {
+
+        List<Menu> result = MyApplication.getMenuDao().queryBuilder()
+                .where(MenuDao.Properties.Name.eq(name))
+                .list();
+
+        return result.get(0);
     }
 
 }

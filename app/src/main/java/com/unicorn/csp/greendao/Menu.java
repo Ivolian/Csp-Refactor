@@ -17,7 +17,6 @@ public class Menu implements java.io.Serializable {
     /** Not-null value. */
     private String type;
     private int orderNo;
-    private int depth;
     private String parentId;
 
     /** Used to resolve relations */
@@ -38,12 +37,11 @@ public class Menu implements java.io.Serializable {
         this.id = id;
     }
 
-    public Menu(String id, String name, String type, int orderNo, int depth, String parentId) {
+    public Menu(String id, String name, String type, int orderNo, String parentId) {
         this.id = id;
         this.name = name;
         this.type = type;
         this.orderNo = orderNo;
-        this.depth = depth;
         this.parentId = parentId;
     }
 
@@ -89,14 +87,6 @@ public class Menu implements java.io.Serializable {
 
     public void setOrderNo(int orderNo) {
         this.orderNo = orderNo;
-    }
-
-    public int getDepth() {
-        return depth;
-    }
-
-    public void setDepth(int depth) {
-        this.depth = depth;
     }
 
     public String getParentId() {

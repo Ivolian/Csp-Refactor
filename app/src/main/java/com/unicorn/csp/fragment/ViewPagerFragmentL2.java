@@ -39,8 +39,9 @@ public class ViewPagerFragmentL2 extends ButterKnifeFragment {
 
         com.unicorn.csp.greendao.Menu menu =(com.unicorn.csp.greendao.Menu) getArguments().getSerializable("menu");
         viewPager.setAdapter(new ViewPagerAdapterL2(getChildFragmentManager(), menu));
+        viewPager.setOffscreenPageLimit(menu.getChildren().size());
         smartTabLayout.setViewPager(viewPager);
-        smartTabLayout.setAlpha(0.7f);
+        smartTabLayout.setAlpha(0.8f);
     }
 
 }

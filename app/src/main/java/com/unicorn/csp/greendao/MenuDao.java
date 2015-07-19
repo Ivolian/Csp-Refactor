@@ -31,8 +31,7 @@ public class MenuDao extends AbstractDao<Menu, String> {
         public final static Property Name = new Property(1, String.class, "name", false, "NAME");
         public final static Property Type = new Property(2, String.class, "type", false, "TYPE");
         public final static Property OrderNo = new Property(3, int.class, "orderNo", false, "ORDER_NO");
-        public final static Property Depth = new Property(4, int.class, "depth", false, "DEPTH");
-        public final static Property ParentId = new Property(5, String.class, "parentId", false, "PARENT_ID");
+        public final static Property ParentId = new Property(4, String.class, "parentId", false, "PARENT_ID");
     };
 
     private DaoSession daoSession;
@@ -56,8 +55,7 @@ public class MenuDao extends AbstractDao<Menu, String> {
                 "'NAME' TEXT NOT NULL ," + // 1: name
                 "'TYPE' TEXT NOT NULL ," + // 2: type
                 "'ORDER_NO' INTEGER NOT NULL ," + // 3: orderNo
-                "'DEPTH' INTEGER NOT NULL ," + // 4: depth
-                "'PARENT_ID' TEXT);"); // 5: parentId
+                "'PARENT_ID' TEXT);"); // 4: parentId
     }
 
     /** Drops the underlying database table. */
@@ -74,11 +72,10 @@ public class MenuDao extends AbstractDao<Menu, String> {
         stmt.bindString(2, entity.getName());
         stmt.bindString(3, entity.getType());
         stmt.bindLong(4, entity.getOrderNo());
-        stmt.bindLong(5, entity.getDepth());
  
         String parentId = entity.getParentId();
         if (parentId != null) {
-            stmt.bindString(6, parentId);
+            stmt.bindString(5, parentId);
         }
     }
 
@@ -102,8 +99,7 @@ public class MenuDao extends AbstractDao<Menu, String> {
             cursor.getString(offset + 1), // name
             cursor.getString(offset + 2), // type
             cursor.getInt(offset + 3), // orderNo
-            cursor.getInt(offset + 4), // depth
-            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5) // parentId
+            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4) // parentId
         );
         return entity;
     }
@@ -115,8 +111,7 @@ public class MenuDao extends AbstractDao<Menu, String> {
         entity.setName(cursor.getString(offset + 1));
         entity.setType(cursor.getString(offset + 2));
         entity.setOrderNo(cursor.getInt(offset + 3));
-        entity.setDepth(cursor.getInt(offset + 4));
-        entity.setParentId(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
+        entity.setParentId(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
      }
     
     /** @inheritdoc */

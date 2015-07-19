@@ -157,7 +157,6 @@ public class LoginActivity extends ToolbarActivity {
         // todo server change code => type
         menu.setType(JSONUtils.getString(item, "code", ""));
         menu.setOrderNo(JSONUtils.getInt(item, "orderNo", 0));
-        menu.setDepth(JSONUtils.getInt(item,"depth",0));
 
         return menu;
     }

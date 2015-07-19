@@ -33,8 +33,6 @@
         <activity android:name=".activity.AddCommentActivity"/>
         <activity
             android:name="im.dino.dbinspector.activities.DbInspectorActivity">
-            <intent-filter tools:node="removeAll">
-            </intent-filter>
         </activity>
     </application>
 
