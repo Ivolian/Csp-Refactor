@@ -62,9 +62,10 @@ public class ViewPagerFragment extends ButterKnifeFragment {
 
     private void initViews() {
 
-        boolean result = menu.getDepth() == 2;
+//        boolean result = menu.getDepth() == 2;
 
-        viewPager.setAdapter(new HotSpotPagerAdapter(result?getChildFragmentManager():getActivity().getSupportFragmentManager(),this.menu));
+        com.unicorn.csp.greendao.Menu menu = (com.unicorn.csp.greendao.Menu)getArguments().getSerializable("menu");
+        viewPager.setAdapter(new HotSpotPagerAdapter(menu.getDepth()==2?getChildFragmentManager():getActivity().getSupportFragmentManager(),menu));
         pagerSlidingTabStrip.setViewPager(viewPager);
         pagerSlidingTabStrip.setIndicatorColor(ColorOverrider.getInstance(getActivity()).getColorAccent());
     }

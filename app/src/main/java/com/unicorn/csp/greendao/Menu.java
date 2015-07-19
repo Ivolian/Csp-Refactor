@@ -8,7 +8,7 @@ import de.greenrobot.dao.DaoException;
 /**
  * Entity mapped to table MENU.
  */
-public class Menu {
+public class Menu implements java.io.Serializable {
 
     /** Not-null value. */
     private String id;

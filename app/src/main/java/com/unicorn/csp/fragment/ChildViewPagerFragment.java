@@ -62,7 +62,8 @@ public class ChildViewPagerFragment extends ButterKnifeFragment {
 
     private void initViews() {
 
-        viewPager.setAdapter(new HotSpotPagerAdapter(getChildFragmentManager(), this.menu));
+        com.unicorn.csp.greendao.Menu menu =(com.unicorn.csp.greendao.Menu) getArguments().getSerializable("menu");
+        viewPager.setAdapter(new HotSpotPagerAdapter(getChildFragmentManager(), menu));
         smartTabLayout.setViewPager(viewPager);
         smartTabLayout.setAlpha(0.7f);
     }

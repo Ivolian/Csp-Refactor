@@ -235,7 +235,9 @@ public class MainActivity extends ToolbarActivity {
         if (index == 0) {
             String key = "8ea8e8e9-155d-448e-ad83-496a37292422";
             ViewPagerFragment viewPagerFragment = new ViewPagerFragment();
-            viewPagerFragment.setMenu(MyApplication.getMenuDao().load(key));
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("menu", MyApplication.getMenuDao().load(key));
+            viewPagerFragment.setArguments(bundle);
             replaceFragment_(viewPagerFragment);
         } else
             replaceFragment_(new TestFragment());
