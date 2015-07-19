@@ -11,14 +11,14 @@ import android.view.ViewGroup;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.unicorn.csp.R;
-import com.unicorn.csp.adapter.pager.HotSpotPagerAdapter;
+import com.unicorn.csp.adapter.pager.ViewPagerAdapterL1;
 import com.unicorn.csp.fragment.base.ButterKnifeFragment;
 import com.unicorn.csp.other.greenmatter.ColorOverrider;
 
 import butterknife.Bind;
 
 
-public class ViewPagerFragment extends ButterKnifeFragment {
+public class ViewPagerFragmentL1 extends ButterKnifeFragment {
 
     @Override
     public int getLayoutResId() {
@@ -65,7 +65,7 @@ public class ViewPagerFragment extends ButterKnifeFragment {
 //        boolean result = menu.getDepth() == 2;
 
         com.unicorn.csp.greendao.Menu menu = (com.unicorn.csp.greendao.Menu)getArguments().getSerializable("menu");
-        viewPager.setAdapter(new HotSpotPagerAdapter(menu.getDepth()==2?getChildFragmentManager():getActivity().getSupportFragmentManager(),menu));
+        viewPager.setAdapter(new ViewPagerAdapterL1(menu.getDepth()==2?getChildFragmentManager():getActivity().getSupportFragmentManager(),menu));
         pagerSlidingTabStrip.setViewPager(viewPager);
         pagerSlidingTabStrip.setIndicatorColor(ColorOverrider.getInstance(getActivity()).getColorAccent());
     }
