@@ -65,7 +65,6 @@ public class ViewPagerFragment extends ButterKnifeFragment {
         boolean result = menu.getDepth() == 2;
 
         viewPager.setAdapter(new HotSpotPagerAdapter(result?getChildFragmentManager():getActivity().getSupportFragmentManager(),this.menu));
-//        viewPager.setOffscreenPageLimit(4);
         pagerSlidingTabStrip.setViewPager(viewPager);
         pagerSlidingTabStrip.setIndicatorColor(ColorOverrider.getInstance(getActivity()).getColorAccent());
     }

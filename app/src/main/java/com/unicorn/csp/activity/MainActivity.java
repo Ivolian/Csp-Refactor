@@ -63,7 +63,6 @@ public class MainActivity extends ToolbarActivity {
         initViews();
 
 
-
         if (savedInstanceState == null) {
             selectBottomTab(0, true);
         } else {
@@ -235,12 +234,10 @@ public class MainActivity extends ToolbarActivity {
         // todo
         if (index == 0) {
             String key = "8ea8e8e9-155d-448e-ad83-496a37292422";
-            com.unicorn.csp.greendao.Menu menu = MyApplication.getMenuDao().load(key);
-ViewPagerFragment viewPagerFragment = new ViewPagerFragment();
-            viewPagerFragment.setMenu(menu);
+            ViewPagerFragment viewPagerFragment = new ViewPagerFragment();
+            viewPagerFragment.setMenu(MyApplication.getMenuDao().load(key));
             replaceFragment_(viewPagerFragment);
-        }
-        else
+        } else
             replaceFragment_(new TestFragment());
     }
 

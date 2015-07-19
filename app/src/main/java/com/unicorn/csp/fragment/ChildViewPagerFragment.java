@@ -3,6 +3,8 @@ package com.unicorn.csp.fragment;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,9 +40,18 @@ public class ChildViewPagerFragment extends ButterKnifeFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+        setHasOptionsMenu(true);
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         initViews();
         return rootView;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+
+//        inflater.inflate(R.menu.a_menu_general_fragment, menu);
+//        SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
+//        searchView.setQueryHint("请输入查询内容");
     }
 
     @Override
@@ -51,7 +62,9 @@ public class ChildViewPagerFragment extends ButterKnifeFragment {
 
     private void initViews() {
 
-        viewPager.setAdapter(new HotSpotPagerAdapter(getChildFragmentManager(),menu));
+//        boolean result = menu.getDepth() == 2;
+
+        viewPager.setAdapter(new HotSpotPagerAdapter(getChildFragmentManager(),this.menu));
         pagerSlidingTabStrip.setViewPager(viewPager);
         pagerSlidingTabStrip.setIndicatorColor(ColorOverrider.getInstance(getActivity()).getColorAccent());
     }
