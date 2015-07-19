@@ -23,10 +23,14 @@ public class ViewPagerAdapterL1 extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int position) {
 
-        // menu is 资讯热点，childMenu is 新法速递
+        // menu is 资讯热点，childMenu is 司改动态
         Menu childMenu = menu.getChildren().get(position);
         if (childMenu.getChildren().size() == 0) {
-            return new NewsFragment();
+            NewsFragment newsFragment = new NewsFragment();
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("menu", childMenu);
+            newsFragment.setArguments(bundle);
+            return  newsFragment;
         }
 
         ViewPagerFragmentL2 viewPagerFragmentL2 = new ViewPagerFragmentL2();

@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.android.volley.toolbox.NetworkImageView;
 import com.unicorn.csp.R;
-import com.unicorn.csp.activity.WebViewActivity;
+import com.unicorn.csp.activity.NewsContentActivity;
 import com.unicorn.csp.model.News;
 import com.unicorn.csp.utils.ConfigUtils;
 import com.unicorn.csp.utils.DateUtils;
@@ -52,7 +52,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(final View v) {
-                    Intent intent = new Intent(itemView.getContext(), WebViewActivity.class);
+                    Intent intent = new Intent(itemView.getContext(), NewsContentActivity.class);
                     intent.putExtra("news", newsList.get(getAdapterPosition()));
                     itemView.getContext().startActivity(intent);
                 }

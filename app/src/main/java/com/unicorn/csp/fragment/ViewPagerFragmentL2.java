@@ -18,7 +18,7 @@ public class ViewPagerFragmentL2 extends ButterKnifeFragment {
 
     @Override
     public int getLayoutResId() {
-        return R.layout.fragment_child_viewpager;
+        return R.layout.fragment_viewpager_l2;
     }
 
     @Bind(R.id.viewpagertab)

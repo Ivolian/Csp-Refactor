@@ -16,7 +16,7 @@ import com.unicorn.csp.utils.ToastUtils;
 import butterknife.Bind;
 import butterknife.OnClick;
 
-public class WebViewActivity extends ToolbarActivity {
+public class NewsContentActivity extends ToolbarActivity {
 
     @Bind(R.id.webView)
     WebView webView;

@@ -16,6 +16,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.unicorn.csp.R;
 import com.unicorn.csp.adapter.recycle.NewsAdapter;
 import com.unicorn.csp.fragment.base.LazyLoadFragment;
+import com.unicorn.csp.greendao.Menu;
 import com.unicorn.csp.model.News;
 import com.unicorn.csp.other.greenmatter.ColorOverrider;
 import com.unicorn.csp.utils.ConfigUtils;
@@ -164,6 +165,7 @@ public class NewsFragment extends LazyLoadFragment {
 
         pageNo++;
         loadingMore = true;
+
         MyVolley.addRequest(new JsonObjectRequest(getUrl(),
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -197,6 +199,8 @@ public class NewsFragment extends LazyLoadFragment {
         Uri.Builder builder = Uri.parse(ConfigUtils.getBaseUrl()+"/api/v1/news?").buildUpon();
         builder.appendQueryParameter("pageNo", pageNo.toString());
         builder.appendQueryParameter("pageSize", PAGE_SIZE.toString());
+        Menu menu = (Menu)getArguments().getSerializable("menu");
+        builder.appendQueryParameter("regionId",menu.getId());
 
         return builder.toString();
     }

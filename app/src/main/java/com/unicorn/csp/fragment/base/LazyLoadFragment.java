@@ -3,6 +3,7 @@ package com.unicorn.csp.fragment.base;
 import android.os.Bundle;
 
 
+// this is not my code
 public abstract class LazyLoadFragment extends ButterKnifeFragment {
 
     private boolean isPrepared;
