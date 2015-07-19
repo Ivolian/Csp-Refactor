@@ -48,6 +48,7 @@ public class ChildViewPagerFragment extends ButterKnifeFragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 
+
 //        inflater.inflate(R.menu.a_menu_general_fragment, menu);
 //        SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
 //        searchView.setQueryHint("请输入查询内容");
