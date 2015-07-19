@@ -9,11 +9,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.astuetz.PagerSlidingTabStrip;
+import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.unicorn.csp.R;
 import com.unicorn.csp.adapter.pager.HotSpotPagerAdapter;
 import com.unicorn.csp.fragment.base.ButterKnifeFragment;
-import com.unicorn.csp.other.greenmatter.ColorOverrider;
 
 import butterknife.Bind;
 
@@ -22,11 +21,11 @@ public class ChildViewPagerFragment extends ButterKnifeFragment {
 
     @Override
     public int getLayoutResId() {
-        return R.layout.fragment_viewpager;
+        return R.layout.fragment_child_viewpager;
     }
 
-    @Bind(R.id.tabs)
-    PagerSlidingTabStrip pagerSlidingTabStrip;
+    @Bind(R.id.viewpagertab)
+    SmartTabLayout smartTabLayout;
 
     @Bind(R.id.viewpager)
     ViewPager viewPager;
@@ -62,11 +61,9 @@ public class ChildViewPagerFragment extends ButterKnifeFragment {
 
     private void initViews() {
 
-//        boolean result = menu.getDepth() == 2;
-
-        viewPager.setAdapter(new HotSpotPagerAdapter(getChildFragmentManager(),this.menu));
-        pagerSlidingTabStrip.setViewPager(viewPager);
-        pagerSlidingTabStrip.setIndicatorColor(ColorOverrider.getInstance(getActivity()).getColorAccent());
+        viewPager.setAdapter(new HotSpotPagerAdapter(getChildFragmentManager(), this.menu));
+        smartTabLayout.setViewPager(viewPager);
+        smartTabLayout.setAlpha(0.8f);
     }
 
 }
