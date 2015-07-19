@@ -1,11 +1,11 @@
 package com.unicorn.csp.activity;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.widget.CheckBox;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.ivo.flatbutton.FlatButton;
 import com.rengwuxian.materialedittext.MaterialEditText;
@@ -14,9 +14,11 @@ import com.unicorn.csp.R;
 import com.unicorn.csp.activity.base.ToolbarActivity;
 import com.unicorn.csp.greendao.Menu;
 import com.unicorn.csp.other.TinyDB;
+import com.unicorn.csp.utils.ConfigUtils;
 import com.unicorn.csp.utils.JSONUtils;
 import com.unicorn.csp.utils.ToastUtils;
 import com.unicorn.csp.volley.MyVolley;
+import com.unicorn.csp.volley.toolbox.VolleyErrorHelper;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -51,6 +53,11 @@ public class LoginActivity extends ToolbarActivity {
 
     @Bind(R.id.btn_login)
     FlatButton btnLogin;
+
+
+    // ========================== handler ==========================
+
+    MaterialDialog loginDialog;
 
 
     // ========================== onCreate ==========================
@@ -93,39 +100,36 @@ public class LoginActivity extends ToolbarActivity {
     // ========================== 登录 ==========================
 
     @OnClick(R.id.btn_login)
-    public void login() {
+    public void onLoginBtnClick() {
 
-        final MaterialDialog loginDialog = showLoginDialog();
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                loginDialog.dismiss();
-
-                syncMenuFromServer();
-
-                // todo login
-                ToastUtils.show(LoginActivity.this, "登录成功");
-                storeLoginInfo();
-                startActivityAndFinish(MainActivity.class);
-            }
-        }, 1500);
+        loginDialog = showLoginDialog();
+        syncMenuFromServer();
     }
-
 
     private void syncMenuFromServer() {
 
-        MyVolley.addRequest(new JsonObjectRequest("http://192.168.1.101:3000/withub/api/v1/region/all",
+        MyVolley.addRequest(new JsonObjectRequest(ConfigUtils.getBaseUrl() + "/api/v1/region/all",
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-
                         MyApplication.getMenuDao().deleteAll();
                         persistenceMenu(response);
+                        loginDialog.dismiss();
+
+                        // todo login
+                        ToastUtils.show("登录成功");
+                        storeLoginInfo();
+                        startActivityAndFinish(MainActivity.class);
                     }
                 },
-                MyVolley.getDefaultErrorListener()));
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+                        loginDialog.dismiss();
+                        ToastUtils.show(VolleyErrorHelper.getErrorMessage(volleyError));
+                    }
+                }));
     }
-
 
     private void persistenceMenu(JSONObject rootItem) {
 
@@ -154,13 +158,10 @@ public class LoginActivity extends ToolbarActivity {
         Menu menu = new Menu();
         menu.setId(JSONUtils.getString(item, "id", ""));
         menu.setName(JSONUtils.getString(item, "name", ""));
-        // todo server change code => type
-        menu.setType(JSONUtils.getString(item, "code", ""));
+        menu.setType(JSONUtils.getString(item, "code", ""));     // todo server change code => type
         menu.setOrderNo(JSONUtils.getInt(item, "orderNo", 0));
-
         return menu;
     }
-
 
     private MaterialDialog showLoginDialog() {
 
