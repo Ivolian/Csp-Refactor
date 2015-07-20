@@ -132,7 +132,6 @@ public class NewsFragment extends LazyLoadFragment {
 
     private void reload() {
 
-
         clearPageData();
         new Handler().post(new Runnable() {
             @Override
@@ -140,7 +139,7 @@ public class NewsFragment extends LazyLoadFragment {
                 swipeRefreshLayout.setRefreshing(true);
             }
         });
-        MyVolley.addRequest(new JsonObjectRequest(getUrl(),
+        MyVolley.addRequest(new JsonObjectRequest(getUrl(pageNo),
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -161,14 +160,13 @@ public class NewsFragment extends LazyLoadFragment {
 
     private void loadMore() {
 
-        pageNo++;
         loadingMore = true;
-
-        MyVolley.addRequest(new JsonObjectRequest(getUrl(),
+        MyVolley.addRequest(new JsonObjectRequest(getUrl(pageNo + 1),
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         loadingMore = false;
+                        pageNo++;
                         newsAdapter.getNewsList().addAll(parseNewsList(response));
                         newsAdapter.notifyDataSetChanged();
                         checkLastPage(response);
@@ -192,17 +190,21 @@ public class NewsFragment extends LazyLoadFragment {
         lastPage = false;
     }
 
-    private String getUrl() {
+    private String getUrl(int pageNo) {
 
-        Uri.Builder builder = Uri.parse(ConfigUtils.getBaseUrl()+"/api/v1/news?").buildUpon();
-        builder.appendQueryParameter("pageNo", pageNo.toString());
-        builder.appendQueryParameter("pageSize", PAGE_SIZE.toString());
-        Menu menu = (Menu)getArguments().getSerializable("menu");
-        builder.appendQueryParameter("regionId",menu.getId());
-
-        return builder.toString();
+        return getUrl(pageNo, "");
     }
 
+    private String getUrl(int pageNo, String title) {
+
+        Uri.Builder builder = Uri.parse(ConfigUtils.getBaseUrl() + "/api/v1/news?").buildUpon();
+        builder.appendQueryParameter("pageNo", pageNo + "");
+        builder.appendQueryParameter("pageSize", PAGE_SIZE.toString());
+        Menu menu = (Menu) getArguments().getSerializable("menu");
+        builder.appendQueryParameter("regionId", menu.getId());
+        builder.appendQueryParameter("title", title);
+        return builder.toString();
+    }
 
     private List<News> parseNewsList(JSONObject response) {
 
@@ -213,11 +215,18 @@ public class NewsFragment extends LazyLoadFragment {
             String title = JSONUtils.getString(content, "title", "");
             JSONObject contentData = JSONUtils.getJSONObject(content, "contentData", null);
             String data = JSONUtils.getString(contentData, "data", "");
-            String picture = JSONUtils.getString(content,"picture","");
-            newsList.add(new News(title, new Date(), data, 11,picture));
+            String picture = JSONUtils.getString(content, "picture", "");
+            newsList.add(new News(title, new Date(), data, 11, picture));
         }
-
         return newsList;
+    }
+
+    // 检查是否所有数据加载完毕
+    private void checkLastPage(JSONObject response) {
+
+        if (lastPage = isLastPage(response)) {
+            ToastUtils.show(noData(response) ? "暂无数据" : "已加载全部数据");
+        }
     }
 
     private boolean isLastPage(JSONObject response) {
@@ -225,11 +234,9 @@ public class NewsFragment extends LazyLoadFragment {
         return JSONUtils.getBoolean(response, "lastPage", false);
     }
 
-    private void checkLastPage(JSONObject response) {
+    private boolean noData(JSONObject response) {
 
-        if (lastPage = isLastPage(response)) {
-            ToastUtils.show("已加载全部数据");
-        }
+        return JSONUtils.getInt(response, "totalPages", 0) == 0;
     }
 
 }
