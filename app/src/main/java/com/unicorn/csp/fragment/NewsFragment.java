@@ -142,8 +142,7 @@ public class NewsFragment extends LazyLoadFragment {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        // todo 这个常会报空指针错误
-                        swipeRefreshLayout.setRefreshing(false);
+                        stopRefreshing();
                         newsAdapter.setNewsList(parseNewsList(response));
                         newsAdapter.notifyDataSetChanged();
                         checkLastPage(response);
@@ -152,7 +151,7 @@ public class NewsFragment extends LazyLoadFragment {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError volleyError) {
-                        swipeRefreshLayout.setRefreshing(false);
+                        stopRefreshing();
                         ToastUtils.show(VolleyErrorHelper.getErrorMessage(volleyError));
                     }
                 }));
@@ -233,6 +232,13 @@ public class NewsFragment extends LazyLoadFragment {
     private boolean noData(JSONObject response) {
 
         return JSONUtils.getInt(response, "totalPages", 0) == 0;
+    }
+
+    private void stopRefreshing() {
+
+        if (swipeRefreshLayout != null) {
+            swipeRefreshLayout.setRefreshing(false);
+        }
     }
 
 }
