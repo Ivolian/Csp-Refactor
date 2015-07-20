@@ -2,6 +2,7 @@ package com.unicorn.csp.activity;
 
 import android.content.Intent;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -39,6 +40,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.OnClick;
 import im.dino.dbinspector.activities.DbInspectorActivity;
+
 
 public class MainActivity extends ToolbarActivity {
 
@@ -243,6 +245,7 @@ public class MainActivity extends ToolbarActivity {
             return;
         }
 
+        // 1级 ViewPagerFragment
         ViewPagerFragmentL1 viewPagerFragmentL1 = new ViewPagerFragmentL1();
         Bundle bundle = new Bundle();
         bundle.putSerializable("menu", menu);
@@ -265,15 +268,22 @@ public class MainActivity extends ToolbarActivity {
         return result.get(0);
     }
 
+
+    // ========================== 查询 ==========================
+
     @Override
     public boolean onCreateOptionsMenu(android.view.Menu menu) {
 
         getMenuInflater().inflate(R.menu.activity_main, menu);
-        menu.findItem(R.id.search).setIcon(
-                new IconDrawable(this, Iconify.IconValue.zmdi_search)
-                        .colorRes(android.R.color.white)
-                        .actionBarSize());
+        menu.findItem(R.id.search).setIcon(getSearchDrawable());
         return super.onCreateOptionsMenu(menu);
+    }
+
+    private Drawable getSearchDrawable() {
+
+        return new IconDrawable(this, Iconify.IconValue.zmdi_search)
+                .colorRes(android.R.color.white)
+                .actionBarSize();
     }
 
     @Override
@@ -286,4 +296,5 @@ public class MainActivity extends ToolbarActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
 }

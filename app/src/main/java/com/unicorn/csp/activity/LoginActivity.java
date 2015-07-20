@@ -108,15 +108,14 @@ public class LoginActivity extends ToolbarActivity {
 
     private void syncMenuFromServer() {
 
-        MyVolley.addRequest(new JsonObjectRequest(ConfigUtils.getBaseUrl() + "/api/v1/region/all2",
+        MyVolley.addRequest(new JsonObjectRequest(ConfigUtils.getBaseUrl() + "/api/v1/region/all2", // todo modify the url on server
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        MyApplication.getMenuDao().deleteAll();
                         persistenceMenu(response);
                         loginDialog.dismiss();
 
-                        // todo login
+                        // todo login if success
                         ToastUtils.show("登录成功");
                         storeLoginInfo();
                         startActivityAndFinish(MainActivity.class);
@@ -132,6 +131,8 @@ public class LoginActivity extends ToolbarActivity {
     }
 
     private void persistenceMenu(JSONObject rootItem) {
+
+        MyApplication.getMenuDao().deleteAll();
 
         Menu rootMenu = itemToMenuSimple(rootItem);
         rootMenu.setParent(null);

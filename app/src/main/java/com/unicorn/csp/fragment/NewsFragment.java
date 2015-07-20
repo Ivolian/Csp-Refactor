@@ -91,8 +91,6 @@ public class NewsFragment extends LazyLoadFragment {
         reload();
     }
 
-
-
     private void initSwipeRefreshLayout() {
 
         swipeRefreshLayout.setColorSchemeColors(ColorOverrider.getInstance(getActivity()).getColorAccent());
