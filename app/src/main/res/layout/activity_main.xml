@@ -31,7 +31,7 @@
         android:layout_height="7dp"
         android:layout_gravity="bottom"
         android:layout_marginBottom="60dp"
-        android:background="@drawable/main_bottom_tab_shadow" />
+        android:background="@drawable/bottom_tab_shadow" />
 
 </FrameLayout>
 
