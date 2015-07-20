@@ -35,7 +35,8 @@
         <activity android:name=".activity.NewsContentActivity" />
         <activity android:name=".activity.CommentActivity" />
         <activity android:name=".activity.AddCommentActivity" />
-        <activity android:name="im.dino.dbinspector.activities.DbInspectorActivity"></activity>
+        <activity android:name="im.dino.dbinspector.activities.DbInspectorActivity"/>
+        <activity android:name=".activity.SearchActivity"/>
     </application>
 
 </manifest>

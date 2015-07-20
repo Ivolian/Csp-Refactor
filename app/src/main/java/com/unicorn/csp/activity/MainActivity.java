@@ -5,6 +5,7 @@ import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
@@ -12,6 +13,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.malinskiy.materialicons.IconDrawable;
+import com.malinskiy.materialicons.Iconify;
 import com.mikepenz.iconics.typeface.FontAwesome;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
@@ -262,4 +265,25 @@ public class MainActivity extends ToolbarActivity {
         return result.get(0);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(android.view.Menu menu) {
+
+        getMenuInflater().inflate(R.menu.activity_main, menu);
+        menu.findItem(R.id.search).setIcon(
+                new IconDrawable(this, Iconify.IconValue.zmdi_search)
+                        .colorRes(android.R.color.white)
+                        .actionBarSize());
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.search:
+                startActivity(SearchActivity.class);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }
