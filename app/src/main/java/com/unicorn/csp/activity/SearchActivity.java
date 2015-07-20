@@ -15,9 +15,11 @@ import com.malinskiy.materialicons.IconDrawable;
 import com.malinskiy.materialicons.Iconify;
 import com.quinny898.library.persistentsearch.SearchBox;
 import com.quinny898.library.persistentsearch.SearchResult;
+import com.unicorn.csp.MyApplication;
 import com.unicorn.csp.R;
 import com.unicorn.csp.activity.base.ButterKnifeActivity;
 import com.unicorn.csp.adapter.recycle.NewsAdapter;
+import com.unicorn.csp.greendao.SearchHistory;
 import com.unicorn.csp.model.News;
 import com.unicorn.csp.other.greenmatter.ColorOverrider;
 import com.unicorn.csp.utils.ConfigUtils;
@@ -242,6 +244,24 @@ private String title = "";
 //        super.onActivityResult(requestCode, resultCode, data);
 //    }
 
+
+    @Override
+    protected void onDestroy() {
+
+
+        super.onDestroy();
+
+        MyApplication.getSearchHistoryDao().deleteAll();
+        List<String> titles = (List<String>)queue;
+        for (int i=0;i!=titles.size();i++){
+            String title = titles.get(i);
+            SearchHistory searchHistory = new SearchHistory();
+            searchHistory.setTitle(title);
+            MyApplication.getSearchHistoryDao().insert(searchHistory);
+        }
+
+    }
+
     private void initViews(){
 
         initSwipeRefreshLayout();
@@ -249,9 +269,19 @@ private String title = "";
         reload();
 
 
+
+
         searchBox.enableVoiceRecognition(this);
         searchBox.setLogoText("请输入查询内容");
 
+        Drawable drawable= new IconDrawable(SearchActivity.this, Iconify.IconValue.zmdi_time)
+                .colorRes(android.R.color.darker_gray)
+                .actionBarSize();
+        List<SearchHistory> searchHistoryList = MyApplication.getSearchHistoryDao().loadAll();
+        for (SearchHistory searchHistory:searchHistoryList){
+            searchBox.addSearchable(new SearchResult(searchHistory.getTitle(), drawable));
+            queue.add(searchHistory.getTitle());
+        }
 
 
 
@@ -276,7 +306,6 @@ private String title = "";
             @Override
             public void onSearch(String searchTerm) {
                 if (queue.contains(searchTerm)){
-                    ToastUtils.show("true");
                     queue.remove(searchTerm);
                 }
                 queue.add(searchTerm);
@@ -285,7 +314,6 @@ private String title = "";
                 }
 
                 searchBox.clearSearchable();
-searchBox.startVoiceRecognition();
                 Drawable drawable= new IconDrawable(SearchActivity.this, Iconify.IconValue.zmdi_time)
                     .colorRes(android.R.color.darker_gray)
                     .actionBarSize();
@@ -299,8 +327,18 @@ searchBox.startVoiceRecognition();
                     searchBox.addSearchable(new SearchResult(title,drawable));
                 }
 
+
                 title = searchTerm;
+
+                //
+
+
+
+
+
                 reload();
+
+
             }
 
             @Override

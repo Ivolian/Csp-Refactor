@@ -7,6 +7,7 @@ import com.bugsnag.android.Bugsnag;
 import com.unicorn.csp.greendao.DaoMaster;
 import com.unicorn.csp.greendao.DaoSession;
 import com.unicorn.csp.greendao.MenuDao;
+import com.unicorn.csp.greendao.SearchHistoryDao;
 import com.unicorn.csp.volley.MyVolley;
 
 
@@ -40,6 +41,11 @@ public class MyApplication extends Application {
     public static MenuDao getMenuDao(){
 
         return  daoSession.getMenuDao();
+    }
+
+    public static SearchHistoryDao getSearchHistoryDao(){
+
+        return daoSession.getSearchHistoryDao();
     }
 
 
