@@ -112,7 +112,7 @@ public class LoginActivity extends ToolbarActivity {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        persistenceMenu(response);
+                        persistMenu(response);
                         loginDialog.dismiss();
 
                         // todo login if success
@@ -130,7 +130,7 @@ public class LoginActivity extends ToolbarActivity {
                 }));
     }
 
-    private void persistenceMenu(JSONObject rootItem) {
+    private void persistMenu(JSONObject rootItem) {
 
         MyApplication.getMenuDao().deleteAll();
 

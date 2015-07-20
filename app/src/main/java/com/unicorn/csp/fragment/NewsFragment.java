@@ -129,7 +129,7 @@ public class NewsFragment extends LazyLoadFragment {
         });
     }
 
-    private void reload() {
+    public void reload() {
 
         clearPageData();
         new Handler().post(new Runnable() {
@@ -195,8 +195,7 @@ public class NewsFragment extends LazyLoadFragment {
         builder.appendQueryParameter("pageNo", pageNo + "");
         builder.appendQueryParameter("pageSize", PAGE_SIZE.toString());
         Menu menu = (Menu) getArguments().getSerializable("menu");
-        builder.appendQueryParameter("regionId", menu.getId());
-
+        builder.appendQueryParameter("regionId", menu == null ? "" : menu.getId());
         String title = getArguments().getString("title");
         builder.appendQueryParameter("title", title == null ? "" : title);
         return builder.toString();
