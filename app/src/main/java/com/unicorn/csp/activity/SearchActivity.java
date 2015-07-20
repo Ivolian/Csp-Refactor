@@ -275,12 +275,15 @@ private String title = "";
 
             @Override
             public void onSearch(String searchTerm) {
+                if (queue.contains(searchTerm)){
+                    ToastUtils.show("true");
+                    queue.remove(searchTerm);
+                }
                 queue.add(searchTerm);
                 if (queue.size() == 6){
                     queue.remove();
                 }
 
-//                searchBox.clearResults();
                 searchBox.clearSearchable();
 searchBox.startVoiceRecognition();
                 Drawable drawable= new IconDrawable(SearchActivity.this, Iconify.IconValue.zmdi_time)
@@ -289,6 +292,8 @@ searchBox.startVoiceRecognition();
 
 
                 List<String> titles = (List<String>)queue;
+
+
                 for (int i=0;i!=titles.size();i++){
                     String title = titles.get(titles.size()-1-i);
                     searchBox.addSearchable(new SearchResult(title,drawable));
