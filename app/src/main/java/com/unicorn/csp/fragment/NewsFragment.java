@@ -142,6 +142,7 @@ public class NewsFragment extends LazyLoadFragment {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
+                        // todo 这个常会报空指针错误
                         swipeRefreshLayout.setRefreshing(false);
                         newsAdapter.setNewsList(parseNewsList(response));
                         newsAdapter.notifyDataSetChanged();
