@@ -35,13 +35,49 @@ public class ViewPagerFragmentL2 extends ButterKnifeFragment {
         return rootView;
     }
 
+
     private void initViews() {
 
-        com.unicorn.csp.greendao.Menu menu =(com.unicorn.csp.greendao.Menu) getArguments().getSerializable("menu");
+        final com.unicorn.csp.greendao.Menu menu = (com.unicorn.csp.greendao.Menu) getArguments().getSerializable("menu");
         viewPager.setAdapter(new ViewPagerAdapterL2(getChildFragmentManager(), menu));
         viewPager.setOffscreenPageLimit(menu.getChildren().size());
-        smartTabLayout.setViewPager(viewPager);
         smartTabLayout.setAlpha(0.8f);
+        smartTabLayout.setViewPager(viewPager);
+//        smartTabLayout.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+//            @Override
+//            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+//            }
+//
+//            @Override
+//            public void onPageSelected(int position) {
+//                for (int i = 0; i != menu.getChildren().size(); i++) {
+//                    TextView textView = (TextView) smartTabLayout.getTabAt(i);
+//                    if (i == viewPager.getCurrentItem()) {
+//                        textView.setTextColor(getResources().getColor(android.R.color.white));
+//                    } else {
+//                        textView.setTextColor(ColorOverrider.getInstance(getActivity()).getColorAccent());
+//                    }
+//
+//                }
+//            }
+//
+//            @Override
+//            public void onPageScrollStateChanged(int state) {
+////                if (state == 2) {
+////                    for (int i = 0; i != menu.getChildren().size(); i++) {
+////                        TextView textView = (TextView) smartTabLayout.getTabAt(i);
+////                        if (i == viewPager.getCurrentItem()) {
+////                            textView.setTextColor(getResources().getColor(android.R.color.white));
+////                        } else {
+////                            textView.setTextColor(ColorOverrider.getInstance(getActivity()).getColorAccent());
+////                        }
+////
+////                    }
+////                }
+//            }
+//        });
+//        viewPager.setCurrentItem(0);
+
     }
 
 }
