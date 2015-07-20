@@ -34,6 +34,9 @@ public class SearchActivity extends ButterKnifeActivity implements SearchBox.Sea
 
     NewsFragment newsFragment;
 
+
+    // ================================ onCreate ================================
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -44,50 +47,57 @@ public class SearchActivity extends ButterKnifeActivity implements SearchBox.Sea
 
     private void initViews() {
 
-        initSearchBoxAndQueue();
+        initSearchBox();
         initNewsFragment();
     }
 
-    private void initSearchBoxAndQueue() {
+    private void initSearchBox() {
 
         searchBox.enableVoiceRecognition(this);
-        searchBox.setLogoText("请输入查询内容");
         searchBox.setSearchListener(this);
-        List<SearchHistory> searchHistoryList = MyApplication.getSearchHistoryDao().loadAll();
-        for (SearchHistory searchHistory : searchHistoryList) {
+        searchBox.setLogoText("请输入查询内容");
+        initTitleQueue();
+        refreshSearchBox();
+    }
+
+    private void initTitleQueue() {
+
+        for (SearchHistory searchHistory : MyApplication.getSearchHistoryDao().loadAll()) {
             titleQueue.add(searchHistory.getTitle());
         }
-        refreshSearchBox();
     }
 
     private void initNewsFragment() {
 
         newsFragment = new NewsFragment();
-        // 不知道为什么，这里 newsFragment 不会调用 setUserVisibleHint 方法，所以需要手动调用 initPrepare 方法
+        // 不知道为什么，这里 newsFragment 没有调用 setUserVisibleHint 方法，需要手动调用 initPrepare 方法
         newsFragment.initPrepare();
         Bundle bundle = new Bundle();
         newsFragment.setArguments(bundle);
         getSupportFragmentManager().beginTransaction().replace(R.id.container, newsFragment).commit();
     }
 
-    // ================================ 语音功能 ================================
+
+    // ================================ 语音识别 ================================
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         if (requestCode == SearchBox.VOICE_RECOGNITION_CODE && resultCode == RESULT_OK) {
             ArrayList<String> matches = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+            // 过滤标点符号，语音识别会自动添加标点符号，太智能了...
             matches.set(0, matches.get(0).replaceAll("\\p{P}", ""));
             searchBox.populateEditText(matches);
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+
     // ================================ 查询按钮被点击 ================================
 
     private void onSearchBtnClick(String title) {
 
-        search(title);
+        reloadNews(title);
         addTitleToQueue(title);
         refreshSearchBox();
     }
@@ -103,6 +113,7 @@ public class SearchActivity extends ButterKnifeActivity implements SearchBox.Sea
         }
     }
 
+
     // ================================ persistSearchHistory ================================
 
     @Override
@@ -117,9 +128,7 @@ public class SearchActivity extends ButterKnifeActivity implements SearchBox.Sea
         MyApplication.getSearchHistoryDao().deleteAll();
         List<SearchHistory> searchHistoryList = new ArrayList<>();
         for (String title : titleQueue) {
-            SearchHistory searchHistory = new SearchHistory();
-            searchHistory.setTitle(title);
-            searchHistoryList.add(searchHistory);
+            searchHistoryList.add(new SearchHistory(title));
         }
         MyApplication.getSearchHistoryDao().insertInTx(searchHistoryList);
     }
@@ -137,7 +146,7 @@ public class SearchActivity extends ButterKnifeActivity implements SearchBox.Sea
         searchBox.setSearchables(searchResultList);
     }
 
-    private void search(String title) {
+    private void reloadNews(String title) {
 
         newsFragment.getArguments().putString("title", title);
         newsFragment.reload();
@@ -145,7 +154,7 @@ public class SearchActivity extends ButterKnifeActivity implements SearchBox.Sea
 
     private Drawable getHistoryDrawable() {
 
-        return new IconDrawable(SearchActivity.this, Iconify.IconValue.zmdi_time)
+        return new IconDrawable(this, Iconify.IconValue.zmdi_time)
                 .colorRes(android.R.color.darker_gray)
                 .actionBarSize();
     }
