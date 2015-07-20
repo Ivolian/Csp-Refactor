@@ -1,7 +1,9 @@
 package com.unicorn.csp.activity;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
 
 import com.malinskiy.materialicons.IconDrawable;
 import com.malinskiy.materialicons.Iconify;
@@ -48,10 +50,11 @@ public class SearchActivity extends ButterKnifeActivity implements SearchBox.Sea
 
     private void initSearchBoxAndQueue() {
 
+        searchBox.enableVoiceRecognition(this);
         searchBox.setLogoText("请输入查询内容");
         searchBox.setSearchListener(this);
         List<SearchHistory> searchHistoryList = MyApplication.getSearchHistoryDao().loadAll();
-        for (SearchHistory searchHistory:searchHistoryList){
+        for (SearchHistory searchHistory : searchHistoryList) {
             titleQueue.add(searchHistory.getTitle());
         }
         refreshSearchBox();
@@ -67,12 +70,30 @@ public class SearchActivity extends ButterKnifeActivity implements SearchBox.Sea
         getSupportFragmentManager().beginTransaction().replace(R.id.container, newsFragment).commit();
     }
 
+    // ================================ 语音功能 ================================
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == SearchBox.VOICE_RECOGNITION_CODE && resultCode == RESULT_OK) {
+            ArrayList<String> matches = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+            matches.set(0, matches.get(0).replaceAll("\\p{P}", ""));
+            searchBox.populateEditText(matches);
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 
     // ================================ 查询按钮被点击 ================================
 
     private void onSearchBtnClick(String title) {
 
         search(title);
+        addTitleToQueue(title);
+        refreshSearchBox();
+    }
+
+    private void addTitleToQueue(String title) {
+
         if (titleQueue.contains(title)) {
             titleQueue.remove(title);
         }
@@ -80,9 +101,7 @@ public class SearchActivity extends ButterKnifeActivity implements SearchBox.Sea
         if (titleQueue.size() == 6) {
             titleQueue.remove();
         }
-        refreshSearchBox();
     }
-
 
     // ================================ persistSearchHistory ================================
 
