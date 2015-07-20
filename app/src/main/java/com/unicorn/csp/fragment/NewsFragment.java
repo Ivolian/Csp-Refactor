@@ -191,17 +191,14 @@ public class NewsFragment extends LazyLoadFragment {
 
     private String getUrl(int pageNo) {
 
-        return getUrl(pageNo, "");
-    }
-
-    private String getUrl(int pageNo, String title) {
-
         Uri.Builder builder = Uri.parse(ConfigUtils.getBaseUrl() + "/api/v1/news?").buildUpon();
         builder.appendQueryParameter("pageNo", pageNo + "");
         builder.appendQueryParameter("pageSize", PAGE_SIZE.toString());
         Menu menu = (Menu) getArguments().getSerializable("menu");
         builder.appendQueryParameter("regionId", menu.getId());
-        builder.appendQueryParameter("title", title);
+
+        String title = getArguments().getString("title");
+        builder.appendQueryParameter("title", title == null ? "" : title);
         return builder.toString();
     }
 
