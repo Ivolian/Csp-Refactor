@@ -1,5 +1,6 @@
 package com.unicorn.csp.activity;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.widget.CheckBox;
 
@@ -7,6 +8,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.ivo.flatbutton.FlatButton;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.unicorn.csp.MyApplication;
@@ -59,6 +61,7 @@ public class LoginActivity extends ToolbarActivity {
 
     MaterialDialog loginDialog;
 
+    MaterialDialog syncMenuDialog;
 
     // ========================== onCreate ==========================
 
@@ -102,23 +105,22 @@ public class LoginActivity extends ToolbarActivity {
     @OnClick(R.id.btn_login)
     public void onLoginBtnClick() {
 
-        loginDialog = showLoginDialog();
-        syncMenuFromServer();
+        login();
     }
 
-    private void syncMenuFromServer() {
+    private void login() {
 
-        MyVolley.addRequest(new JsonObjectRequest(ConfigUtils.getBaseUrl() + "/api/v1/region/all2", // todo modify the url on server
-                new Response.Listener<JSONObject>() {
+        loginDialog = showLoginDialog();
+        MyVolley.addRequest(new StringRequest(getLoginUrl(),
+                new Response.Listener<String>() {
                     @Override
-                    public void onResponse(JSONObject response) {
-                        persistMenu(response);
+                    public void onResponse(String response) {
                         loginDialog.dismiss();
-
-                        // todo login if success
-                        ToastUtils.show("登录成功");
-                        storeLoginInfo();
-                        startActivityAndFinish(MainActivity.class);
+                        if (response.equals(Boolean.TRUE.toString())) {
+                            syncMenuFromServer();
+                        } else {
+                            ToastUtils.show("账号或密码错误");
+                        }
                     }
                 },
                 new Response.ErrorListener() {
@@ -128,6 +130,65 @@ public class LoginActivity extends ToolbarActivity {
                         ToastUtils.show(VolleyErrorHelper.getErrorMessage(volleyError));
                     }
                 }));
+    }
+
+    private MaterialDialog showLoginDialog() {
+
+        return new MaterialDialog.Builder(this)
+                .title("登录中")
+                .content("请稍后...")
+                .progress(true, 0)
+                .cancelable(false)
+                .show();
+    }
+
+    private String getLoginUrl() {
+
+        Uri.Builder builder = Uri.parse(ConfigUtils.getBaseUrl() + "/api/v1/email/login?").buildUpon();
+        builder.appendQueryParameter("username", getAccount());
+        builder.appendQueryParameter("password", getPassword());
+        return builder.toString();
+    }
+
+    private void doAfterLoginSuccess() {
+
+        storeLoginInfo();
+//        startActivityAndFinish(MainActivity.class);
+    }
+
+
+    // ========================== 同步菜单 ==========================
+
+    private void syncMenuFromServer() {
+
+        syncMenuDialog = showSyncMenuDialog();
+        MyVolley.addRequest(new JsonObjectRequest(ConfigUtils.getBaseUrl() + "/api/v1/region/all2", // todo modify the url on server
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        persistMenu(response);
+                        syncMenuDialog.dismiss();
+                        storeLoginInfo();
+                        startActivityAndFinish(MainActivity.class);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+                        syncMenuDialog.dismiss();
+                        ToastUtils.show(VolleyErrorHelper.getErrorMessage(volleyError));
+                    }
+                }));
+    }
+
+    private MaterialDialog showSyncMenuDialog() {
+
+        return new MaterialDialog.Builder(this)
+                .title("同步菜单中")
+                .content("请稍后...")
+                .progress(true, 0)
+                .cancelable(false)
+                .show();
     }
 
     private void persistMenu(JSONObject rootItem) {
@@ -164,16 +225,6 @@ public class LoginActivity extends ToolbarActivity {
         return menu;
     }
 
-    private MaterialDialog showLoginDialog() {
-
-        return new MaterialDialog.Builder(this)
-                .title("登录中")
-                .content("请稍后...")
-                .progress(true, 0)
-                .cancelable(false)
-                .show();
-    }
-
 
     // ========================== 记住密码 ==========================
 
@@ -193,6 +244,10 @@ public class LoginActivity extends ToolbarActivity {
             etAccount.setText(tinyDB.getString(SF_ACCOUNT));
             etPassword.setText(tinyDB.getString(SF_PASSWORD));
         }
+
+        // todo remove
+//        etAccount.setText("changjiang@withub.net.cn");
+//        etPassword.setText("111");
     }
 
 

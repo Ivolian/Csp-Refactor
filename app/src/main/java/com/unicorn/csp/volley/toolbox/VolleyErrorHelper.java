@@ -10,6 +10,7 @@ import com.android.volley.VolleyError;
 
 public class VolleyErrorHelper {
 
+    // todo error 可能不是所要表达的
     public static String getErrorMessage(VolleyError volleyError) {
 
         if (volleyError instanceof NoConnectionError) {
