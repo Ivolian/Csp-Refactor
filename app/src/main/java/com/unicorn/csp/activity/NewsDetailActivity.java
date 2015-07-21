@@ -101,6 +101,7 @@ public class NewsDetailActivity extends ToolbarActivity implements ObservableScr
                 break;
             case 2:
                 // todo
+                startActivity(CommentActivity.class);
                 break;
             case 3:
                 startAddCommentActivity();
