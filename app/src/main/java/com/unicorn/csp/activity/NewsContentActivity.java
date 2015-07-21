@@ -2,9 +2,11 @@ package com.unicorn.csp.activity;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
+import com.github.ksoichiro.android.observablescrollview.ObservableWebView;
+import com.github.ksoichiro.android.observablescrollview.ScrollState;
 import com.jauker.widget.BadgeView;
 import com.malinskiy.materialicons.widget.IconTextView;
 import com.unicorn.csp.R;
@@ -16,10 +18,10 @@ import com.unicorn.csp.utils.ToastUtils;
 import butterknife.Bind;
 import butterknife.OnClick;
 
-public class NewsContentActivity extends ToolbarActivity {
+public class NewsContentActivity extends ToolbarActivity implements ObservableScrollViewCallbacks {
 
     @Bind(R.id.webView)
-    WebView webView;
+    ObservableWebView webView;
 
     @Bind(R.id.itv_thumb)
     IconTextView itvThumb;
@@ -53,7 +55,7 @@ public class NewsContentActivity extends ToolbarActivity {
 
     private void initWebView() {
 
-     ;
+     webView.setScrollViewCallbacks(this);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setDefaultTextEncodingName("UTF-8");
         webView.loadData(getNews().getData(), "text/html; charset=UTF-8", null);
@@ -105,4 +107,20 @@ public class NewsContentActivity extends ToolbarActivity {
         startActivity(AddCommentActivity.class);
     }
 
+
+    @Override
+    public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
+
+    }
+
+    @Override
+    public void onDownMotionEvent() {
+
+    }
+
+    @Override
+    public void onUpOrCancelMotionEvent(ScrollState scrollState) {
+
+        ToastUtils.show(scrollState+"");
+    }
 }

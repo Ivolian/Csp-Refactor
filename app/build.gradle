@@ -48,5 +48,6 @@ dependencies {
     compile 'im.dino:dbinspector:3.2.1@aar'
     compile 'com.quinny898.library.persistentsearch:library:1.0.0-SNAPSHOT'
     compile(name: 'SmartTabLayout-mc', ext: 'aar')
+    compile 'com.github.ksoichiro:android-observablescrollview:1.5.2'
 
 }
