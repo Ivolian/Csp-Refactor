@@ -31,10 +31,8 @@ import com.unicorn.csp.fragment.TestFragment;
 import com.unicorn.csp.fragment.ViewPagerFragmentL1;
 import com.unicorn.csp.greendao.Menu;
 import com.unicorn.csp.greendao.MenuDao;
-import com.unicorn.csp.other.TinyDB;
 import com.unicorn.csp.other.greenmatter.ColorOverrider;
 import com.unicorn.csp.other.greenmatter.SelectColorActivity;
-import com.unicorn.csp.utils.ConfigUtils;
 import com.unicorn.csp.utils.ToastUtils;
 
 import java.util.List;
@@ -71,14 +69,11 @@ public class MainActivity extends ToolbarActivity {
         initToolbar("", false);
         initViews();
 
-
         if (savedInstanceState == null) {
             selectBottomTab(0, true);
         } else {
             selectBottomTab(savedInstanceState.getInt(SELECTED), false);
         }
-
-        ToastUtils.show(ConfigUtils.getUserId());
     }
 
     private void initViews() {
