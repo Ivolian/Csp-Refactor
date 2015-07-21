@@ -8,6 +8,8 @@ import java.util.Date;
 
 public class News implements Parcelable {
 
+    private String id;
+
     private String title;
 
     private Date time;
@@ -26,6 +28,7 @@ public class News implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.id);
         dest.writeString(this.title);
         dest.writeLong(time != null ? time.getTime() : -1);
         dest.writeString(this.data);
@@ -33,10 +36,20 @@ public class News implements Parcelable {
         dest.writeString(this.picture);
     }
 
+    public News(String id, String title, Date time, String data, int commentCount, String picture) {
+        this.id = id;
+        this.title = title;
+        this.time = time;
+        this.data = data;
+        this.commentCount = commentCount;
+        this.picture = picture;
+    }
+
     public News() {
     }
 
     protected News(Parcel in) {
+        this.id = in.readString();
         this.title = in.readString();
         long tmpTime = in.readLong();
         this.time = tmpTime == -1 ? null : new Date(tmpTime);
@@ -55,12 +68,12 @@ public class News implements Parcelable {
         }
     };
 
-    public News(String title, Date time, String data, int commentCount, String picture) {
-        this.title = title;
-        this.time = time;
-        this.data = data;
-        this.commentCount = commentCount;
-        this.picture = picture;
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getTitle() {

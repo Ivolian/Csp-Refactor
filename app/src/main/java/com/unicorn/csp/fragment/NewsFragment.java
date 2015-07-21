@@ -207,11 +207,12 @@ public class NewsFragment extends LazyLoadFragment {
         List<News> newsList = new ArrayList<>();
         for (int i = 0; i != contents.length(); i++) {
             JSONObject content = JSONUtils.getJSONObject(contents, i);
+            String id = JSONUtils.getString(content,"id","");
             String title = JSONUtils.getString(content, "title", "");
             JSONObject contentData = JSONUtils.getJSONObject(content, "contentData", null);
             String data = JSONUtils.getString(contentData, "data", "");
             String picture = JSONUtils.getString(content, "picture", "");
-            newsList.add(new News(title, new Date(), data, 11, picture));
+            newsList.add(new News(id,title, new Date(), data, 11, picture));
         }
         return newsList;
     }

@@ -1,6 +1,7 @@
 package com.unicorn.csp.activity;
 
 import android.animation.ArgbEvaluator;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -99,10 +100,10 @@ public class NewsDetailActivity extends ToolbarActivity implements ObservableScr
                 // todo
                 break;
             case 2:
-                startActivity(CommentActivity.class);
+                // todo
                 break;
             case 3:
-                startActivity(AddCommentActivity.class);
+                startAddCommentActivity();
                 break;
         }
     }
@@ -148,6 +149,14 @@ public class NewsDetailActivity extends ToolbarActivity implements ObservableScr
         return new IconDrawable(this, iconValue)
                 .colorRes(android.R.color.white)
                 .sizeDp(size);
+    }
+
+
+    private void startAddCommentActivity() {
+
+        Intent intent = new Intent(this, AddCommentActivity.class);
+        intent.putExtra("newsId", getNews().getId());
+        startActivity(intent);
     }
 
 }
