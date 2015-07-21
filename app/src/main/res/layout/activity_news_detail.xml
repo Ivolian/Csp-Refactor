@@ -13,11 +13,11 @@
     <include layout="@layout/toolbar_with_shadow" />
 
     <com.linroid.filtermenu.library.FilterMenuLayout
-        android:id="@+id/filter_menu1"
+        android:id="@+id/filter_menu_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:fm_centerBottom="40dp"
-        app:fm_centerRight="40dp"
+        app:fm_centerBottom="100dp"
+        app:fm_centerRight="48dp"
         app:fm_collapsedRadius="24dp"
         app:fm_expandedRadius="96dp"
         app:fm_primaryColor="?attr/colorAccent" />

@@ -22,10 +22,17 @@ import com.unicorn.csp.other.greenmatter.ColorOverrider;
 import butterknife.Bind;
 
 
-public class NewsDetailActivity extends ToolbarActivity implements ObservableScrollViewCallbacks {
+public class NewsDetailActivity extends ToolbarActivity implements ObservableScrollViewCallbacks, FilterMenu.OnMenuChangeListener {
+
 
     @Bind(R.id.observable_webview)
     ObservableWebView observableWebView;
+
+    @Bind(R.id.filter_menu_layout)
+    FilterMenuLayout filterMenuLayout;
+
+
+    // =============================== onCreate ===============================
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,51 +43,82 @@ public class NewsDetailActivity extends ToolbarActivity implements ObservableScr
         initViews();
     }
 
-    @Bind(R.id.filter_menu1)
-    FilterMenuLayout layout1 ;
-
-    // todo 考虑到节省流量的问题，news 应该在这再发一次请求去取
-    private News getNews(){
-
-       return getIntent().getParcelableExtra("news");
-    }
-
     private void initViews() {
 
         initWebView();
-
-
-        attachMenu1(layout1);
-//
-//
-        int darkerColor = (int) new ArgbEvaluator().evaluate(0.7f, Color.parseColor("#000000"), ColorOverrider.getInstance(this).getColorAccent());
-        layout1.setPrimaryDarkColor(darkerColor);
-    }
-
-
-    private FilterMenu attachMenu1(FilterMenuLayout layout){
-        return new FilterMenu.Builder(this)
-                .addItem(getHistoryDrawable())
-                .addItem(getHistoryDrawable())
-                .addItem(getHistoryDrawable())
-                .addItem(getHistoryDrawable())
-                .attach(layout)
-                .build();
-
+        initFilterMenuLayout();
     }
 
     private void initWebView() {
 
-     observableWebView.setScrollViewCallbacks(this);
         observableWebView.getSettings().setJavaScriptEnabled(true);
-        observableWebView.getSettings().setDefaultTextEncodingName("UTF-8");
+        // todo try remove
+//        observableWebView.getSettings().setDefaultTextEncodingName("UTF-8");
+        // todo 考虑到节省流量的问题，news 应该在这再发一次请求去取
         observableWebView.loadData(getNews().getData(), "text/html; charset=UTF-8", null);
         observableWebView.setWebViewClient(new WebViewClient());
+        observableWebView.setScrollViewCallbacks(this);
+    }
+
+    private News getNews() {
+
+        return getIntent().getParcelableExtra("news");
+    }
+
+    private void initFilterMenuLayout() {
+
+        int darkerColor = (int) new ArgbEvaluator().evaluate(0.7f, Color.parseColor("#000000"), ColorOverrider.getInstance(this).getColorAccent());
+        filterMenuLayout.setPrimaryDarkColor(darkerColor);
+        attachMenu(filterMenuLayout);
+    }
+
+    private FilterMenu attachMenu(FilterMenuLayout layout) {
+
+        // 添加评论，查看评论，点赞，关注
+        return new FilterMenu.Builder(this)
+                .addItem(getIconDrawable(Iconify.IconValue.zmdi_star, 28))
+                .addItem(getIconDrawable(Iconify.IconValue.zmdi_thumb_up, 24))
+                .addItem(getIconDrawable(Iconify.IconValue.zmdi_comment_more, 25))
+                .addItem(getIconDrawable(Iconify.IconValue.zmdi_comment_text_alt, 25))
+                .attach(layout)
+                .withListener(this)
+                .build();
     }
 
 
+    // =============================== FilterMenu 点击事件 ===============================
+
+    @Override
+    public void onMenuItemClick(View view, int position) {
+
+        switch (position) {
+            case 0:
+                // todo
+                break;
+            case 1:
+                // todo
+                break;
+            case 2:
+                startActivity(CommentActivity.class);
+                break;
+            case 3:
+                startActivity(AddCommentActivity.class);
+                break;
+        }
+    }
+
+    @Override
+    public void onMenuCollapse() {
+
+    }
+
+    @Override
+    public void onMenuExpand() {
+
+    }
 
 
+    // =============================== 监听 WebView 滚动事件 ===============================
 
     @Override
     public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
@@ -95,18 +133,21 @@ public class NewsDetailActivity extends ToolbarActivity implements ObservableScr
     @Override
     public void onUpOrCancelMotionEvent(ScrollState scrollState) {
 
-        if (ScrollState.UP == scrollState){
-            layout1.setVisibility(View.GONE);
-        }else if(ScrollState.DOWN == scrollState){
-            layout1.setVisibility(View.VISIBLE);
+        if (scrollState == ScrollState.UP) {
+            filterMenuLayout.setVisibility(View.GONE);
+        } else if (scrollState == ScrollState.DOWN) {
+            filterMenuLayout.setVisibility(View.VISIBLE);
         }
     }
 
-    private Drawable getHistoryDrawable() {
 
-        return new IconDrawable(this, Iconify.IconValue.zmdi_time)
+    // =============================== 底层方法 ===============================
+
+    private Drawable getIconDrawable(Iconify.IconValue iconValue, int size) {
+
+        return new IconDrawable(this, iconValue)
                 .colorRes(android.R.color.white)
-                .sizeDp(28);
+                .sizeDp(size);
     }
 
 }
