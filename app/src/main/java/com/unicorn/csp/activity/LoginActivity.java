@@ -8,7 +8,6 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.ivo.flatbutton.FlatButton;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.unicorn.csp.MyApplication;
@@ -111,12 +110,14 @@ public class LoginActivity extends ToolbarActivity {
     private void login() {
 
         loginDialog = showLoginDialog();
-        MyVolley.addRequest(new StringRequest(getLoginUrl(),
-                new Response.Listener<String>() {
+        MyVolley.addRequest(new JsonObjectRequest(getLoginUrl(),
+                new Response.Listener<JSONObject>() {
                     @Override
-                    public void onResponse(String response) {
+                    public void onResponse(JSONObject response) {
                         loginDialog.dismiss();
-                        if (response.equals(Boolean.TRUE.toString())) {
+                        boolean result = JSONUtils.getBoolean(response, "result", false);
+                        if (result) {
+                            ConfigUtils.saveUserId(JSONUtils.getString(response,"user_id",""));
                             syncMenuFromServer();
                         } else {
                             ToastUtils.show("账号或密码错误");
@@ -148,12 +149,6 @@ public class LoginActivity extends ToolbarActivity {
         builder.appendQueryParameter("username", getAccount());
         builder.appendQueryParameter("password", getPassword());
         return builder.toString();
-    }
-
-    private void doAfterLoginSuccess() {
-
-        storeLoginInfo();
-//        startActivityAndFinish(MainActivity.class);
     }
 
 
