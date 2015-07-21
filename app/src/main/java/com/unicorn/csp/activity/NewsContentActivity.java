@@ -1,6 +1,8 @@
 package com.unicorn.csp.activity;
 
+import android.animation.ArgbEvaluator;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.webkit.WebViewClient;
 
@@ -8,6 +10,10 @@ import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCal
 import com.github.ksoichiro.android.observablescrollview.ObservableWebView;
 import com.github.ksoichiro.android.observablescrollview.ScrollState;
 import com.jauker.widget.BadgeView;
+import com.linroid.filtermenu.library.FilterMenu;
+import com.linroid.filtermenu.library.FilterMenuLayout;
+import com.malinskiy.materialicons.IconDrawable;
+import com.malinskiy.materialicons.Iconify;
 import com.malinskiy.materialicons.widget.IconTextView;
 import com.unicorn.csp.R;
 import com.unicorn.csp.activity.base.ToolbarActivity;
@@ -51,6 +57,26 @@ public class NewsContentActivity extends ToolbarActivity implements ObservableSc
         BadgeView badgeView = new BadgeView(this);
         badgeView.setTargetView(findViewById(R.id.comment_badge));
         badgeView.setBadgeCount(22);
+
+        FilterMenuLayout layout1 = (FilterMenuLayout) findViewById(R.id.filter_menu1);
+        attachMenu1(layout1);
+//
+//
+        ArgbEvaluator argbEvaluator =new ArgbEvaluator();
+        int darkerColor = (int) argbEvaluator.evaluate(0.7f, Color.parseColor("#000000"), ColorOverrider.getInstance(this).getColorAccent());
+        layout1.setPrimaryDarkColor(darkerColor);
+        layout1.setPrimaryColor(ColorOverrider.getInstance(this).getColorAccent());
+    }
+
+
+    private FilterMenu attachMenu1(FilterMenuLayout layout){
+        return new FilterMenu.Builder(this)
+                .addItem(getHistoryDrawable())
+                .addItem(getHistoryDrawable())
+                .addItem(getHistoryDrawable())
+                .attach(layout)
+                .build();
+
     }
 
     private void initWebView() {
@@ -121,6 +147,18 @@ public class NewsContentActivity extends ToolbarActivity implements ObservableSc
     @Override
     public void onUpOrCancelMotionEvent(ScrollState scrollState) {
 
-        ToastUtils.show(scrollState+"");
+        if (ScrollState.UP == scrollState){
+//            hideToolbar();
+        }else if(ScrollState.DOWN == scrollState){
+//            showToolbar();
+        }
+//        ToastUtils.show(scrollState+"");
+    }
+
+    private Drawable getHistoryDrawable() {
+
+        return new IconDrawable(this, Iconify.IconValue.zmdi_time)
+                .colorRes(android.R.color.white)
+                .sizeDp(40);
     }
 }
