@@ -11,6 +11,7 @@ import android.widget.EditText;
 
 import com.android.volley.Response;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.f2prateek.dart.InjectExtra;
 import com.malinskiy.materialicons.IconDrawable;
 import com.malinskiy.materialicons.Iconify;
 import com.unicorn.csp.R;
@@ -29,6 +30,9 @@ public class AddCommentActivity extends ToolbarActivity {
 
     @Bind(R.id.et_comment)
     EditText etComment;
+
+    @InjectExtra("newsId")
+    String newsId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +74,7 @@ public class AddCommentActivity extends ToolbarActivity {
 
         Uri.Builder builder = Uri.parse(ConfigUtils.getBaseUrl() + "/api/v1/comment/create?").buildUpon();
         builder.appendQueryParameter("userId", ConfigUtils.getUserId());
-        builder.appendQueryParameter("contentId", getIntent().getStringExtra("newsId"));
+        builder.appendQueryParameter("contentId", newsId);
         builder.appendQueryParameter("words", getComment());
         return builder.toString();
     }
@@ -78,7 +82,7 @@ public class AddCommentActivity extends ToolbarActivity {
     private void startCommentActivity() {
 
         Intent intent = new Intent(this, CommentActivity.class);
-        intent.putExtra("newsId", getIntent().getStringExtra("newsId"));
+        intent.putExtra("newsId", newsId);
         startActivity(intent);
     }
 

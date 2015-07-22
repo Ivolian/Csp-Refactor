@@ -17,6 +17,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    packagingOptions {
+        exclude 'META-INF/services/javax.annotation.processing.Processor'
+    }
 }
 
 dependencies {
@@ -48,5 +51,6 @@ dependencies {
     compile(name: 'SmartTabLayout-mc', ext: 'aar')
     compile 'com.github.ksoichiro:android-observablescrollview:1.5.2'
     compile(name: 'FilterMenu', ext: 'aar')
+    compile 'com.f2prateek.dart:dart:1.1.0'
 
 }
