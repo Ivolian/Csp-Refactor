@@ -97,7 +97,7 @@ public class MainActivity extends ToolbarActivity {
                 .withHeader(R.layout.drawer_header)
                 .withHeaderDivider(true)
                 .addDrawerItems(
-                        new PrimaryDrawerItem().withName("我的收藏").withIcon(FontAwesome.Icon.faw_star).withIdentifier(1).withCheckable(false).withBadge("12"),
+                        new PrimaryDrawerItem().withName("我的收藏").withIcon(FontAwesome.Icon.faw_star).withIdentifier(1).withCheckable(false),
                         new PrimaryDrawerItem().withName("我要提问").withIcon(FontAwesome.Icon.faw_question_circle).withIdentifier(2).withCheckable(false),
                         new DividerDrawerItem(),
                         new PrimaryDrawerItem().withName("修改密码").withIcon(FontAwesome.Icon.faw_lock).withIdentifier(3).withCheckable(false),
@@ -116,6 +116,9 @@ public class MainActivity extends ToolbarActivity {
                     @Override
                     public boolean onItemClick(AdapterView<?> parent, View view, int position, long id, IDrawerItem drawerItem) {
                         switch (drawerItem.getIdentifier()) {
+                            case 1:
+                                startActivity(FavoriteActivity.class);
+                                break;
                             case 2:
                                 startActivity(QuestionActivity.class);
                                 break;

@@ -38,6 +38,7 @@
         <activity android:name=".activity.AddCommentActivity" />
         <activity android:name="im.dino.dbinspector.activities.DbInspectorActivity"/>
         <activity android:name=".activity.SearchActivity"/>
+        <activity android:name=".activity.FavoriteActivity"/>
     </application>
 
 </manifest>

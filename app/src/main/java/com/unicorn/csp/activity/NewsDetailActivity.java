@@ -4,10 +4,13 @@ import android.animation.ArgbEvaluator;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.webkit.WebViewClient;
 
+import com.android.volley.Response;
+import com.android.volley.toolbox.StringRequest;
 import com.f2prateek.dart.InjectExtra;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
 import com.github.ksoichiro.android.observablescrollview.ObservableWebView;
@@ -20,6 +23,9 @@ import com.unicorn.csp.R;
 import com.unicorn.csp.activity.base.ToolbarActivity;
 import com.unicorn.csp.model.News;
 import com.unicorn.csp.other.greenmatter.ColorOverrider;
+import com.unicorn.csp.utils.ConfigUtils;
+import com.unicorn.csp.utils.ToastUtils;
+import com.unicorn.csp.volley.MyVolley;
 
 import butterknife.Bind;
 
@@ -93,7 +99,7 @@ public class NewsDetailActivity extends ToolbarActivity implements ObservableScr
 
         switch (position) {
             case 0:
-                // todo
+                star();
                 break;
             case 1:
                 // todo
@@ -150,7 +156,6 @@ public class NewsDetailActivity extends ToolbarActivity implements ObservableScr
                 .sizeDp(size);
     }
 
-
     private void startAddCommentActivity() {
 
         Intent intent = new Intent(this, AddCommentActivity.class);
@@ -163,6 +168,26 @@ public class NewsDetailActivity extends ToolbarActivity implements ObservableScr
         Intent intent = new Intent(this, CommentActivity.class);
         intent.putExtra("newsId", news.getId());
         startActivity(intent);
+    }
+
+    private void star() {
+
+        MyVolley.addRequest(new StringRequest(getFavoriteUrl(),
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        ToastUtils.show("已添加到收藏");
+                    }
+                },
+                MyVolley.getDefaultErrorListener()));
+    }
+
+    private String getFavoriteUrl() {
+
+        Uri.Builder builder = Uri.parse(ConfigUtils.getBaseUrl() + "/api/v1/favorite/create?").buildUpon();
+        builder.appendQueryParameter("contentId", news.getId());
+        builder.appendQueryParameter("userId", ConfigUtils.getUserId());
+        return builder.toString();
     }
 
 }
