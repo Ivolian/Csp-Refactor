@@ -1,5 +1,6 @@
 package com.unicorn.csp.activity;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -55,11 +56,24 @@ public class CommentActivity extends ToolbarActivity {
     }
 
 
-
     @OnClick(R.id.fab)
     public void onFabClick() {
 
-        startActivity(AddCommentActivity.class);
+        startAddCommentActivity();
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        reload();
+    }
+
+    private void startAddCommentActivity() {
+
+        Intent intent = new Intent(this, AddCommentActivity.class);
+        intent.putExtra("newsId", getIntent().getStringExtra("newsId"));
+        startActivity(intent);
     }
 
 
@@ -215,6 +229,9 @@ public class CommentActivity extends ToolbarActivity {
         Uri.Builder builder = Uri.parse(ConfigUtils.getBaseUrl() + "/api/v1/comment?").buildUpon();
         builder.appendQueryParameter("pageNo", pageNo + "");
         builder.appendQueryParameter("pageSize", PAGE_SIZE.toString());
+        builder.appendQueryParameter("contentId", getIntent().getStringExtra("newsId"));
+
+
         return builder.toString();
     }
 

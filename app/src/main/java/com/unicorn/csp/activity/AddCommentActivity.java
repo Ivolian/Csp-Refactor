@@ -1,8 +1,10 @@
 package com.unicorn.csp.activity;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
@@ -49,7 +51,13 @@ public class AddCommentActivity extends ToolbarActivity {
                         boolean result = JSONUtils.getBoolean(response, "result", false);
                         if (result) {
                             ToastUtils.show("发表评论成功");
-                            // todo 回到评论列表界面
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    startCommentActivity();
+                                }
+                            }, 600);
+
                         } else {
                             ToastUtils.show("发表评论失败");
                         }
@@ -65,6 +73,13 @@ public class AddCommentActivity extends ToolbarActivity {
         builder.appendQueryParameter("contentId", getIntent().getStringExtra("newsId"));
         builder.appendQueryParameter("words", getComment());
         return builder.toString();
+    }
+
+    private void startCommentActivity() {
+
+        Intent intent = new Intent(this, CommentActivity.class);
+        intent.putExtra("newsId", getIntent().getStringExtra("newsId"));
+        startActivity(intent);
     }
 
 

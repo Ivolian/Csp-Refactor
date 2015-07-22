@@ -33,7 +33,8 @@
         <activity android:name=".other.greenmatter.SelectColorActivity" />
         <activity android:name=".activity.QuestionActivity" />
         <activity android:name=".activity.NewsDetailActivity" />
-        <activity android:name=".activity.CommentActivity" />
+        <activity android:name=".activity.CommentActivity"
+            android:launchMode="singleTask"/>
         <activity android:name=".activity.AddCommentActivity" />
         <activity android:name="im.dino.dbinspector.activities.DbInspectorActivity"/>
         <activity android:name=".activity.SearchActivity"/>

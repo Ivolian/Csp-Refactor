@@ -100,8 +100,7 @@ public class NewsDetailActivity extends ToolbarActivity implements ObservableScr
                 // todo
                 break;
             case 2:
-                // todo
-                startActivity(CommentActivity.class);
+                startCommentActivity();
                 break;
             case 3:
                 startAddCommentActivity();
@@ -156,6 +155,13 @@ public class NewsDetailActivity extends ToolbarActivity implements ObservableScr
     private void startAddCommentActivity() {
 
         Intent intent = new Intent(this, AddCommentActivity.class);
+        intent.putExtra("newsId", getNews().getId());
+        startActivity(intent);
+    }
+
+    private void startCommentActivity() {
+
+        Intent intent = new Intent(this, CommentActivity.class);
         intent.putExtra("newsId", getNews().getId());
         startActivity(intent);
     }
