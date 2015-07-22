@@ -38,6 +38,7 @@ public class AddCommentActivity extends ToolbarActivity {
 
     // ==================== 必要参数，新闻 Id ====================
 
+    // 可能来自 NewsDetailActivity，可能来自 CommentActivity。
     @InjectExtra("newsId")
     String newsId;
 

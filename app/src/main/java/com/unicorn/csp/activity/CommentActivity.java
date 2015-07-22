@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.f2prateek.dart.InjectExtra;
 import com.malinskiy.materialicons.IconDrawable;
 import com.malinskiy.materialicons.Iconify;
 import com.melnykov.fab.FloatingActionButton;
@@ -42,49 +43,6 @@ import butterknife.OnClick;
 public class CommentActivity extends ToolbarActivity {
 
 
-    @Bind(R.id.fab)
-    FloatingActionButton fab;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_comment);
-        initToolbar("评论", true);
-
-        initViews();
-    }
-
-
-    @OnClick(R.id.fab)
-    public void onFabClick() {
-
-        startAddCommentActivity();
-    }
-
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-
-        reload();
-    }
-
-    private void startAddCommentActivity() {
-
-        Intent intent = new Intent(this, AddCommentActivity.class);
-        intent.putExtra("newsId", getIntent().getStringExtra("newsId"));
-        startActivity(intent);
-    }
-
-
-    private Drawable getHistoryDrawable() {
-
-        return new IconDrawable(this, Iconify.IconValue.zmdi_comment_text_alt)
-                .colorRes(android.R.color.white)
-                .actionBarSize();
-    }
-
-
     // ==================== views ====================
 
     @Bind(R.id.swipeRefreshLayout)
@@ -93,8 +51,18 @@ public class CommentActivity extends ToolbarActivity {
     @Bind(R.id.recyclerView)
     RecyclerView recyclerView;
 
+    @Bind(R.id.fab)
+    FloatingActionButton fab;
 
-    // ==================== newsAdapter ====================
+
+    // ==================== 必要参数，新闻 Id ====================
+
+    // 可能来自 NewsDetailActivity，可能来自 AddCommentActivity。
+    @InjectExtra("newsId")
+    String newsId;
+
+
+    // ==================== commentAdapter ====================
 
     CommentAdapter commentAdapter;
 
@@ -110,15 +78,23 @@ public class CommentActivity extends ToolbarActivity {
     boolean lastPage;
 
 
-    // ==================== onCreateView ====================
+    // ==================== onCreate ====================
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_comment);
+        initToolbar("评论", true);
+        initViews();
+    }
 
     private void initViews() {
 
         initSwipeRefreshLayout();
         initRecyclerView();
+        initFab();
         reload();
-        fab.setImageDrawable(getHistoryDrawable());
     }
 
     private void initSwipeRefreshLayout() {
@@ -135,11 +111,9 @@ public class CommentActivity extends ToolbarActivity {
     private void initRecyclerView() {
 
         recyclerView.setHasFixedSize(true);
-        recyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(this).build());
         final LinearLayoutManager linearLayoutManager = RecycleViewUtils.getLinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(commentAdapter = new CommentAdapter());
-
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -160,9 +134,44 @@ public class CommentActivity extends ToolbarActivity {
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
             }
         });
+        recyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(this).build());
 
+    }
+
+    private void initFab() {
+
+        fab.setImageDrawable(getHistoryDrawable());
         fab.attachToRecyclerView(recyclerView);
     }
+
+
+    // ==================== onNewIntent ====================
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+
+        super.onNewIntent(intent);
+        reload();
+    }
+
+
+    // ==================== 发表评论点击事件 ====================
+
+    @OnClick(R.id.fab)
+    public void onFabClick() {
+
+        startAddCommentActivity();
+    }
+
+    private void startAddCommentActivity() {
+
+        Intent intent = new Intent(this, AddCommentActivity.class);
+        intent.putExtra("newsId", newsId);
+        startActivity(intent);
+    }
+
+
+    // ====================== 底层方法 ======================
 
     public void reload() {
 
@@ -178,7 +187,7 @@ public class CommentActivity extends ToolbarActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         stopRefreshing();
-                        commentAdapter.setCommentList(parseNewsList(response));
+                        commentAdapter.setCommentList(parseCommentList(response));
                         commentAdapter.notifyDataSetChanged();
                         checkLastPage(response);
                     }
@@ -201,7 +210,7 @@ public class CommentActivity extends ToolbarActivity {
                     public void onResponse(JSONObject response) {
                         loadingMore = false;
                         pageNo++;
-                        commentAdapter.getCommentList().addAll(parseNewsList(response));
+                        commentAdapter.getCommentList().addAll(parseCommentList(response));
                         commentAdapter.notifyDataSetChanged();
                         checkLastPage(response);
                     }
@@ -215,9 +224,6 @@ public class CommentActivity extends ToolbarActivity {
                 }));
     }
 
-
-    // ========================== 基础方法 ==========================
-
     private void clearPageData() {
 
         pageNo = 1;
@@ -229,18 +235,16 @@ public class CommentActivity extends ToolbarActivity {
         Uri.Builder builder = Uri.parse(ConfigUtils.getBaseUrl() + "/api/v1/comment?").buildUpon();
         builder.appendQueryParameter("pageNo", pageNo + "");
         builder.appendQueryParameter("pageSize", PAGE_SIZE.toString());
-        builder.appendQueryParameter("contentId", getIntent().getStringExtra("newsId"));
-
-
+        builder.appendQueryParameter("contentId", newsId);
         return builder.toString();
     }
 
-    private List<Comment> parseNewsList(JSONObject response) {
+    private List<Comment> parseCommentList(JSONObject response) {
 
-        JSONArray commentJSONARRAY = JSONUtils.getJSONArray(response, "content", null);
+        JSONArray commentJSONArray = JSONUtils.getJSONArray(response, "content", null);
         List<Comment> commentList = new ArrayList<>();
-        for (int i = 0; i != commentJSONARRAY.length(); i++) {
-            JSONObject commentJSONObject = JSONUtils.getJSONObject(commentJSONARRAY, i);
+        for (int i = 0; i != commentJSONArray.length(); i++) {
+            JSONObject commentJSONObject = JSONUtils.getJSONObject(commentJSONArray, i);
             String username = JSONUtils.getString(commentJSONObject, "username", "");
             long time = JSONUtils.getLong(commentJSONObject, "eventtime", 0);
             Date eventTime = new Date(time);
@@ -250,7 +254,6 @@ public class CommentActivity extends ToolbarActivity {
         return commentList;
     }
 
-    // 检查是否所有数据加载完毕
     private void checkLastPage(JSONObject response) {
 
         if (lastPage = isLastPage(response)) {
@@ -273,6 +276,13 @@ public class CommentActivity extends ToolbarActivity {
         if (swipeRefreshLayout != null) {
             swipeRefreshLayout.setRefreshing(false);
         }
+    }
+
+    private Drawable getHistoryDrawable() {
+
+        return new IconDrawable(this, Iconify.IconValue.zmdi_comment_text_alt)
+                .colorRes(android.R.color.white)
+                .actionBarSize();
     }
 
 }
