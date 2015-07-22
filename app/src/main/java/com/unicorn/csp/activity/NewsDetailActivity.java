@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.webkit.WebViewClient;
 
+import com.f2prateek.dart.InjectExtra;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
 import com.github.ksoichiro.android.observablescrollview.ObservableWebView;
 import com.github.ksoichiro.android.observablescrollview.ScrollState;
@@ -26,6 +27,9 @@ import butterknife.Bind;
 public class NewsDetailActivity extends ToolbarActivity implements ObservableScrollViewCallbacks, FilterMenu.OnMenuChangeListener {
 
 
+    @InjectExtra("news")
+    News news;
+
     @Bind(R.id.observable_webview)
     ObservableWebView observableWebView;
 
@@ -40,7 +44,7 @@ public class NewsDetailActivity extends ToolbarActivity implements ObservableScr
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_detail);
-        initToolbar(getNews().getTitle(), true);
+        initToolbar(news.getTitle(), true);
         initViews();
     }
 
@@ -56,14 +60,9 @@ public class NewsDetailActivity extends ToolbarActivity implements ObservableScr
         // todo try remove
 //        observableWebView.getSettings().setDefaultTextEncodingName("UTF-8");
         // todo 考虑到节省流量的问题，news 应该在这再发一次请求去取
-        observableWebView.loadData(getNews().getData(), "text/html; charset=UTF-8", null);
+        observableWebView.loadData(news.getData(), "text/html; charset=UTF-8", null);
         observableWebView.setWebViewClient(new WebViewClient());
         observableWebView.setScrollViewCallbacks(this);
-    }
-
-    private News getNews() {
-
-        return getIntent().getParcelableExtra("news");
     }
 
     private void initFilterMenuLayout() {
@@ -155,14 +154,14 @@ public class NewsDetailActivity extends ToolbarActivity implements ObservableScr
     private void startAddCommentActivity() {
 
         Intent intent = new Intent(this, AddCommentActivity.class);
-        intent.putExtra("newsId", getNews().getId());
+        intent.putExtra("newsId", news.getId());
         startActivity(intent);
     }
 
     private void startCommentActivity() {
 
         Intent intent = new Intent(this, CommentActivity.class);
-        intent.putExtra("newsId", getNews().getId());
+        intent.putExtra("newsId", news.getId());
         startActivity(intent);
     }
 
