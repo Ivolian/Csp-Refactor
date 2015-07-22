@@ -14,6 +14,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.f2prateek.dart.InjectExtra;
 import com.malinskiy.materialicons.IconDrawable;
 import com.malinskiy.materialicons.Iconify;
+import com.r0adkll.slidr.Slidr;
 import com.unicorn.csp.R;
 import com.unicorn.csp.activity.base.ToolbarActivity;
 import com.unicorn.csp.utils.ConfigUtils;
@@ -28,11 +29,20 @@ import butterknife.Bind;
 
 public class AddCommentActivity extends ToolbarActivity {
 
+
+    // ==================== view ====================
+
     @Bind(R.id.et_comment)
     EditText etComment;
 
+
+    // ==================== 必要参数，新闻 Id ====================
+
     @InjectExtra("newsId")
     String newsId;
+
+
+    // ==================== onCreate ====================
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,9 +50,13 @@ public class AddCommentActivity extends ToolbarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_comment);
         initToolbar("发表评论", true);
+        Slidr.attach(this);
     }
 
-    private void addComment() {
+
+    // ==================== 发送评论 ====================
+
+    private void postCommentToServer() {
 
         if (getComment().equals("")) {
             ToastUtils.show("评论不能为空");
@@ -58,7 +72,7 @@ public class AddCommentActivity extends ToolbarActivity {
                             new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    startCommentActivity();
+                                    startCommentActivityAndFinish();
                                 }
                             }, 600);
 
@@ -79,11 +93,17 @@ public class AddCommentActivity extends ToolbarActivity {
         return builder.toString();
     }
 
-    private void startCommentActivity() {
+    /*
+        有两种可能: 1.打开评论列表 2.回到评论列表界面
+        1. 传递 newsId
+        2. 评论界面已获得 newsId
+      */
+    private void startCommentActivityAndFinish() {
 
         Intent intent = new Intent(this, CommentActivity.class);
         intent.putExtra("newsId", newsId);
         startActivity(intent);
+        finish();
     }
 
 
@@ -94,7 +114,7 @@ public class AddCommentActivity extends ToolbarActivity {
 
         switch (item.getItemId()) {
             case R.id.add_comment:
-                addComment();
+                postCommentToServer();
                 break;
         }
         return super.onOptionsItemSelected(item);
