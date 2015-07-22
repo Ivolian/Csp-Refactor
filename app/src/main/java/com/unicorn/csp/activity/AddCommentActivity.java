@@ -115,6 +115,7 @@ public class AddCommentActivity extends ToolbarActivity {
 
         switch (item.getItemId()) {
             case R.id.add_comment:
+                // todo 防止连续点击导致重复发送请求
                 postCommentToServer();
                 break;
         }
