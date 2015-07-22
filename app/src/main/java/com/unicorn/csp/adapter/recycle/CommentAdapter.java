@@ -23,7 +23,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
 
     private List<Comment> commentList = new ArrayList<>();
 
-
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         @Bind(R.id.tv_username)
