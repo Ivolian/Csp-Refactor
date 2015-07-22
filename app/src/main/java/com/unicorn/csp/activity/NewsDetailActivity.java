@@ -99,7 +99,7 @@ public class NewsDetailActivity extends ToolbarActivity implements ObservableScr
 
         switch (position) {
             case 0:
-                star();
+                addFavorite();
                 break;
             case 1:
                 // todo
@@ -170,7 +170,7 @@ public class NewsDetailActivity extends ToolbarActivity implements ObservableScr
         startActivity(intent);
     }
 
-    private void star() {
+    private void addFavorite() {
 
         MyVolley.addRequest(new StringRequest(getFavoriteUrl(),
                 new Response.Listener<String>() {

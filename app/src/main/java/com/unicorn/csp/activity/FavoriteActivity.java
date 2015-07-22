@@ -10,10 +10,12 @@ import android.support.v7.widget.RecyclerView;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.unicorn.csp.R;
 import com.unicorn.csp.activity.base.ToolbarActivity;
 import com.unicorn.csp.adapter.recycle.NewsAdapter;
 import com.unicorn.csp.model.News;
+import com.unicorn.csp.other.SwipeableRecyclerViewTouchListener;
 import com.unicorn.csp.other.greenmatter.ColorOverrider;
 import com.unicorn.csp.utils.ConfigUtils;
 import com.unicorn.csp.utils.JSONUtils;
@@ -21,7 +23,6 @@ import com.unicorn.csp.utils.RecycleViewUtils;
 import com.unicorn.csp.utils.ToastUtils;
 import com.unicorn.csp.volley.MyVolley;
 import com.unicorn.csp.volley.toolbox.VolleyErrorHelper;
-import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -115,8 +116,62 @@ public class FavoriteActivity extends ToolbarActivity {
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
             }
         });
+        addSwipeListenerForRecycleView();
     }
 
+    private void addSwipeListenerForRecycleView() {
+
+        SwipeableRecyclerViewTouchListener swipeTouchListener =
+                new SwipeableRecyclerViewTouchListener(recyclerView,
+                        new SwipeableRecyclerViewTouchListener.SwipeListener() {
+                            @Override
+                            public boolean canSwipe(int position) {
+                                return true;
+                            }
+
+                            @Override
+                            public void onDismissedBySwipeLeft(RecyclerView recyclerView, int[] reverseSortedPositions) {
+                                for (int position : reverseSortedPositions) {
+                                    cancelFavorite(position);
+                                    newsAdapter.getNewsList().remove(position);
+                                    newsAdapter.notifyItemRemoved(position);
+                                }
+                                newsAdapter.notifyDataSetChanged();
+                            }
+
+                            @Override
+                            public void onDismissedBySwipeRight(RecyclerView recyclerView, int[] reverseSortedPositions) {
+                                for (int position : reverseSortedPositions) {
+                                    cancelFavorite(position);
+                                    newsAdapter.getNewsList().remove(position);
+                                    newsAdapter.notifyItemRemoved(position);
+                                }
+                                newsAdapter.notifyDataSetChanged();
+                            }
+                        });
+        recyclerView.addOnItemTouchListener(swipeTouchListener);
+    }
+
+    private void cancelFavorite(int position) {
+
+        MyVolley.addRequest(new StringRequest(getCancelFavoriteUrl(position),
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        ToastUtils.show("已取消收藏");
+                    }
+                },
+                MyVolley.getDefaultErrorListener()));
+    }
+
+    private String getCancelFavoriteUrl(int position) {
+
+        String contentId = newsAdapter.getNewsList().get(position).getId();
+        Uri.Builder builder = Uri.parse(ConfigUtils.getBaseUrl() + "/api/v1/favorite/delete?").buildUpon();
+        builder.appendQueryParameter("contentId", contentId);
+        builder.appendQueryParameter("userId", ConfigUtils.getUserId());
+        return builder.toString();
+    }
 
     // ==================== 底层方法 ====================
 
