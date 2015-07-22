@@ -73,52 +73,52 @@
             android:max="360" />
 
         <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:orientation="horizontal"-->
-            <!--android:paddingLeft="16dp"-->
-            <!--android:paddingRight="16dp"-->
-            <!--android:paddingTop="24dp">-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:paddingLeft="16dp"-->
+        <!--android:paddingRight="16dp"-->
+        <!--android:paddingTop="24dp">-->
 
-            <!--<TextView-->
-                <!--android:layout_width="0dp"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_weight="1"-->
-                <!--android:gravity="center_vertical"-->
-                <!--android:text="主色调"-->
-                <!--android:textAppearance="?android:attr/textAppearanceMedium" />-->
+        <!--<TextView-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_weight="1"-->
+        <!--android:gravity="center_vertical"-->
+        <!--android:text="主色调"-->
+        <!--android:textAppearance="?android:attr/textAppearanceMedium" />-->
 
-            <!--<View-->
-                <!--android:id="@+id/primary_preview"-->
-                <!--android:layout_width="32dp"-->
-                <!--android:layout_height="32dp"-->
-                <!--android:background="@drawable/gm__solid_primary"-->
-                <!--android:gravity="center_vertical" />-->
+        <!--<View-->
+        <!--android:id="@+id/primary_preview"-->
+        <!--android:layout_width="32dp"-->
+        <!--android:layout_height="32dp"-->
+        <!--android:background="@drawable/gm__solid_primary"-->
+        <!--android:gravity="center_vertical" />-->
 
         <!--</LinearLayout>-->
 
         <!--<SeekBar-->
-            <!--android:id="@+id/primary_seekbar"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginLeft="16dp"-->
-            <!--android:layout_marginRight="16dp"-->
-            <!--android:layout_marginTop="8dp"-->
-            <!--android:max="360" />-->
+        <!--android:id="@+id/primary_seekbar"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginLeft="16dp"-->
+        <!--android:layout_marginRight="16dp"-->
+        <!--android:layout_marginTop="8dp"-->
+        <!--android:max="360" />-->
 
         <!--<ToggleButton-->
-            <!--android:id="@+id/lightToggle"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_gravity="end"-->
-            <!--android:layout_marginLeft="16dp"-->
-            <!--android:layout_marginRight="16dp"-->
-            <!--android:layout_marginTop="8dp"-->
-            <!--android:background="@null"-->
-            <!--android:capitalize="none"-->
-            <!--android:drawableRight="?android:listChoiceIndicatorMultiple"-->
-            <!--android:textOff="淡色系"-->
-            <!--android:textOn="淡色系" />-->
+        <!--android:id="@+id/lightToggle"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="end"-->
+        <!--android:layout_marginLeft="16dp"-->
+        <!--android:layout_marginRight="16dp"-->
+        <!--android:layout_marginTop="8dp"-->
+        <!--android:background="@null"-->
+        <!--android:capitalize="none"-->
+        <!--android:drawableRight="?android:listChoiceIndicatorMultiple"-->
+        <!--android:textOff="淡色系"-->
+        <!--android:textOn="淡色系" />-->
 
     </LinearLayout>
 
@@ -129,8 +129,7 @@
         android:layout_gravity="right"
         android:layout_marginRight="16dp"
         android:layout_marginTop="28dp"
-        android:src="@drawable/brush"
         fab:fab_colorNormal="#00BCD4"
-        fab:fab_colorRipple="#B2EBF2"/>
+        fab:fab_colorRipple="#B2EBF2" />
 
 </FrameLayout>

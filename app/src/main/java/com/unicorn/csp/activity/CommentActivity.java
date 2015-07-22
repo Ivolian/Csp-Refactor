@@ -1,9 +1,12 @@
 package com.unicorn.csp.activity;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.malinskiy.materialicons.IconDrawable;
+import com.malinskiy.materialicons.Iconify;
 import com.melnykov.fab.FloatingActionButton;
 import com.unicorn.csp.R;
 import com.unicorn.csp.activity.base.ToolbarActivity;
@@ -33,10 +36,13 @@ public class CommentActivity extends ToolbarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comment);
         initToolbar("评论", true);
         initRecyclerView();
+
     }
 
     private void initRecyclerView() {
@@ -47,12 +53,23 @@ public class CommentActivity extends ToolbarActivity {
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(this).build());
         fab.attachToRecyclerView(recyclerView);
+
+        fab.setImageDrawable(getHistoryDrawable());
     }
 
     @OnClick(R.id.fab)
     public void onFabClick() {
 
+
         startActivity(AddCommentActivity.class);
+    }
+
+
+    private Drawable getHistoryDrawable() {
+
+        return new IconDrawable(this, Iconify.IconValue.zmdi_comment_text_alt)
+                .colorRes(android.R.color.white)
+                .actionBarSize();
     }
 
     private List<Renderable> getItems() {

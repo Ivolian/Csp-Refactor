@@ -1,12 +1,15 @@
 package com.unicorn.csp.other.greenmatter;
 
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.widget.SwitchCompat;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.SeekBar;
 
+import com.malinskiy.materialicons.IconDrawable;
+import com.malinskiy.materialicons.Iconify;
 import com.r0adkll.slidr.Slidr;
 import com.unicorn.csp.R;
 import com.unicorn.csp.activity.base.ToolbarActivity;
@@ -54,6 +57,7 @@ public class SelectColorActivity extends ToolbarActivity {
 
         // 成功设置主题
         final ColorOverrider overrider = ColorOverrider.getInstance(this);
+        floatingActionButton.setImageDrawable(getBrushDrawable());
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -133,6 +137,13 @@ public class SelectColorActivity extends ToolbarActivity {
 //        mPrimaryPreview.setBackgroundColor(enabled ? primaryColor : Color.DKGRAY);
         int accentColor = ColorUtils.replaceHue(overrider.getColorAccent(), mAccentSeekbar.getProgress());
         mAccentPreview.setBackgroundColor(enabled ? accentColor : Color.GRAY);
+    }
+
+    private Drawable getBrushDrawable() {
+
+        return new IconDrawable(this, Iconify.IconValue.zmdi_brush)
+                .colorRes(android.R.color.white)
+                .actionBarSize();
     }
 
 }

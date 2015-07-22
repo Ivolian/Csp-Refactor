@@ -15,6 +15,7 @@ public class ToastUtils {
         toast.show();
     }
 
+    // todo Toast 重叠的问题
     public static void show(String msg){
 
         show(MyApplication.getInstance(),msg);
