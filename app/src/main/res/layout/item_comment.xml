@@ -23,7 +23,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tv_account"
+                android:id="@+id/tv_username"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
@@ -32,7 +32,7 @@
                 android:textSize="14sp" />
 
             <TextView
-                android:id="@+id/tv_time"
+                android:id="@+id/tv_eventtime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="07-09 10:06"
@@ -43,7 +43,7 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/tv_content"
+        android:id="@+id/tv_words"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"

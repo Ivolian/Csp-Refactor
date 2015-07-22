@@ -60,7 +60,7 @@ public class AddCommentActivity extends ToolbarActivity {
 
     private String getUrl() {
 
-        Uri.Builder builder = Uri.parse(ConfigUtils.getBaseUrl() + "/api/v1/comment?").buildUpon();
+        Uri.Builder builder = Uri.parse(ConfigUtils.getBaseUrl() + "/api/v1/comment/create?").buildUpon();
         builder.appendQueryParameter("userId", ConfigUtils.getUserId());
         builder.appendQueryParameter("contentId", getIntent().getStringExtra("newsId"));
         builder.appendQueryParameter("words", getComment());
