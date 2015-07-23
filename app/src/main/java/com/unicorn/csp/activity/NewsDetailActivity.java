@@ -2,18 +2,21 @@ package com.unicorn.csp.activity;
 
 import android.animation.ArgbEvaluator;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
 import com.f2prateek.dart.InjectExtra;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
-import com.github.ksoichiro.android.observablescrollview.ObservableWebView;
 import com.github.ksoichiro.android.observablescrollview.ScrollState;
 import com.linroid.filtermenu.library.FilterMenu;
 import com.linroid.filtermenu.library.FilterMenuLayout;
@@ -23,6 +26,8 @@ import com.unicorn.csp.R;
 import com.unicorn.csp.activity.base.ToolbarActivity;
 import com.unicorn.csp.model.News;
 import com.unicorn.csp.other.greenmatter.ColorOverrider;
+import com.unicorn.csp.other.webview.VideoEnabledWebChromeClient;
+import com.unicorn.csp.other.webview.VideoEnabledWebView;
 import com.unicorn.csp.utils.ConfigUtils;
 import com.unicorn.csp.utils.ToastUtils;
 import com.unicorn.csp.volley.MyVolley;
@@ -36,12 +41,13 @@ public class NewsDetailActivity extends ToolbarActivity implements ObservableScr
     @InjectExtra("news")
     News news;
 
-    @Bind(R.id.observable_webview)
-    ObservableWebView observableWebView;
+    @Bind(R.id.webview)
+    VideoEnabledWebView webView;
 
     @Bind(R.id.filter_menu_layout)
     FilterMenuLayout filterMenuLayout;
 
+    private VideoEnabledWebChromeClient webChromeClient;
 
     // =============================== onCreate ===============================
 
@@ -62,13 +68,81 @@ public class NewsDetailActivity extends ToolbarActivity implements ObservableScr
 
     private void initWebView() {
 
-        observableWebView.getSettings().setJavaScriptEnabled(true);
+//        webView.getSettings().setPluginState(WebSettings.PluginState.ON);
+        webView.getSettings().setJavaScriptEnabled(true);
         // todo try remove
-//        observableWebView.getSettings().setDefaultTextEncodingName("UTF-8");
+//        webView.getSettings().setDefaultTextEncodingName("UTF-8");
         // todo 考虑到节省流量的问题，news 应该在这再发一次请求去取
-        observableWebView.loadData(news.getData(), "text/html; charset=UTF-8", null);
-        observableWebView.setWebViewClient(new WebViewClient());
-        observableWebView.setScrollViewCallbacks(this);
+        webView.loadData(news.getData(), "text/html; charset=UTF-8", null);
+        webView.setWebViewClient(new WebViewClient());
+        webView.setScrollViewCallbacks(this);
+        enableVideo();
+    }
+
+    private void enableVideo(){
+
+        View nonVideoLayout = findViewById(R.id.nonVideoLayout); // Your own view, read class comments
+        ViewGroup videoLayout = (ViewGroup)findViewById(R.id.videoLayout); // Your own view, read class comments
+        //noinspection all
+        View loadingView = getLayoutInflater().inflate(R.layout.view_loading_video, null); // Your own view, read class comments
+        webChromeClient = new VideoEnabledWebChromeClient(nonVideoLayout, videoLayout, loadingView, webView) // See all available constructors...
+        {
+            // Subscribe to standard events, such as onProgressChanged()...
+            @Override
+            public void onProgressChanged(WebView view, int progress)
+            {
+                // Your code...
+            }
+        };
+        webChromeClient.setOnToggledFullscreen(new VideoEnabledWebChromeClient.ToggledFullscreenCallback() {
+            @Override
+            public void toggledFullscreen(boolean fullscreen) {
+                // Your code to handle the full-screen change, for example showing and hiding the title bar. Example:
+                if (fullscreen) {
+                    // TODO MY ADD
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+                    WindowManager.LayoutParams attrs = getWindow().getAttributes();
+                    attrs.flags |= WindowManager.LayoutParams.FLAG_FULLSCREEN;
+                    attrs.flags |= WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
+                    getWindow().setAttributes(attrs);
+                    if (android.os.Build.VERSION.SDK_INT >= 14) {
+                        //noinspection all
+                        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
+                    }
+                } else {
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+                    WindowManager.LayoutParams attrs = getWindow().getAttributes();
+                    attrs.flags &= ~WindowManager.LayoutParams.FLAG_FULLSCREEN;
+                    attrs.flags &= ~WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
+                    getWindow().setAttributes(attrs);
+                    if (android.os.Build.VERSION.SDK_INT >= 14) {
+                        //noinspection all
+                        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
+                    }
+                }
+
+            }
+        });
+        webView.setWebChromeClient(webChromeClient);
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        // Notify the VideoEnabledWebChromeClient, and handle it ourselves if it doesn't handle it
+        if (!webChromeClient.onBackPressed())
+        {
+            if (webView.canGoBack())
+            {
+                webView.goBack();
+            }
+            else
+            {
+                // Standard back button implementation (for example this could close the app)
+                super.onBackPressed();
+            }
+        }
     }
 
     private void initFilterMenuLayout() {

@@ -10,7 +10,10 @@
     <!-- Optional: To see which Activity was active at the time of a crash -->
     <uses-permission android:name="android.permission.GET_TASKS" />
 
+
+
     <application
+        android:hardwareAccelerated ="true"
         android:name=".MyApplication"
         android:allowBackup="true"
         android:icon="@drawable/logo"
@@ -32,7 +35,8 @@
         <activity android:name=".activity.MainActivity" />
         <activity android:name=".other.greenmatter.SelectColorActivity" />
         <activity android:name=".activity.QuestionActivity" />
-        <activity android:name=".activity.NewsDetailActivity" />
+        <activity android:name=".activity.NewsDetailActivity"
+            android:configChanges="orientation|screenSize"/>
         <activity android:name=".activity.CommentActivity"
             android:launchMode="singleTask"/>
         <activity android:name=".activity.AddCommentActivity" />

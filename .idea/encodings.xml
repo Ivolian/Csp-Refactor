@@ -2,6 +2,8 @@
 <project version="4">
   <component name="Encoding" defaultCharsetForPropertiesFiles="UTF-8">
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/unicorn/csp/activity/MainActivity.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/unicorn/csp/other/webview/VideoEnabledWebChromeClient.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/unicorn/csp/other/webview/VideoEnabledWebView.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/unicorn/csp/utils/ArrayUtils.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/unicorn/csp/utils/DateUtils.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/unicorn/csp/utils/JSONUtils.java" charset="GBK" />
