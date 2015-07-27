@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import com.unicorn.csp.fragment.BookFragment;
 import com.unicorn.csp.fragment.NewsFragment;
 import com.unicorn.csp.fragment.TestFragment;
 import com.unicorn.csp.fragment.ViewPagerFragmentL2;
@@ -57,10 +58,10 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
         switch (type) {
             case "news":
                 return new NewsFragment();
+            case "book":
+                return new BookFragment();
 
             // todo
-            case "book":
-                return new TestFragment();
             case "onlineStore":
                 return new TestFragment();
             case  "question":
