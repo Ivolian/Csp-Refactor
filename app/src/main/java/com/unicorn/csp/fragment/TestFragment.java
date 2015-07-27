@@ -13,6 +13,4 @@ public class TestFragment extends ButterKnifeFragment {
         return R.layout.test;
     }
 
-
-
 }
