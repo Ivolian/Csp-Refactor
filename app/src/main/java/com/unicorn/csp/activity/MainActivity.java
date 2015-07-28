@@ -146,7 +146,7 @@ public class MainActivity extends ToolbarActivity {
             drawer.closeDrawer();
         } else {
             if (System.currentTimeMillis() - exitTime > 2000) {
-                ToastUtils.show(this, "再按一次退出");
+                ToastUtils.show("再按一次退出");
                 exitTime = System.currentTimeMillis();
             } else {
                 super.onBackPressed();
