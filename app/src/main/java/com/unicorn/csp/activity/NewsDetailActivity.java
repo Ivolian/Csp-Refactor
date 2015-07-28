@@ -68,7 +68,6 @@ public class NewsDetailActivity extends ToolbarActivity implements ObservableScr
 
     private void initWebView() {
 
-//        webView.getSettings().setPluginState(WebSettings.PluginState.ON);
         webView.getSettings().setJavaScriptEnabled(true);
         // todo try remove
 //        webView.getSettings().setDefaultTextEncodingName("UTF-8");
