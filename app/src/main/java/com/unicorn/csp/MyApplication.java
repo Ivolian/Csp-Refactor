@@ -1,6 +1,5 @@
 package com.unicorn.csp;
 
-import android.app.Application;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.bugsnag.android.Bugsnag;
@@ -10,8 +9,10 @@ import com.unicorn.csp.greendao.MenuDao;
 import com.unicorn.csp.greendao.SearchHistoryDao;
 import com.unicorn.csp.volley.MyVolley;
 
+import org.geometerplus.zlibrary.ui.android.library.ZLAndroidApplication;
 
-public class MyApplication extends Application {
+
+public class MyApplication extends ZLAndroidApplication {
 
     private static MyApplication instance;
 
