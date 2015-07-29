@@ -53,5 +53,5 @@ dependencies {
     compile(name: 'FilterMenu', ext: 'aar')
     compile 'com.f2prateek.dart:dart:1.1.0'
     compile 'com.github.lawloretienne:trestle:0.0.2'
-
+    compile 'com.loopj.android:android-async-http:1.4.8'
 }

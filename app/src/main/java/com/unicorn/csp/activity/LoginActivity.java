@@ -109,6 +109,8 @@ public class LoginActivity extends ToolbarActivity {
 
     private void login() {
 
+
+
         loginDialog = showLoginDialog();
         MyVolley.addRequest(new JsonObjectRequest(getLoginUrl(),
                 new Response.Listener<JSONObject>() {

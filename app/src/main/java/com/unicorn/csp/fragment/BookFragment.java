@@ -105,7 +105,7 @@ public class BookFragment extends LazyLoadFragment {
         recyclerView.setHasFixedSize(true);
         final GridLayoutManager gridLayoutManager = getGridLayoutManager();
         recyclerView.setLayoutManager(gridLayoutManager);
-        recyclerView.setAdapter(bookAdapter = new BookAdapter());
+        recyclerView.setAdapter(bookAdapter = new BookAdapter(getActivity()));
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
