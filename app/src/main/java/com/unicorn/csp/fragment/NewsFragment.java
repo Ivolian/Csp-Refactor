@@ -104,6 +104,7 @@ public class NewsFragment extends LazyLoadFragment {
 
     private void initRecyclerView() {
 
+        // 如果不使用多类型 item 的话，可以加上这句提高效率
         recyclerView.setHasFixedSize(true);
         final LinearLayoutManager linearLayoutManager = RecycleViewUtils.getLinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -190,10 +191,10 @@ public class NewsFragment extends LazyLoadFragment {
         lastPage = false;
     }
 
-    private String getUrl(int pageNo) {
+    private String getUrl(Integer pageNo) {
 
         Uri.Builder builder = Uri.parse(ConfigUtils.getBaseUrl() + "/api/v1/news?").buildUpon();
-        builder.appendQueryParameter("pageNo", pageNo + "");
+        builder.appendQueryParameter("pageNo", pageNo.toString());
         builder.appendQueryParameter("pageSize", PAGE_SIZE.toString());
 
         Menu menu = (Menu) getArguments().getSerializable("menu");
@@ -248,7 +249,7 @@ public class NewsFragment extends LazyLoadFragment {
         }
     }
 
-    private void startRefreshing(){
+    private void startRefreshing() {
 
         if (swipeRefreshLayout != null) {
             swipeRefreshLayout.setRefreshing(true);

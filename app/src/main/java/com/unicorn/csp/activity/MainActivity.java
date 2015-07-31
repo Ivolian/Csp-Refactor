@@ -173,8 +173,9 @@ public class MainActivity extends ToolbarActivity {
 
     private void startSelectColorActivity() {
 
-        Intent intent = new Intent(this, SelectColorActivity.class);
-        startActivityForResult(intent, 2333);
+        throw  new RuntimeException("sdf");
+//        Intent intent = new Intent(this, SelectColorActivity.class);
+//        startActivityForResult(intent, 2333);
     }
 
 

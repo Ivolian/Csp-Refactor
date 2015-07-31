@@ -11,6 +11,8 @@ import com.unicorn.csp.volley.MyVolley;
 
 import org.geometerplus.zlibrary.ui.android.library.ZLAndroidApplication;
 
+import cat.ereza.customactivityoncrash.CustomActivityOnCrash;
+
 
 public class MyApplication extends ZLAndroidApplication {
 
@@ -26,6 +28,8 @@ public class MyApplication extends ZLAndroidApplication {
 
         super.onCreate();
         instance = this;
+        CustomActivityOnCrash.install(this);
+
         Bugsnag.init(instance);
         MyVolley.init(instance);
         initGreenDao();
