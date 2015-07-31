@@ -10,7 +10,7 @@
 
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
-    <string name="empty_string"></string>
+    <string name="empty_string"> </string>
 
     <string name="customactivityoncrash_error_activity_error_occurred_explanation">发生了难以预料的错误，真是万分抱歉。</string>
     <string name="customactivityoncrash_error_activity_unknown_exception">Unknown exception</string>
