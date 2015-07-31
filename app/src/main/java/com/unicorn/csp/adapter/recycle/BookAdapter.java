@@ -113,8 +113,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
                     .progress(false, 100, true)
                     .cancelable(false)
                     .show();
-
-            String fileUrl = "http://192.168.1.101:3000/withub/1.epub";
+            String fileUrl = "http://172.20.10.12:3000/withub/1.epub";
             AsyncHttpClient client = new AsyncHttpClient();
             client.get(fileUrl, new FileAsyncHttpResponseHandler(MyApplication.getInstance()) {
                 @Override

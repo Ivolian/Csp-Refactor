@@ -147,7 +147,7 @@ public class LoginActivity extends ToolbarActivity {
 
     private String getLoginUrl() {
 
-        Uri.Builder builder = Uri.parse(ConfigUtils.getBaseUrl() + "/api/v1/email/login?").buildUpon();
+        Uri.Builder builder = Uri.parse(ConfigUtils.getBaseUrl() + "/api/v1/user/login?").buildUpon();
         builder.appendQueryParameter("username", getAccount());
         builder.appendQueryParameter("password", getPassword());
         return builder.toString();
