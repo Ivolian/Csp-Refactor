@@ -32,7 +32,7 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
             Bundle bundle = new Bundle();
             bundle.putSerializable("menu", childMenu);
             fragment.setArguments(bundle);
-            return  fragment;
+            return fragment;
         }
 
         ViewPagerFragmentL2 viewPagerFragmentL2 = new ViewPagerFragmentL2();
@@ -64,7 +64,7 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
             // todo
             case "onlineStore":
                 return new TestFragment();
-            case  "question":
+            case "question":
                 return new TestFragment();
             default:
                 throw new RuntimeException("未知的子菜单类型");

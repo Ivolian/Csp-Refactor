@@ -110,7 +110,7 @@ public class LoginActivity extends ToolbarActivity {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        loginDialog.dismiss();
+                        hideLoginDialog();
                         boolean result = JSONUtils.getBoolean(response, "result", false);
                         if (result) {
                             saveUserId(response);
@@ -118,14 +118,14 @@ public class LoginActivity extends ToolbarActivity {
                             storeLoginInfo();
                             startActivityAndFinish(MainActivity.class);
                         } else {
-                            ToastUtils.show("账号或密码错误");
+                            ToastUtils.show("用户名或密码错误");
                         }
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError volleyError) {
-                        loginDialog.dismiss();
+                        hideLoginDialog();
                         ToastUtils.show(VolleyErrorHelper.getErrorMessage(volleyError));
                     }
                 }));
@@ -142,6 +142,13 @@ public class LoginActivity extends ToolbarActivity {
                 .show();
     }
 
+    private void hideLoginDialog() {
+
+        if (loginDialog != null) {
+            loginDialog.dismiss();
+        }
+    }
+
     private String getLoginUrl() {
 
         Uri.Builder builder = Uri.parse(ConfigUtils.getBaseUrl() + "/api/v1/user/login?").buildUpon();
@@ -150,7 +157,7 @@ public class LoginActivity extends ToolbarActivity {
         return builder.toString();
     }
 
-    private void saveUserId(JSONObject response){
+    private void saveUserId(JSONObject response) {
 
         String userId = JSONUtils.getString(response, "userId", "");
         ConfigUtils.saveUserId(userId);
@@ -163,7 +170,7 @@ public class LoginActivity extends ToolbarActivity {
 
         MyApplication.getMenuDao().deleteAll();
 
-        JSONObject rootMenuItem = JSONUtils.getJSONObject(response,"rootMenuItem",null);
+        JSONObject rootMenuItem = JSONUtils.getJSONObject(response, "rootMenuItem", null);
         Menu rootMenu = itemToMenu(rootMenuItem);
         rootMenu.setParent(null);
         MyApplication.getMenuDao().insert(rootMenu);

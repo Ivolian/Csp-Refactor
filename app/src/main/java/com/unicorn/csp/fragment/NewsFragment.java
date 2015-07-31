@@ -38,6 +38,7 @@ import butterknife.Bind;
 
 public class NewsFragment extends LazyLoadFragment {
 
+
     @Override
     public int getLayoutResId() {
         return R.layout.fragment_news;
@@ -135,7 +136,7 @@ public class NewsFragment extends LazyLoadFragment {
         new Handler().post(new Runnable() {
             @Override
             public void run() {
-                swipeRefreshLayout.setRefreshing(true);
+                startRefreshing();
             }
         });
         MyVolley.addRequest(new JsonObjectRequest(getUrl(pageNo),
@@ -244,6 +245,13 @@ public class NewsFragment extends LazyLoadFragment {
 
         if (swipeRefreshLayout != null) {
             swipeRefreshLayout.setRefreshing(false);
+        }
+    }
+
+    private void startRefreshing(){
+
+        if (swipeRefreshLayout != null) {
+            swipeRefreshLayout.setRefreshing(true);
         }
     }
 
