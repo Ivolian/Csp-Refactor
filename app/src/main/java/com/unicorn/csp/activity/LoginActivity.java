@@ -62,8 +62,6 @@ public class LoginActivity extends ToolbarActivity {
 
     MaterialDialog loginDialog;
 
-    MaterialDialog syncMenuDialog;
-
 
     // ========================== onCreate ==========================
 
@@ -115,9 +113,10 @@ public class LoginActivity extends ToolbarActivity {
                         loginDialog.dismiss();
                         boolean result = JSONUtils.getBoolean(response, "result", false);
                         if (result) {
-                            String userId = JSONUtils.getString(response, "userId", "");
-                            ConfigUtils.saveUserId(userId);
-                            syncMenuFromServer();
+                            saveUserId(response);
+                            saveMenu(response);
+                            storeLoginInfo();
+                            startActivityAndFinish(MainActivity.class);
                         } else {
                             ToastUtils.show("账号或密码错误");
                         }
@@ -131,6 +130,7 @@ public class LoginActivity extends ToolbarActivity {
                     }
                 }));
     }
+
 
     private MaterialDialog showLoginDialog() {
 
@@ -150,71 +150,47 @@ public class LoginActivity extends ToolbarActivity {
         return builder.toString();
     }
 
+    private void saveUserId(JSONObject response){
 
-    // ========================== 同步菜单 ==========================
-
-    private void syncMenuFromServer() {
-
-        syncMenuDialog = showSyncMenuDialog();
-        MyVolley.addRequest(new JsonObjectRequest(ConfigUtils.getBaseUrl() + "/api/v1/region/all2", // todo modify the url on server
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        persistMenu(response);
-                        syncMenuDialog.dismiss();
-                        storeLoginInfo();
-                        startActivityAndFinish(MainActivity.class);
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError volleyError) {
-                        syncMenuDialog.dismiss();
-                        ToastUtils.show(VolleyErrorHelper.getErrorMessage(volleyError));
-                    }
-                }));
+        String userId = JSONUtils.getString(response, "userId", "");
+        ConfigUtils.saveUserId(userId);
     }
 
-    private MaterialDialog showSyncMenuDialog() {
 
-        return new MaterialDialog.Builder(this)
-                .title("同步菜单中")
-                .content("请稍后...")
-                .progress(true, 0)
-                .cancelable(false)
-                .show();
-    }
+    // ========================== 有关菜单的方法 ==========================
 
-    private void persistMenu(JSONObject rootItem) {
+    private void saveMenu(JSONObject response) {
 
         MyApplication.getMenuDao().deleteAll();
 
-        Menu rootMenu = itemToMenuSimple(rootItem);
+        JSONObject rootMenuItem = JSONUtils.getJSONObject(response,"rootMenuItem",null);
+        Menu rootMenu = itemToMenu(rootMenuItem);
         rootMenu.setParent(null);
         MyApplication.getMenuDao().insert(rootMenu);
-        copyItems(rootItem, rootMenu);
+
+        copeChildMenuItems(rootMenuItem, rootMenu);
     }
 
-    private void copyItems(JSONObject item, Menu menu) {
+    private void copeChildMenuItems(JSONObject menuItem, Menu menu) {
 
-        JSONArray items = JSONUtils.getJSONArray(item, "items", null);
+        JSONArray items = JSONUtils.getJSONArray(menuItem, "items", null);
         if (items != null) {
             for (int i = 0; i != items.length(); i++) {
                 JSONObject subItem = JSONUtils.getJSONObject(items, i);
-                Menu subMenu = itemToMenuSimple(subItem);
+                Menu subMenu = itemToMenu(subItem);
                 subMenu.setParent(menu);
                 MyApplication.getMenuDao().insert(subMenu);
-                copyItems(subItem, subMenu);
+                copeChildMenuItems(subItem, subMenu);
             }
         }
     }
 
-    private Menu itemToMenuSimple(JSONObject item) {
+    private Menu itemToMenu(JSONObject item) {
 
         Menu menu = new Menu();
         menu.setId(JSONUtils.getString(item, "id", ""));
         menu.setName(JSONUtils.getString(item, "name", ""));
-        menu.setType(JSONUtils.getString(item, "code", ""));     // todo server change code => type
+        menu.setType(JSONUtils.getString(item, "type", ""));
         menu.setOrderNo(JSONUtils.getInt(item, "orderNo", 0));
         return menu;
     }
@@ -241,7 +217,7 @@ public class LoginActivity extends ToolbarActivity {
     }
 
 
-    // ========================== 底层方法 ==========================
+    // ========================== 其他方法 ==========================
 
     private boolean isUsernameEmpty() {
 
