@@ -34,17 +34,19 @@ public class LoginActivity extends ToolbarActivity {
 
     // ========================== SF 常量 ==========================
 
-    final String SF_ACCOUNT = "account";
+    // 一律使用 username，而不是 account
+    final String SF_USERNAME = "username";
 
     final String SF_PASSWORD = "password";
 
-    final String SF_REMEMBER_ME = "remember_me";
+    // key 一律驼峰命名
+    final String SF_REMEMBER_ME = "rememberMe";
 
 
-    // ========================== Views ==========================
+    // ========================== views ==========================
 
-    @Bind(R.id.et_account)
-    MaterialEditText etAccount;
+    @Bind(R.id.et_username)
+    MaterialEditText etUsername;
 
     @Bind(R.id.et_password)
     MaterialEditText etPassword;
@@ -56,11 +58,12 @@ public class LoginActivity extends ToolbarActivity {
     FlatButton btnLogin;
 
 
-    // ========================== handler ==========================
+    // ========================== dialog handler ==========================
 
     MaterialDialog loginDialog;
 
     MaterialDialog syncMenuDialog;
+
 
     // ========================== onCreate ==========================
 
@@ -70,18 +73,13 @@ public class LoginActivity extends ToolbarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         initToolbar("登录", false);
-        initViews();
-    }
-
-    private void initViews() {
-
         restoreLoginInfo();
     }
 
 
     // ========================== 登录按钮状态 ==========================
 
-    @OnTextChanged(R.id.et_account)
+    @OnTextChanged(R.id.et_username)
     public void onUsernameChange() {
 
         onUsernameOrPasswordChange();
@@ -95,7 +93,7 @@ public class LoginActivity extends ToolbarActivity {
 
     private void onUsernameOrPasswordChange() {
 
-        btnLogin.setEnabled(!isAccountEmpty() && !isPasswordEmpty());
+        btnLogin.setEnabled(!isUsernameEmpty() && !isPasswordEmpty());
     }
 
 
@@ -109,8 +107,6 @@ public class LoginActivity extends ToolbarActivity {
 
     private void login() {
 
-
-
         loginDialog = showLoginDialog();
         MyVolley.addRequest(new JsonObjectRequest(getLoginUrl(),
                 new Response.Listener<JSONObject>() {
@@ -119,7 +115,8 @@ public class LoginActivity extends ToolbarActivity {
                         loginDialog.dismiss();
                         boolean result = JSONUtils.getBoolean(response, "result", false);
                         if (result) {
-                            ConfigUtils.saveUserId(JSONUtils.getString(response,"user_id",""));
+                            String userId = JSONUtils.getString(response, "userId", "");
+                            ConfigUtils.saveUserId(userId);
                             syncMenuFromServer();
                         } else {
                             ToastUtils.show("账号或密码错误");
@@ -148,7 +145,7 @@ public class LoginActivity extends ToolbarActivity {
     private String getLoginUrl() {
 
         Uri.Builder builder = Uri.parse(ConfigUtils.getBaseUrl() + "/api/v1/user/login?").buildUpon();
-        builder.appendQueryParameter("username", getAccount());
+        builder.appendQueryParameter("username", getUsername());
         builder.appendQueryParameter("password", getPassword());
         return builder.toString();
     }
@@ -225,34 +222,30 @@ public class LoginActivity extends ToolbarActivity {
 
     // ========================== 记住密码 ==========================
 
-    private void storeLoginInfo() {
-
-        TinyDB tinyDB = new TinyDB(this);
-        tinyDB.putString(SF_ACCOUNT, getAccount());
-        tinyDB.putString(SF_PASSWORD, getPassword());
-        tinyDB.putBoolean(SF_REMEMBER_ME, cbRememberMe.isChecked());
-    }
-
     private void restoreLoginInfo() {
 
         TinyDB tinyDB = new TinyDB(this);
         cbRememberMe.setChecked(tinyDB.getBoolean(SF_REMEMBER_ME, false));
         if (cbRememberMe.isChecked()) {
-            etAccount.setText(tinyDB.getString(SF_ACCOUNT));
+            etUsername.setText(tinyDB.getString(SF_USERNAME));
             etPassword.setText(tinyDB.getString(SF_PASSWORD));
         }
+    }
 
-        // todo remove
-//        etAccount.setText("changjiang@withub.net.cn");
-//        etPassword.setText("111");
+    private void storeLoginInfo() {
+
+        TinyDB tinyDB = new TinyDB(this);
+        tinyDB.putString(SF_USERNAME, getUsername());
+        tinyDB.putString(SF_PASSWORD, getPassword());
+        tinyDB.putBoolean(SF_REMEMBER_ME, cbRememberMe.isChecked());
     }
 
 
     // ========================== 底层方法 ==========================
 
-    private boolean isAccountEmpty() {
+    private boolean isUsernameEmpty() {
 
-        return getAccount().equals("");
+        return getUsername().equals("");
     }
 
     private boolean isPasswordEmpty() {
@@ -260,9 +253,9 @@ public class LoginActivity extends ToolbarActivity {
         return getPassword().equals("");
     }
 
-    private String getAccount() {
+    private String getUsername() {
 
-        return etAccount.getText().toString().trim();
+        return etUsername.getText().toString().trim();
     }
 
     private String getPassword() {
