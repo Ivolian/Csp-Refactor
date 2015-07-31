@@ -72,24 +72,39 @@ public class NewsDetailActivity extends ToolbarActivity implements ObservableScr
         // todo try remove
 //        webView.getSettings().setDefaultTextEncodingName("UTF-8");
         // todo 考虑到节省流量的问题，news 应该在这再发一次请求去取
-        webView.loadData(news.getData(), "text/html; charset=UTF-8", null);
+//        webView.loadData(news.getData(), "text/html; charset=UTF-8", null);
         webView.setWebViewClient(new WebViewClient());
         webView.setScrollViewCallbacks(this);
         enableVideo();
+
+        MyVolley.addRequest(new StringRequest(getUrl(),
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        webView.loadData(response, "text/html; charset=UTF-8", null);
+                    }
+                },
+                MyVolley.getDefaultErrorListener()));
     }
 
-    private void enableVideo(){
+    private String getUrl() {
+
+        Uri.Builder builder = Uri.parse(ConfigUtils.getBaseUrl() + "/api/v1/news/contentData?").buildUpon();
+        builder.appendQueryParameter("newsId", news.getId());
+        return builder.toString();
+    }
+
+    private void enableVideo() {
 
         View nonVideoLayout = findViewById(R.id.nonVideoLayout); // Your own view, read class comments
-        ViewGroup videoLayout = (ViewGroup)findViewById(R.id.videoLayout); // Your own view, read class comments
+        ViewGroup videoLayout = (ViewGroup) findViewById(R.id.videoLayout); // Your own view, read class comments
         //noinspection all
         View loadingView = getLayoutInflater().inflate(R.layout.view_loading_video, null); // Your own view, read class comments
         webChromeClient = new VideoEnabledWebChromeClient(nonVideoLayout, videoLayout, loadingView, webView) // See all available constructors...
         {
             // Subscribe to standard events, such as onProgressChanged()...
             @Override
-            public void onProgressChanged(WebView view, int progress)
-            {
+            public void onProgressChanged(WebView view, int progress) {
                 // Your code...
             }
         };
@@ -127,17 +142,12 @@ public class NewsDetailActivity extends ToolbarActivity implements ObservableScr
     }
 
     @Override
-    public void onBackPressed()
-    {
+    public void onBackPressed() {
         // Notify the VideoEnabledWebChromeClient, and handle it ourselves if it doesn't handle it
-        if (!webChromeClient.onBackPressed())
-        {
-            if (webView.canGoBack())
-            {
+        if (!webChromeClient.onBackPressed()) {
+            if (webView.canGoBack()) {
                 webView.goBack();
-            }
-            else
-            {
+            } else {
                 // Standard back button implementation (for example this could close the app)
                 super.onBackPressed();
             }

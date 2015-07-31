@@ -193,16 +193,16 @@ public class NewsFragment extends LazyLoadFragment {
 
     private String getUrl(Integer pageNo) {
 
-        Uri.Builder builder = Uri.parse(ConfigUtils.getBaseUrl() + "/api/v1/news?").buildUpon();
+        Uri.Builder builder = Uri.parse(ConfigUtils.getBaseUrl() + "/api/v1/news/list?").buildUpon();
         builder.appendQueryParameter("pageNo", pageNo.toString());
         builder.appendQueryParameter("pageSize", PAGE_SIZE.toString());
 
         Menu menu = (Menu) getArguments().getSerializable("menu");
-        builder.appendQueryParameter("regionId", menu == null ? "" : menu.getId());
+        builder.appendQueryParameter("menuId", menu == null ? "" : menu.getId());
 
-        String title = getArguments().getString("title");
-        builder.appendQueryParameter("title", title == null ? "" : title);
-        newsAdapter.setTitle(title == null ? "" : title);
+        String keyword = getArguments().getString("keyword");
+        builder.appendQueryParameter("keyword", keyword == null ? "" : keyword);
+        newsAdapter.setTitle(keyword == null ? "" : keyword);
 
         return builder.toString();
     }
@@ -216,10 +216,10 @@ public class NewsFragment extends LazyLoadFragment {
             String id = JSONUtils.getString(content, "id", "");
             String title = JSONUtils.getString(content, "title", "");
             JSONObject contentData = JSONUtils.getJSONObject(content, "contentData", null);
-            String data = JSONUtils.getString(contentData, "data", "");
+//            String data = JSONUtils.getString(contentData, "data", "");
             String picture = JSONUtils.getString(content, "picture", "");
-            int commentCount = JSONUtils.getInt(content, "commentCount", 0);
-            newsList.add(new News(id, title, new Date(), data, commentCount, picture));
+//            int commentCount = JSONUtils.getInt(content, "commentCount", 0);
+            newsList.add(new News(id, title, new Date(), "", 0, picture));
         }
         return newsList;
     }
