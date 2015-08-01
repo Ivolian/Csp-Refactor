@@ -71,7 +71,7 @@ public class FavoriteActivity extends ToolbarActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorite);
-        initToolbar("我的关注", false);
+        initToolbar("我的关注", true);
         initViews();
     }
 
@@ -163,6 +163,7 @@ public class FavoriteActivity extends ToolbarActivity {
                 Snackbar.with(getApplicationContext())
                         .text("确认要取消关注？")
                         .actionLabel("确认")
+                        .actionColor(ColorOverrider.getInstance(this).getColorAccent())
                         .actionListener(new ActionClickListener() {
                             @Override
                             public void onActionClicked(Snackbar snackbar) {

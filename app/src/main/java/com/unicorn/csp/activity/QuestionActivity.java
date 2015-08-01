@@ -3,7 +3,6 @@ package com.unicorn.csp.activity;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 
-import com.r0adkll.slidr.Slidr;
 import com.unicorn.csp.R;
 import com.unicorn.csp.activity.base.ToolbarActivity;
 import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
@@ -25,8 +24,6 @@ public class QuestionActivity extends ToolbarActivity {
         setContentView(R.layout.activity_question);
         initToolbar("我要提问", true);
         initViews();
-
-        Slidr.attach(this);
     }
 
     private void initViews() {

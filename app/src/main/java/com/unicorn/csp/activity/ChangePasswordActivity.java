@@ -56,7 +56,6 @@ public class ChangePasswordActivity extends ToolbarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_password);
         initToolbar("修改密码", true);
-        Slidr.attach(this);
     }
 
 
