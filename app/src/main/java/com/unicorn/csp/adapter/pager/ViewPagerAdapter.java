@@ -9,6 +9,7 @@ import com.unicorn.csp.fragment.BookFragment;
 import com.unicorn.csp.fragment.NewsFragment;
 import com.unicorn.csp.fragment.OnlineStoreFragment;
 import com.unicorn.csp.fragment.QuestionFragment;
+import com.unicorn.csp.fragment.ViewPagerFragmentL1;
 import com.unicorn.csp.fragment.ViewPagerFragmentL2;
 import com.unicorn.csp.greendao.Menu;
 
@@ -26,21 +27,8 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int position) {
 
-        // menu 资讯热点，childMenu 司改动态
         Menu childMenu = menu.getChildren().get(position);
-        if (childMenu.getChildren().size() == 0) {
-            Fragment fragment = getChildFragmentByType(childMenu.getType());
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("menu", childMenu);
-            fragment.setArguments(bundle);
-            return fragment;
-        }
-
-        ViewPagerFragmentL2 viewPagerFragmentL2 = new ViewPagerFragmentL2();
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("menu", childMenu);
-        viewPagerFragmentL2.setArguments(bundle);
-        return viewPagerFragmentL2;
+        return getFragmentByMenu(childMenu, false);
     }
 
     @Override
@@ -54,9 +42,21 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
         return menu.getChildren().get(position).getName();
     }
 
-    static public Fragment getChildFragmentByType(String type) {
+    static public Fragment getFragmentByMenu(Menu menu, boolean mainActivity) {
 
-        switch (type) {
+        Fragment fragment = null;
+        if (menu.getChildren().size() != 0) {
+            fragment = mainActivity ? new ViewPagerFragmentL1() : new ViewPagerFragmentL2();
+        } else {
+            fragment = getSimpleFragmentByMenu(menu);
+        }
+        addMenuArgForFragment(menu, fragment);
+        return fragment;
+    }
+
+    static public Fragment getSimpleFragmentByMenu(Menu menu) {
+
+        switch (menu.getType()) {
             case "news":
                 return new NewsFragment();
             case "book":
@@ -66,8 +66,15 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
             case "question":
                 return new QuestionFragment();
             default:
-                throw new RuntimeException("未知的子菜单类型");
+                throw new RuntimeException("未知的菜单类型");
         }
+    }
+
+    static public void addMenuArgForFragment(Menu menu, Fragment fragment) {
+
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("menu", menu);
+        fragment.setArguments(bundle);
     }
 
 }

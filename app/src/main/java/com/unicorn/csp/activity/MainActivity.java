@@ -28,7 +28,6 @@ import com.unicorn.csp.MyApplication;
 import com.unicorn.csp.R;
 import com.unicorn.csp.activity.base.ToolbarActivity;
 import com.unicorn.csp.adapter.pager.ViewPagerAdapter;
-import com.unicorn.csp.fragment.ViewPagerFragmentL1;
 import com.unicorn.csp.greendao.Menu;
 import com.unicorn.csp.greendao.MenuDao;
 import com.unicorn.csp.other.greenmatter.ColorOverrider;
@@ -247,22 +246,8 @@ public class MainActivity extends ToolbarActivity {
 
         String[] names = {"资讯热点", "学习园地", "网上书城", "我的学习", "互动专区"};
         Menu menu = findMenuByName(names[index]);
-
-        if (menu.getChildren().size() == 0) {
-            Fragment fragment = ViewPagerAdapter.getChildFragmentByType(menu.getType());
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("menu", menu);
-            fragment.setArguments(bundle);
-            replaceFragment_(fragment);
-            return;
-        }
-
-        // 1级 ViewPagerFragment
-        ViewPagerFragmentL1 viewPagerFragmentL1 = new ViewPagerFragmentL1();
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("menu", menu);
-        viewPagerFragmentL1.setArguments(bundle);
-        replaceFragment_(viewPagerFragmentL1);
+        Fragment fragment = ViewPagerAdapter.getFragmentByMenu(menu, true);
+        replaceFragment_(fragment);
     }
 
     private void replaceFragment_(Fragment fragment) {
