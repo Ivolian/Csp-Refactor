@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
@@ -70,13 +69,7 @@ public class AddCommentActivity extends ToolbarActivity {
                         boolean result = JSONUtils.getBoolean(response, "result", false);
                         if (result) {
                             ToastUtils.show("发表评论成功");
-                            new Handler().postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    startCommentActivityAndFinish();
-                                }
-                            }, 600);
-
+                            startCommentActivityAndFinish();
                         } else {
                             ToastUtils.show("发表评论失败");
                         }
@@ -115,7 +108,6 @@ public class AddCommentActivity extends ToolbarActivity {
 
         switch (item.getItemId()) {
             case R.id.add_comment:
-                // todo 防止连续点击导致重复发送请求
                 postCommentToServer();
                 break;
         }
@@ -129,9 +121,6 @@ public class AddCommentActivity extends ToolbarActivity {
         menu.findItem(R.id.add_comment).setIcon(getMailSendDrawable());
         return super.onCreateOptionsMenu(menu);
     }
-
-
-    // ====================== 底层方法 ======================
 
     private Drawable getMailSendDrawable() {
 

@@ -120,10 +120,10 @@ public class MainActivity extends ToolbarActivity {
                                 break;
                             case 2:
                                 startActivity(QuestionActivity.class);
+//                                startActivity(DbInspectorActivity.class);
                                 break;
                             case 3:
                                 startActivity(ChangePasswordActivity.class);
-//                                startActivity(DbInspectorActivity.class);
                                 break;
                             case 4:
                                 startSelectColorActivity();
@@ -146,6 +146,7 @@ public class MainActivity extends ToolbarActivity {
                 .callback(new MaterialDialog.ButtonCallback() {
                     @Override
                     public void onPositive(MaterialDialog dialog) {
+                        // todo 后台登出
                         startActivityAndFinish(LoginActivity.class);
                     }
                 })

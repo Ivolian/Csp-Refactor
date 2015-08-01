@@ -9,12 +9,12 @@ public class Comment {
 
     private Date eventTime;
 
-    private String words;
+    private String content;
 
-    public Comment(String username, Date eventTime, String words) {
+    public Comment(String username, Date eventTime, String content) {
         this.username = username;
         this.eventTime = eventTime;
-        this.words = words;
+        this.content = content;
     }
 
     public String getUsername() {
@@ -33,11 +33,11 @@ public class Comment {
         this.eventTime = eventTime;
     }
 
-    public String getWords() {
-        return words;
+    public String getContent() {
+        return content;
     }
 
-    public void setWords(String words) {
-        this.words = words;
+    public void setContent(String content) {
+        this.content = content;
     }
 }

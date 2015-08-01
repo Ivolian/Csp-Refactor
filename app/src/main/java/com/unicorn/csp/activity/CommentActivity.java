@@ -16,6 +16,7 @@ import com.f2prateek.dart.InjectExtra;
 import com.malinskiy.materialicons.IconDrawable;
 import com.malinskiy.materialicons.Iconify;
 import com.melnykov.fab.FloatingActionButton;
+import com.r0adkll.slidr.Slidr;
 import com.unicorn.csp.R;
 import com.unicorn.csp.activity.base.ToolbarActivity;
 import com.unicorn.csp.adapter.recycle.CommentAdapter;
@@ -87,6 +88,7 @@ public class CommentActivity extends ToolbarActivity {
         setContentView(R.layout.activity_comment);
         initToolbar("评论", true);
         initViews();
+        Slidr.attach(this);
     }
 
     private void initViews() {
@@ -230,10 +232,10 @@ public class CommentActivity extends ToolbarActivity {
         lastPage = false;
     }
 
-    private String getUrl(int pageNo) {
+    private String getUrl(Integer pageNo) {
 
         Uri.Builder builder = Uri.parse(ConfigUtils.getBaseUrl() + "/api/v1/comment?").buildUpon();
-        builder.appendQueryParameter("pageNo", pageNo + "");
+        builder.appendQueryParameter("pageNo", pageNo.toString());
         builder.appendQueryParameter("pageSize", PAGE_SIZE.toString());
         builder.appendQueryParameter("contentId", newsId);
         return builder.toString();
@@ -248,8 +250,8 @@ public class CommentActivity extends ToolbarActivity {
             String username = JSONUtils.getString(commentJSONObject, "username", "");
             long time = JSONUtils.getLong(commentJSONObject, "eventtime", 0);
             Date eventTime = new Date(time);
-            String words = JSONUtils.getString(commentJSONObject, "words", "");
-            commentList.add(new Comment(username, eventTime, words));
+            String content = JSONUtils.getString(commentJSONObject, "content", "");
+            commentList.add(new Comment(username, eventTime, content));
         }
         return commentList;
     }

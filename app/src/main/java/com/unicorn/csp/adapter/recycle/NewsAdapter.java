@@ -101,7 +101,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
         }
 
-//            viewHolder.tvTitle.setText(newsTitle.replace(title, "<p style=\"color: red; margin-left: 20px\">" + title + "</p>"));
         viewHolder.tvTime.setText(DateUtils.getFormatDateString(news.getTime(), new SimpleDateFormat("MM-dd HH:mm", Locale.CHINA)));
         viewHolder.tvCommentCount.setText("评论 " + news.getCommentCount() + "");
         viewHolder.nivPicture.setDefaultImageResId(R.drawable.news);
@@ -125,4 +124,5 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     public void setTitle(String title) {
         this.title = title;
     }
+
 }

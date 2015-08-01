@@ -31,8 +31,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
         @Bind(R.id.tv_eventtime)
         TextView tvEventTime;
 
-        @Bind(R.id.tv_words)
-        TextView tvWords;
+        @Bind(R.id.tv_content)
+        TextView tvContent;
 
         ViewHolder(View view) {
             super(view);
@@ -59,7 +59,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
         Comment comment = commentList.get(position);
         viewHolder.tvUsername.setText(comment.getUsername());
         viewHolder.tvEventTime.setText(DateUtils.getFormatDateString(comment.getEventTime(), new SimpleDateFormat("MM-dd HH:mm", Locale.CHINA)));
-        viewHolder.tvWords.setText(comment.getWords());
+        viewHolder.tvContent.setText(comment.getContent());
     }
 
     public List<Comment> getCommentList() {

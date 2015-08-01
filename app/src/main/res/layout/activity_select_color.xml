@@ -129,7 +129,7 @@
         android:layout_gravity="right"
         android:layout_marginRight="16dp"
         android:layout_marginTop="28dp"
-        fab:fab_colorNormal="#00BCD4"
+        fab:fab_colorNormal="?attr/colorAccent"
         fab:fab_colorRipple="#B2EBF2" />
 
 </FrameLayout>
