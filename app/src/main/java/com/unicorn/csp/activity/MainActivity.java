@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.malinskiy.materialicons.IconDrawable;
 import com.malinskiy.materialicons.Iconify;
 import com.mikepenz.iconics.typeface.FontAwesome;
@@ -101,7 +102,7 @@ public class MainActivity extends ToolbarActivity {
                         new DividerDrawerItem(),
                         new PrimaryDrawerItem().withName("修改密码").withIcon(FontAwesome.Icon.faw_lock).withIdentifier(3).withCheckable(false),
                         new PrimaryDrawerItem().withName("主题色彩").withIcon(FontAwesome.Icon.faw_paint_brush).withIdentifier(4).withCheckable(false),
-                        new PrimaryDrawerItem().withName("更多设置").withIcon(FontAwesome.Icon.faw_cog).withIdentifier(5).withCheckable(false),
+                        new PrimaryDrawerItem().withName("用户登出").withIcon(FontAwesome.Icon.faw_sign_out).withIdentifier(5).withCheckable(false),
                         new DividerDrawerItem(),
                         new SwitchDrawerItem().withName("隐藏标题栏").withChecked(false).withOnCheckedChangeListener(new OnCheckedChangeListener() {
                             @Override
@@ -127,10 +128,28 @@ public class MainActivity extends ToolbarActivity {
                             case 4:
                                 startSelectColorActivity();
                                 break;
+                            case 5:
+                                showSignOutDialog();
+                                break;
                         }
                         return false;
                     }
                 }).build();
+    }
+
+    private MaterialDialog showSignOutDialog() {
+
+        return new MaterialDialog.Builder(this)
+                .title("确认登出？")
+                .positiveText("确认")
+                .negativeText("取消")
+                .callback(new MaterialDialog.ButtonCallback() {
+                    @Override
+                    public void onPositive(MaterialDialog dialog) {
+                        startActivityAndFinish(LoginActivity.class);
+                    }
+                })
+                .show();
     }
 
 
