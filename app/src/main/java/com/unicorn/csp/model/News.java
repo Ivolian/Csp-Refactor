@@ -14,8 +14,6 @@ public class News implements Parcelable {
 
     private Date time;
 
-    private String data;
-
     private int commentCount;
 
     private String picture;
@@ -31,16 +29,14 @@ public class News implements Parcelable {
         dest.writeString(this.id);
         dest.writeString(this.title);
         dest.writeLong(time != null ? time.getTime() : -1);
-        dest.writeString(this.data);
         dest.writeInt(this.commentCount);
         dest.writeString(this.picture);
     }
 
-    public News(String id, String title, Date time, String data, int commentCount, String picture) {
+    public News(String id, String title, Date time, int commentCount, String picture) {
         this.id = id;
         this.title = title;
         this.time = time;
-        this.data = data;
         this.commentCount = commentCount;
         this.picture = picture;
     }
@@ -53,7 +49,6 @@ public class News implements Parcelable {
         this.title = in.readString();
         long tmpTime = in.readLong();
         this.time = tmpTime == -1 ? null : new Date(tmpTime);
-        this.data = in.readString();
         this.commentCount = in.readInt();
         this.picture = in.readString();
     }
@@ -90,14 +85,6 @@ public class News implements Parcelable {
 
     public void setTime(Date time) {
         this.time = time;
-    }
-
-    public String getData() {
-        return data;
-    }
-
-    public void setData(String data) {
-        this.data = data;
     }
 
     public int getCommentCount() {

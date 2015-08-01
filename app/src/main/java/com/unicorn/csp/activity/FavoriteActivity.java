@@ -250,10 +250,9 @@ public class FavoriteActivity extends ToolbarActivity {
             String id = JSONUtils.getString(newsObject, "id", "");
             String title = JSONUtils.getString(newsObject, "title", "");
             JSONObject contentData = JSONUtils.getJSONObject(newsObject, "contentData", null);
-            String data = JSONUtils.getString(contentData, "data", "");
             String picture = JSONUtils.getString(newsObject, "picture", "");
             int commentCount = JSONUtils.getInt(newsObject, "commentCount", 0);
-            newsList.add(new News(id, title, new Date(), data, commentCount, picture));
+            newsList.add(new News(id, title, new Date(), commentCount, picture));
         }
         return newsList;
     }
