@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.unicorn.csp.R;
 
 import butterknife.Bind;
+import me.grantland.widget.AutofitHelper;
 
 
 public abstract class ToolbarActivity extends ButterKnifeActivity {
@@ -44,6 +45,7 @@ public abstract class ToolbarActivity extends ButterKnifeActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(displayHomeAsUpEnable);
         }
+        AutofitHelper.create(tvToolbarTitle);
         tvToolbarTitle.setText(toolbarTitle);
     }
 

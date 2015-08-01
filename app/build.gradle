@@ -60,4 +60,5 @@ dependencies {
     compile(name: 'file-chooser', ext: 'aar')
     compile(name: 'android-debug', ext: 'aar')
     compile 'cat.ereza:customactivityoncrash:1.2.0'
+    compile 'me.grantland:autofittextview:0.2.1'
 }
