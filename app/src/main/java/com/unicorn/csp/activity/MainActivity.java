@@ -173,9 +173,8 @@ public class MainActivity extends ToolbarActivity {
 
     private void startSelectColorActivity() {
 
-        throw  new RuntimeException("sdf");
-//        Intent intent = new Intent(this, SelectColorActivity.class);
-//        startActivityForResult(intent, 2333);
+        Intent intent = new Intent(this, SelectColorActivity.class);
+        startActivityForResult(intent, 2333);
     }
 
 
@@ -293,7 +292,7 @@ public class MainActivity extends ToolbarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
-            case R.id.search:
+            case R.id.search_news:
                 startActivity(SearchActivity.class);
                 return true;
         }

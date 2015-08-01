@@ -3,5 +3,14 @@
     <item
         android:id="@+id/search"
         android:title="查询"
-        app:showAsAction="always" />
+        app:showAsAction="always">
+        <menu>
+            <item
+                android:id="@+id/search_news"
+                android:title="查询新闻" />
+            <item
+                android:id="@+id/search_book"
+                android:title="查询书籍" />
+        </menu>
+    </item>
 </menu>
