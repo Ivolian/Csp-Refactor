@@ -283,7 +283,7 @@ public class MainActivity extends ToolbarActivity {
 
         switch (item.getItemId()) {
             case R.id.search_news:
-                startActivity(SearchActivity.class);
+                startActivity(NewsSearchActivity.class);
                 return true;
             // todo search_book
         }

@@ -215,8 +215,6 @@ public class NewsFragment extends LazyLoadFragment {
             JSONObject content = JSONUtils.getJSONObject(contents, i);
             String id = JSONUtils.getString(content, "id", "");
             String title = JSONUtils.getString(content, "title", "");
-            JSONObject contentData = JSONUtils.getJSONObject(content, "contentData", null);
-//            String data = JSONUtils.getString(contentData, "data", "");
             String picture = JSONUtils.getString(content, "picture", "");
 //            int commentCount = JSONUtils.getInt(content, "commentCount", 0);
             newsList.add(new News(id, title, new Date(), "", 0, picture));

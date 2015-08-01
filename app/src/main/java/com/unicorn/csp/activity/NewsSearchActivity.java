@@ -24,13 +24,13 @@ import java.util.Queue;
 import butterknife.Bind;
 
 
-public class SearchActivity extends ButterKnifeActivity implements SearchBox.SearchListener {
+public class NewsSearchActivity extends ButterKnifeActivity implements SearchBox.SearchListener {
 
     @Bind(R.id.searchbox)
     SearchBox searchBox;
 
-    // 队列，先进后出，用于维护用户查询历史
-    Queue<String> titleQueue = new LinkedList<>();
+    // 关键词队列，用于维护用户查询历史
+    Queue<String> keywordQueue = new LinkedList<>();
 
     NewsFragment newsFragment;
 
@@ -63,7 +63,7 @@ public class SearchActivity extends ButterKnifeActivity implements SearchBox.Sea
     private void initTitleQueue() {
 
         for (SearchHistory searchHistory : MyApplication.getSearchHistoryDao().loadAll()) {
-            titleQueue.add(searchHistory.getTitle());
+            keywordQueue.add(searchHistory.getKeyword());
         }
     }
 
@@ -95,21 +95,21 @@ public class SearchActivity extends ButterKnifeActivity implements SearchBox.Sea
 
     // ================================ 查询按钮被点击 ================================
 
-    private void onSearchBtnClick(String title) {
+    private void onSearchBtnClick(String keyword) {
 
-        reloadNews(title);
-        addTitleToQueue(title);
+        reloadNews(keyword);
+        addKeywordToQueue(keyword);
         refreshSearchBox();
     }
 
-    private void addTitleToQueue(String title) {
+    private void addKeywordToQueue(String keyword) {
 
-        if (titleQueue.contains(title)) {
-            titleQueue.remove(title);
+        if (keywordQueue.contains(keyword)) {
+            keywordQueue.remove(keyword);
         }
-        titleQueue.add(title);
-        if (titleQueue.size() == 6) {
-            titleQueue.remove();
+        keywordQueue.add(keyword);
+        if (keywordQueue.size() == 6) {
+            keywordQueue.remove();
         }
     }
 
@@ -127,8 +127,8 @@ public class SearchActivity extends ButterKnifeActivity implements SearchBox.Sea
 
         MyApplication.getSearchHistoryDao().deleteAll();
         List<SearchHistory> searchHistoryList = new ArrayList<>();
-        for (String title : titleQueue) {
-            searchHistoryList.add(new SearchHistory(title));
+        for (String keyword : keywordQueue) {
+            searchHistoryList.add(new SearchHistory(keyword));
         }
         MyApplication.getSearchHistoryDao().insertInTx(searchHistoryList);
     }
@@ -139,16 +139,16 @@ public class SearchActivity extends ButterKnifeActivity implements SearchBox.Sea
     private void refreshSearchBox() {
 
         ArrayList<SearchResult> searchResultList = new ArrayList<>();
-        for (String title : titleQueue) {
-            searchResultList.add(new SearchResult(title, getHistoryDrawable()));
+        for (String keyword : keywordQueue) {
+            searchResultList.add(new SearchResult(keyword, getHistoryDrawable()));
         }
         Collections.reverse(searchResultList);
         searchBox.setSearchables(searchResultList);
     }
 
-    private void reloadNews(String title) {
+    private void reloadNews(String keyword) {
 
-        newsFragment.getArguments().putString("title", title);
+        newsFragment.getArguments().putString("keyword", keyword);
         newsFragment.reload();
     }
 
@@ -183,9 +183,9 @@ public class SearchActivity extends ButterKnifeActivity implements SearchBox.Sea
     }
 
     @Override
-    public void onSearch(String title) {
+    public void onSearch(String keyword) {
 
-        onSearchBtnClick(title);
+        onSearchBtnClick(keyword);
     }
 
 }

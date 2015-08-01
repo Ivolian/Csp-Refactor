@@ -23,7 +23,7 @@ public class SearchHistoryDao extends AbstractDao<SearchHistory, Void> {
      * Can be used for QueryBuilder and for referencing column names.
     */
     public static class Properties {
-        public final static Property Title = new Property(0, String.class, "title", false, "TITLE");
+        public final static Property Keyword = new Property(0, String.class, "keyword", false, "KEYWORD");
     };
 
     private DaoSession daoSession;
@@ -42,7 +42,7 @@ public class SearchHistoryDao extends AbstractDao<SearchHistory, Void> {
     public static void createTable(SQLiteDatabase db, boolean ifNotExists) {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "'SEARCH_HISTORY' (" + //
-                "'TITLE' TEXT);"); // 0: title
+                "'KEYWORD' TEXT);"); // 0: keyword
     }
 
     /** Drops the underlying database table. */
@@ -56,9 +56,9 @@ public class SearchHistoryDao extends AbstractDao<SearchHistory, Void> {
     protected void bindValues(SQLiteStatement stmt, SearchHistory entity) {
         stmt.clearBindings();
  
-        String title = entity.getTitle();
-        if (title != null) {
-            stmt.bindString(1, title);
+        String keyword = entity.getKeyword();
+        if (keyword != null) {
+            stmt.bindString(1, keyword);
         }
     }
 
@@ -78,7 +78,7 @@ public class SearchHistoryDao extends AbstractDao<SearchHistory, Void> {
     @Override
     public SearchHistory readEntity(Cursor cursor, int offset) {
         SearchHistory entity = new SearchHistory( //
-            cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0) // title
+            cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0) // keyword
         );
         return entity;
     }
@@ -86,7 +86,7 @@ public class SearchHistoryDao extends AbstractDao<SearchHistory, Void> {
     /** @inheritdoc */
     @Override
     public void readEntity(Cursor cursor, SearchHistory entity, int offset) {
-        entity.setTitle(cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0));
+        entity.setKeyword(cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0));
      }
     
     /** @inheritdoc */

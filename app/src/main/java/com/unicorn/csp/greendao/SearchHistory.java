@@ -9,7 +9,7 @@ import de.greenrobot.dao.DaoException;
  */
 public class SearchHistory {
 
-    private String title;
+    private String keyword;
 
     /** Used to resolve relations */
     private transient DaoSession daoSession;
@@ -21,8 +21,8 @@ public class SearchHistory {
     public SearchHistory() {
     }
 
-    public SearchHistory(String title) {
-        this.title = title;
+    public SearchHistory(String keyword) {
+        this.keyword = keyword;
     }
 
     /** called by internal mechanisms, do not call yourself. */
@@ -31,12 +31,12 @@ public class SearchHistory {
         myDao = daoSession != null ? daoSession.getSearchHistoryDao() : null;
     }
 
-    public String getTitle() {
-        return title;
+    public String getKeyword() {
+        return keyword;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setKeyword(String keyword) {
+        this.keyword = keyword;
     }
 
     /** Convenient call for {@link AbstractDao#delete(Object)}. Entity must attached to an entity context. */
