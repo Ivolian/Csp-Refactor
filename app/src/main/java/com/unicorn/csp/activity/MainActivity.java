@@ -27,7 +27,7 @@ import com.mikepenz.materialdrawer.model.interfaces.OnCheckedChangeListener;
 import com.unicorn.csp.MyApplication;
 import com.unicorn.csp.R;
 import com.unicorn.csp.activity.base.ToolbarActivity;
-import com.unicorn.csp.fragment.TestFragment;
+import com.unicorn.csp.adapter.pager.ViewPagerAdapter;
 import com.unicorn.csp.fragment.ViewPagerFragmentL1;
 import com.unicorn.csp.greendao.Menu;
 import com.unicorn.csp.greendao.MenuDao;
@@ -207,7 +207,9 @@ public class MainActivity extends ToolbarActivity {
             changeBottomTabColor(bottomTabList.get(selected), getResources().getColor(R.color.tab_unselected));
         }
         changeToolbarTitle(index);
-        if (replaceFragment) replaceFragment(index);
+        if (replaceFragment) {
+            replaceFragment(index);
+        }
         selected = index;
     }
 
@@ -238,12 +240,20 @@ public class MainActivity extends ToolbarActivity {
         }
     }
 
+
+    // ========================== 有关 Menu 的一部分 ==========================
+
     private void replaceFragment(int index) {
 
         String[] names = {"资讯热点", "学习园地", "网上书城", "我的学习", "互动专区"};
         Menu menu = findMenuByName(names[index]);
+
         if (menu.getChildren().size() == 0) {
-            replaceFragment_(new TestFragment());
+            Fragment fragment = ViewPagerAdapter.getChildFragmentByType(menu.getType());
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("menu", menu);
+            fragment.setArguments(bundle);
+            replaceFragment_(fragment);
             return;
         }
 
@@ -260,14 +270,12 @@ public class MainActivity extends ToolbarActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
     }
 
-
     private Menu findMenuByName(String name) {
 
-        List<Menu> result = MyApplication.getMenuDao().queryBuilder()
+        List<Menu> menuList = MyApplication.getMenuDao().queryBuilder()
                 .where(MenuDao.Properties.Name.eq(name))
                 .list();
-
-        return result.get(0);
+        return menuList.get(0);
     }
 
 
@@ -295,6 +303,7 @@ public class MainActivity extends ToolbarActivity {
             case R.id.search_news:
                 startActivity(SearchActivity.class);
                 return true;
+            // todo search_book
         }
         return super.onOptionsItemSelected(item);
     }

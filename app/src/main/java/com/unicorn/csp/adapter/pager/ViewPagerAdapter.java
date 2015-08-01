@@ -7,7 +7,8 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.unicorn.csp.fragment.BookFragment;
 import com.unicorn.csp.fragment.NewsFragment;
-import com.unicorn.csp.fragment.TestFragment;
+import com.unicorn.csp.fragment.OnlineStoreFragment;
+import com.unicorn.csp.fragment.QuestionFragment;
 import com.unicorn.csp.fragment.ViewPagerFragmentL2;
 import com.unicorn.csp.greendao.Menu;
 
@@ -53,19 +54,17 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
         return menu.getChildren().get(position).getName();
     }
 
-    private Fragment getChildFragmentByType(String type) {
+    static public Fragment getChildFragmentByType(String type) {
 
         switch (type) {
             case "news":
                 return new NewsFragment();
             case "book":
                 return new BookFragment();
-
-            // todo
             case "onlineStore":
-                return new TestFragment();
+                return new OnlineStoreFragment();
             case "question":
-                return new TestFragment();
+                return new QuestionFragment();
             default:
                 throw new RuntimeException("未知的子菜单类型");
         }
