@@ -54,7 +54,7 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
         return fragment;
     }
 
-    static public Fragment getSimpleFragmentByMenu(Menu menu) {
+    static private Fragment getSimpleFragmentByMenu(Menu menu) {
 
         switch (menu.getType()) {
             case "news":
@@ -70,7 +70,7 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
         }
     }
 
-    static public void addMenuArgForFragment(Menu menu, Fragment fragment) {
+    static private void addMenuArgForFragment(Menu menu, Fragment fragment) {
 
         Bundle bundle = new Bundle();
         bundle.putSerializable("menu", menu);

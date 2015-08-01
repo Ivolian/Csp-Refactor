@@ -239,9 +239,6 @@ public class MainActivity extends ToolbarActivity {
         }
     }
 
-
-    // ========================== 有关 Menu 的一部分 ==========================
-
     private void replaceFragment(int index) {
 
         String[] names = {"资讯热点", "学习园地", "网上书城", "我的学习", "互动专区"};
@@ -250,17 +247,17 @@ public class MainActivity extends ToolbarActivity {
         replaceFragment_(fragment);
     }
 
-    private void replaceFragment_(Fragment fragment) {
-
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
-    }
-
     private Menu findMenuByName(String name) {
 
         List<Menu> menuList = MyApplication.getMenuDao().queryBuilder()
                 .where(MenuDao.Properties.Name.eq(name))
                 .list();
         return menuList.get(0);
+    }
+
+    private void replaceFragment_(Fragment fragment) {
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
     }
 
 
