@@ -11,6 +11,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
+import com.nispok.snackbar.Snackbar;
+import com.nispok.snackbar.SnackbarManager;
+import com.nispok.snackbar.listeners.ActionClickListener;
 import com.unicorn.csp.R;
 import com.unicorn.csp.activity.base.ToolbarActivity;
 import com.unicorn.csp.adapter.recycle.NewsAdapter;
@@ -68,7 +71,7 @@ public class FavoriteActivity extends ToolbarActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorite);
-        initToolbar("我的收藏", false);
+        initToolbar("我的关注", false);
         initViews();
     }
 
@@ -132,7 +135,8 @@ public class FavoriteActivity extends ToolbarActivity {
                             @Override
                             public void onDismissedBySwipeLeft(RecyclerView recyclerView, int[] reverseSortedPositions) {
                                 for (int position : reverseSortedPositions) {
-                                    cancelFavorite(position);
+                                    String newsId = newsAdapter.getNewsList().get(position).getId();
+                                    showConfirmBar(newsId);
                                     newsAdapter.getNewsList().remove(position);
                                     newsAdapter.notifyItemRemoved(position);
                                 }
@@ -142,7 +146,8 @@ public class FavoriteActivity extends ToolbarActivity {
                             @Override
                             public void onDismissedBySwipeRight(RecyclerView recyclerView, int[] reverseSortedPositions) {
                                 for (int position : reverseSortedPositions) {
-                                    cancelFavorite(position);
+                                    String newsId = newsAdapter.getNewsList().get(position).getId();
+                                    showConfirmBar(newsId);
                                     newsAdapter.getNewsList().remove(position);
                                     newsAdapter.notifyItemRemoved(position);
                                 }
@@ -152,23 +157,37 @@ public class FavoriteActivity extends ToolbarActivity {
         recyclerView.addOnItemTouchListener(swipeTouchListener);
     }
 
-    private void cancelFavorite(int position) {
+    private void showConfirmBar(final String newsId) {
 
-        MyVolley.addRequest(new StringRequest(getCancelFavoriteUrl(position),
+        SnackbarManager.show(
+                Snackbar.with(getApplicationContext())
+                        .text("确认要取消关注？")
+                        .actionLabel("确认")
+                        .actionListener(new ActionClickListener() {
+                            @Override
+                            public void onActionClicked(Snackbar snackbar) {
+                                cancelFavorite(newsId);
+                            }
+                        })
+                , this);
+    }
+
+    private void cancelFavorite(String newsId) {
+
+        MyVolley.addRequest(new StringRequest(getCancelFavoriteUrl(newsId),
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        ToastUtils.show("已取消收藏");
+                        ToastUtils.show("已取消关注");
                     }
                 },
                 MyVolley.getDefaultErrorListener()));
     }
 
-    private String getCancelFavoriteUrl(int position) {
+    private String getCancelFavoriteUrl(String newsId) {
 
-        String contentId = newsAdapter.getNewsList().get(position).getId();
         Uri.Builder builder = Uri.parse(ConfigUtils.getBaseUrl() + "/api/v1/favorite/delete?").buildUpon();
-        builder.appendQueryParameter("contentId", contentId);
+        builder.appendQueryParameter("newsId", newsId);
         builder.appendQueryParameter("userId", ConfigUtils.getUserId());
         return builder.toString();
     }
@@ -232,10 +251,10 @@ public class FavoriteActivity extends ToolbarActivity {
         lastPage = false;
     }
 
-    private String getUrl(int pageNo) {
+    private String getUrl(Integer pageNo) {
 
         Uri.Builder builder = Uri.parse(ConfigUtils.getBaseUrl() + "/api/v1/favorite?").buildUpon();
-        builder.appendQueryParameter("pageNo", pageNo + "");
+        builder.appendQueryParameter("pageNo", pageNo.toString());
         builder.appendQueryParameter("pageSize", PAGE_SIZE.toString());
         builder.appendQueryParameter("userId", ConfigUtils.getUserId());
         return builder.toString();
@@ -243,15 +262,14 @@ public class FavoriteActivity extends ToolbarActivity {
 
     private List<News> parseNewsList(JSONObject response) {
 
-        JSONArray newsJSONArray = JSONUtils.getJSONArray(response, "content", null);
+        JSONArray contents = JSONUtils.getJSONArray(response, "content", null);
         List<News> newsList = new ArrayList<>();
-        for (int i = 0; i != newsJSONArray.length(); i++) {
-            JSONObject newsObject = JSONUtils.getJSONObject(newsJSONArray, i);
-            String id = JSONUtils.getString(newsObject, "id", "");
-            String title = JSONUtils.getString(newsObject, "title", "");
-            JSONObject contentData = JSONUtils.getJSONObject(newsObject, "contentData", null);
-            String picture = JSONUtils.getString(newsObject, "picture", "");
-            int commentCount = JSONUtils.getInt(newsObject, "commentCount", 0);
+        for (int i = 0; i != contents.length(); i++) {
+            JSONObject content = JSONUtils.getJSONObject(contents, i);
+            String id = JSONUtils.getString(content, "id", "");
+            String title = JSONUtils.getString(content, "title", "");
+            String picture = JSONUtils.getString(content, "picture", "");
+            int commentCount = JSONUtils.getInt(content, "commentCount", 0);
             newsList.add(new News(id, title, new Date(), commentCount, picture));
         }
         return newsList;

@@ -259,7 +259,8 @@ public class NewsDetailActivity extends ToolbarActivity implements ObservableScr
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        ToastUtils.show("已添加到收藏");
+                        boolean result = response.equals(Boolean.TRUE.toString());
+                        ToastUtils.show(result ? "添加关注成功" : "该新闻已关注");
                     }
                 },
                 MyVolley.getDefaultErrorListener()));
@@ -268,7 +269,7 @@ public class NewsDetailActivity extends ToolbarActivity implements ObservableScr
     private String getFavoriteUrl() {
 
         Uri.Builder builder = Uri.parse(ConfigUtils.getBaseUrl() + "/api/v1/favorite/create?").buildUpon();
-        builder.appendQueryParameter("contentId", news.getId());
+        builder.appendQueryParameter("newsId", news.getId());
         builder.appendQueryParameter("userId", ConfigUtils.getUserId());
         return builder.toString();
     }
