@@ -43,6 +43,7 @@
         <activity android:name="im.dino.dbinspector.activities.DbInspectorActivity"/>
         <activity android:name=".activity.NewsSearchActivity"/>
         <activity android:name=".activity.FavoriteActivity"/>
+        <activity android:name=".activity.ChangePasswordActivity"/>
     </application>
 
 </manifest>

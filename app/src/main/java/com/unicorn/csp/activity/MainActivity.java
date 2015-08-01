@@ -39,7 +39,6 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.OnClick;
-import im.dino.dbinspector.activities.DbInspectorActivity;
 
 
 public class MainActivity extends ToolbarActivity {
@@ -123,7 +122,8 @@ public class MainActivity extends ToolbarActivity {
                                 startActivity(QuestionActivity.class);
                                 break;
                             case 3:
-                                startActivity(DbInspectorActivity.class);
+                                startActivity(ChangePasswordActivity.class);
+//                                startActivity(DbInspectorActivity.class);
                                 break;
                             case 4:
                                 startSelectColorActivity();
