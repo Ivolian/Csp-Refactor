@@ -1,12 +1,10 @@
 package com.unicorn.csp.model;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
+import java.io.Serializable;
 import java.util.Date;
 
 
-public class News implements Parcelable {
+public class News implements Serializable {
 
     private String id;
 
@@ -16,52 +14,18 @@ public class News implements Parcelable {
 
     private int commentCount;
 
+    private int thumbCount;
+
     private String picture;
 
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.id);
-        dest.writeString(this.title);
-        dest.writeLong(time != null ? time.getTime() : -1);
-        dest.writeInt(this.commentCount);
-        dest.writeString(this.picture);
-    }
-
-    public News(String id, String title, Date time, int commentCount, String picture) {
+    public News(String id, String title, Date time, int commentCount, int thumbCount, String picture) {
         this.id = id;
         this.title = title;
         this.time = time;
         this.commentCount = commentCount;
+        this.thumbCount = thumbCount;
         this.picture = picture;
     }
-
-    public News() {
-    }
-
-    protected News(Parcel in) {
-        this.id = in.readString();
-        this.title = in.readString();
-        long tmpTime = in.readLong();
-        this.time = tmpTime == -1 ? null : new Date(tmpTime);
-        this.commentCount = in.readInt();
-        this.picture = in.readString();
-    }
-
-    public static final Creator<News> CREATOR = new Creator<News>() {
-        public News createFromParcel(Parcel source) {
-            return new News(source);
-        }
-
-        public News[] newArray(int size) {
-            return new News[size];
-        }
-    };
 
     public String getId() {
         return id;
@@ -95,15 +59,19 @@ public class News implements Parcelable {
         this.commentCount = commentCount;
     }
 
+    public int getThumbCount() {
+        return thumbCount;
+    }
+
+    public void setThumbCount(int thumbCount) {
+        this.thumbCount = thumbCount;
+    }
+
     public String getPicture() {
         return picture;
     }
 
     public void setPicture(String picture) {
         this.picture = picture;
-    }
-
-    public static Creator<News> getCREATOR() {
-        return CREATOR;
     }
 }

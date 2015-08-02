@@ -185,7 +185,7 @@ public class NewsDetailActivity extends ToolbarActivity implements ObservableScr
                 addFavorite();
                 break;
             case 1:
-                // todo
+                addThumb();
                 break;
             case 2:
                 startCommentActivity();
@@ -260,11 +260,25 @@ public class NewsDetailActivity extends ToolbarActivity implements ObservableScr
                     @Override
                     public void onResponse(String response) {
                         boolean result = response.equals(Boolean.TRUE.toString());
-                        ToastUtils.show(result ? "添加关注成功" : "该新闻已关注");
+                        ToastUtils.show(result ? "添加关注成功" : "已关注");
                     }
                 },
                 MyVolley.getDefaultErrorListener()));
     }
+
+    private void addThumb() {
+
+        MyVolley.addRequest(new StringRequest(getThumbUrl(),
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        boolean result = response.equals(Boolean.TRUE.toString());
+                        ToastUtils.show(result ? "点赞成功" : "已点赞");
+                    }
+                },
+                MyVolley.getDefaultErrorListener()));
+    }
+
 
     private String getFavoriteUrl() {
 
@@ -273,5 +287,14 @@ public class NewsDetailActivity extends ToolbarActivity implements ObservableScr
         builder.appendQueryParameter("userId", ConfigUtils.getUserId());
         return builder.toString();
     }
+
+    private String getThumbUrl() {
+
+        Uri.Builder builder = Uri.parse(ConfigUtils.getBaseUrl() + "/api/v1/thumb/create?").buildUpon();
+        builder.appendQueryParameter("newsId", news.getId());
+        builder.appendQueryParameter("userId", ConfigUtils.getUserId());
+        return builder.toString();
+    }
+
 
 }

@@ -212,7 +212,7 @@ public class BookFragment extends LazyLoadFragment {
             String data = JSONUtils.getString(contentData, "data", "");
             String picture = JSONUtils.getString(content, "picture", "");
             int commentCount = JSONUtils.getInt(content, "commentCount", 0);
-            newsList.add(new News(id, title, new Date(), commentCount, picture));
+            newsList.add(new News(id, title, new Date(), commentCount,1, picture));
         }
         return newsList;
     }
@@ -221,7 +221,7 @@ public class BookFragment extends LazyLoadFragment {
 
         List<News> newsList = new ArrayList<>();
         for (int i = 0; i != 10; i++) {
-            News news = new News("", "", new Date(), 0, "");
+            News news = new News("", "", new Date(), 0,1, "");
             newsList.add(news);
         }
         return newsList;

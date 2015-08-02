@@ -271,7 +271,8 @@ public class FavoriteActivity extends ToolbarActivity {
             String title = JSONUtils.getString(content, "title", "");
             String picture = JSONUtils.getString(content, "picture", "");
             int commentCount = JSONUtils.getInt(content, "commentCount", 0);
-            newsList.add(new News(id, title, new Date(), commentCount, picture));
+            int thumbCount = JSONUtils.getInt(content, "thumbCount", 0);
+            newsList.add(new News(id, title, new Date(), commentCount, thumbCount, picture));
         }
         return newsList;
     }

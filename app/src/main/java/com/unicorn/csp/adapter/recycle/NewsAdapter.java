@@ -14,6 +14,7 @@ import com.unicorn.csp.MyApplication;
 import com.unicorn.csp.R;
 import com.unicorn.csp.activity.NewsDetailActivity;
 import com.unicorn.csp.model.News;
+import com.unicorn.csp.other.greenmatter.ColorOverrider;
 import com.unicorn.csp.utils.ConfigUtils;
 import com.unicorn.csp.utils.DateUtils;
 import com.unicorn.csp.volley.MyVolley;
@@ -31,7 +32,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
     private List<News> newsList = new ArrayList<>();
 
-    private String title = "";
+    // 关键字着重色
+    private String keyword = "";
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -43,6 +45,9 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
         @Bind(R.id.tv_comment_count)
         TextView tvCommentCount;
+
+        @Bind(R.id.tv_thumb_count)
+        TextView tvThumbCount;
 
         @Bind(R.id.niv_picture)
         NetworkImageView nivPicture;
@@ -62,7 +67,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         }
     }
 
-
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
 
@@ -79,32 +83,33 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
 
         News news = newsList.get(position);
-
-
-        String newsTitle = news.getTitle();
-        if (!title.equals("")){
-            String[] arr = newsTitle.split(title);
-            List<Span> spans = new ArrayList<>();
-            spans.add(new Span.Builder(arr[0])
-                    .foregroundColor(MyApplication.getInstance().getResources().getColor(android.R.color.black))
-                    .build());
-            spans.add(new Span.Builder(title)
-                    .foregroundColor(MyApplication.getInstance().getResources().getColor(android.R.color.holo_red_light))
-                    .build());
-            spans.add(new Span.Builder(arr[1])
-                    .foregroundColor(MyApplication.getInstance().getResources().getColor(android.R.color.black))
-                    .build());
-            viewHolder.tvTitle.setText(Trestle.getFormattedText(spans));
-
-        }else {
-            viewHolder.tvTitle.setText(newsTitle);
-
-        }
-
+        viewHolder.tvTitle.setText(news.getTitle());
         viewHolder.tvTime.setText(DateUtils.getFormatDateString(news.getTime(), new SimpleDateFormat("MM-dd HH:mm", Locale.CHINA)));
-        viewHolder.tvCommentCount.setText("评论 " + news.getCommentCount() + "");
+        viewHolder.tvCommentCount.setText("评论 " + news.getCommentCount());
+        viewHolder.tvThumbCount.setText("点赞 " + news.getThumbCount());
         viewHolder.nivPicture.setDefaultImageResId(R.drawable.news);
         viewHolder.nivPicture.setImageUrl(ConfigUtils.getBaseUrl() + news.getPicture(), MyVolley.getImageLoader());
+        emphasizeTitle(news.getTitle(), viewHolder.tvTitle);
+    }
+
+    public void emphasizeTitle(String title, TextView tvTitle) {
+
+        if (!keyword.equals("")) {
+            String[] arr = title.split(keyword);
+            List<Span> spans = new ArrayList<>();
+            if (arr.length == 2) {
+                spans.add(new Span.Builder(arr[0])
+                        .foregroundColor(MyApplication.getInstance().getResources().getColor(android.R.color.black))
+                        .build());
+                spans.add(new Span.Builder(keyword)
+                        .foregroundColor(ColorOverrider.getInstance(MyApplication.getInstance()).getColorAccent())
+                        .build());
+                spans.add(new Span.Builder(arr[1])
+                        .foregroundColor(MyApplication.getInstance().getResources().getColor(android.R.color.black))
+                        .build());
+                tvTitle.setText(Trestle.getFormattedText(spans));
+            }
+        }
     }
 
     public List<News> getNewsList() {
@@ -117,12 +122,11 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         this.newsList = newsList;
     }
 
-    public String getTitle() {
-        return title;
+    public String getKeyword() {
+        return keyword;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setKeyword(String keyword) {
+        this.keyword = keyword;
     }
-
 }

@@ -50,6 +50,14 @@
                     android:text="评论 4867"
                     android:textSize="12sp" />
 
+                <TextView
+                    android:id="@+id/tv_thumb_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="点赞 4867"
+                    android:textSize="12sp" />
+
             </LinearLayout>
 
         </LinearLayout>

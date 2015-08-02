@@ -202,7 +202,7 @@ public class NewsFragment extends LazyLoadFragment {
 
         String keyword = getArguments().getString("keyword");
         builder.appendQueryParameter("keyword", keyword == null ? "" : keyword);
-        newsAdapter.setTitle(keyword == null ? "" : keyword);
+        newsAdapter.setKeyword(keyword == null ? "" : keyword);
 
         return builder.toString();
     }
@@ -217,7 +217,8 @@ public class NewsFragment extends LazyLoadFragment {
             String title = JSONUtils.getString(content, "title", "");
             String picture = JSONUtils.getString(content, "picture", "");
             int commentCount = JSONUtils.getInt(content, "commentCount", 0);
-            newsList.add(new News(id, title, new Date(), commentCount, picture));
+            int thumbCount = JSONUtils.getInt(content, "thumbCount", 0);
+            newsList.add(new News(id, title, new Date(), commentCount, thumbCount, picture));
         }
         return newsList;
     }
