@@ -5,7 +5,7 @@ import java.io.Serializable;
 
 public class Book implements Serializable {
 
-    private String id;
+    private Integer id;
 
     private String name;
 
@@ -15,7 +15,7 @@ public class Book implements Serializable {
 
     private String ebookFilename;
 
-    public Book(String id, String name, String picture, String ebook, String ebookFilename) {
+    public Book(Integer id, String name, String picture, String ebook, String ebookFilename) {
         this.id = id;
         this.name = name;
         this.picture = picture;
@@ -23,11 +23,11 @@ public class Book implements Serializable {
         this.ebookFilename = ebookFilename;
     }
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

@@ -12,9 +12,8 @@ public class ConfigUtils {
 
     public static String getBaseUrl() {
 
-        return "http://192.168.1.100:3000/withub";
+        return "http://192.168.1.100:8090/withub";
     }
-
 
     final static String SF_USER_ID = "user_id";
 

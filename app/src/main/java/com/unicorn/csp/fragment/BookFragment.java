@@ -210,7 +210,7 @@ public class BookFragment extends LazyLoadFragment {
         List<Book> bookList = new ArrayList<>();
         for (int i = 0; i != bookJSONArray.length(); i++) {
             JSONObject bookJSONObject = JSONUtils.getJSONObject(bookJSONArray, i);
-            String id = JSONUtils.getString(bookJSONObject, "id", "");
+            Integer id = JSONUtils.getInt(bookJSONObject, "id", 0);
             String name = JSONUtils.getString(bookJSONObject, "name", "");
             String picture = JSONUtils.getString(bookJSONObject, "picture", "");
             String ebook = JSONUtils.getString(bookJSONObject, "ebook", "");

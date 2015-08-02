@@ -1,6 +1,7 @@
 package com.unicorn.csp.adapter.recycle;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -21,7 +22,9 @@ import com.unicorn.csp.utils.ToastUtils;
 import com.unicorn.csp.volley.MyVolley;
 
 import org.apache.http.Header;
-import org.geometerplus.android.fbreader.FBReader;
+import org.geometerplus.android.fbreader.OrientationUtil;
+import org.geometerplus.android.fbreader.api.FBReaderIntents;
+import org.geometerplus.android.fbreader.library.BookInfoActivity;
 import org.geometerplus.fbreader.book.Book;
 
 import java.io.File;
@@ -121,16 +124,16 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
         return ConfigUtils.getDownloadDirPath() + "/" + book.getEbookFilename();
     }
 
-    int id = 19;
 
     private void openBook(com.unicorn.csp.model.Book book) {
 
-        // todo 研究 Fbreader book 的使用/
-        Book bookzz = new Book(id++, getBookPath(book), "", null, null);
-        FBReader.openBookActivity(activity, bookzz, null);
+        // todo 研究 Fbreader book 的使用
+        // todo 目前只是暂时用 BookDetailActivity 解决
+        Book bookzz = new Book(book.getId(), getBookPath(book), book.getName(), null, null);
+        Intent intent = new Intent(activity, BookInfoActivity.class);
+        FBReaderIntents.putBookExtra(intent, bookzz);
+        OrientationUtil.startActivity(activity, intent);
     }
-
-
 
     private void download(final com.unicorn.csp.model.Book book) {
 
