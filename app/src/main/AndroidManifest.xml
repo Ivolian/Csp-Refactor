@@ -10,6 +10,7 @@
     <!-- Optional: To see which Activity was active at the time of a crash -->
     <uses-permission android:name="android.permission.GET_TASKS" />
 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:name=".MyApplication"

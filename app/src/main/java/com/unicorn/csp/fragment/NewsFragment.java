@@ -41,7 +41,7 @@ public class NewsFragment extends LazyLoadFragment {
 
     @Override
     public int getLayoutResId() {
-        return R.layout.fragment_news;
+        return R.layout.fragment_refresh_recycleview;
     }
 
 

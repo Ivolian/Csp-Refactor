@@ -1,23 +1,24 @@
 package com.unicorn.csp.adapter.recycle;
 
 import android.app.Activity;
-import android.os.Environment;
-import android.support.v7.widget.PopupMenu;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.android.volley.toolbox.NetworkImageView;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.FileAsyncHttpResponseHandler;
-import com.malinskiy.materialicons.widget.IconTextView;
 import com.unicorn.csp.MyApplication;
 import com.unicorn.csp.R;
-import com.unicorn.csp.model.News;
+import com.unicorn.csp.utils.ConfigUtils;
 import com.unicorn.csp.utils.ToastUtils;
+import com.unicorn.csp.volley.MyVolley;
 
 import org.apache.http.Header;
 import org.geometerplus.android.fbreader.FBReader;
@@ -30,7 +31,6 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 
 public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
@@ -41,193 +41,25 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
         this.activity = activity;
     }
 
-    // todo replace news to book
-    private List<News> newsList = new ArrayList<>();
-
+    private List<com.unicorn.csp.model.Book> bookList = new ArrayList<>();
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        @Bind(R.id.more)
-        IconTextView more;
+        @Bind(R.id.cardview)
+        CardView cardView;
+
+        @Bind(R.id.tv_name)
+        TextView tvName;
+
+        @Bind(R.id.niv_picture)
+        NetworkImageView nivPicture;
+
 
         ViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
         }
-
-        @OnClick(R.id.more)
-        public void onMoreClick(View view) {
-            showContextMenu(view);
-        }
-
-        private void showContextMenu(View view) {
-
-            PopupMenu popupMenu = new PopupMenu(activity, view);
-            popupMenu.inflate(R.menu.menu_more);
-            popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                @Override
-                public boolean onMenuItemClick(MenuItem menuItem) {
-                    switch (menuItem.getItemId()) {
-                        case R.id.download:
-                            download();
-                            return true;
-                    }
-                    return false;
-                }
-            });
-            popupMenu.show();
-        }
-
-
-        private void download() {
-
-//
-//            String epubPath = Environment.getExternalStorageDirectory() + "/test.epub";
-//            File epub = new File(epubPath);
-//
-//            if (!epub.exists()){
-//                try {
-//                    InputStream is = activity.getAssets().open("test.epub");
-//                    FileOutputStream fos = new FileOutputStream(epub);
-//                    byte[] buffer = new byte[1024];
-//                    int byteCount = 0;
-//                    while ((byteCount = is.read(buffer)) != -1) {//循环从输入流读取 buffer字节
-//                        fos.write(buffer, 0, byteCount);//将读取的输入流写入到输出流
-//                    }
-//                    fos.flush();//刷新缓冲区
-//                    is.close();
-//                    fos.close();
-//                } catch (Exception e) {
-//                    //
-//                }
-//            }
-//
-//
-//            Book book = new Book(101,epubPath,"hehe",null,null);
-//            FBReader.openBookActivity(activity, book, null);
-
-
-            final MaterialDialog dialog = new MaterialDialog.Builder(activity)
-                    .title("下载书籍中")
-                    .content("单位: MB")
-                    .progress(false, 100, true)
-                    .cancelable(false)
-                    .show();
-            String fileUrl = "http://172.20.10.12:3000/withub/1.epub";
-            AsyncHttpClient client = new AsyncHttpClient();
-            client.get(fileUrl, new FileAsyncHttpResponseHandler(MyApplication.getInstance()) {
-                @Override
-                public void onSuccess(int statusCode, Header[] headers, File response) {
-                    dialog.setTitle("下载完成");
-                    dialog.dismiss();
-
-
-                    String epubPath = Environment.getExternalStorageDirectory() + "/test2.epub";
-                    copyfile(response, new File(epubPath), true);
-//                    ToastUtils.show(response.getAbsolutePath());
-//                    Log.e("result",response.getAbsolutePath() );
-
-
-                    Book book = new Book(101, epubPath, "hehe", null, null);
-                    FBReader.openBookActivity(activity, book, null);
-                }
-
-
-                @Override
-                public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
-                    ToastUtils.show("sorry");
-                }
-
-                @Override
-                public void onProgress(long bytesWritten, long totalSize) {
-                    super.onProgress(bytesWritten, totalSize);
-                    dialog.setMaxProgress((int) totalSize / 1024);
-
-                    int progress = (int) (bytesWritten * 100 / totalSize);
-                    dialog.setProgress((int) bytesWritten / 1024);
-//                    Log.e("result", totalSize + "");
-//                    Log.e("result", bytesWritten + "");
-//                    ToastUtils.show(bytesWritten + "");
-                }
-            });
-        }
-
-
-        public void copyfile(File fromFile, File toFile, Boolean rewrite)
-
-        {
-
-            if (!fromFile.exists()) {
-
-                return;
-
-            }
-
-            if (!fromFile.isFile()) {
-
-                return;
-
-            }
-
-            if (!fromFile.canRead()) {
-
-                return;
-
-            }
-
-            if (!toFile.getParentFile().exists()) {
-
-                toFile.getParentFile().mkdirs();
-
-            }
-
-            if (toFile.exists() && rewrite) {
-
-                toFile.delete();
-
-            }
-
-
-            // if (!toFile.canWrite()) {
-
-            // MessageDialog.openError(new Shell(),"错误信息","不能够写将要复制的目标文件" + toFile.getPath());
-
-            // Toast.makeText(this,"不能够写将要复制的目标文件", Toast.LENGTH_SHORT);
-
-            // return ;
-
-            // }
-
-            try {
-
-                java.io.FileInputStream fosfrom = new java.io.FileInputStream(fromFile);
-
-                java.io.FileOutputStream fosto = new FileOutputStream(toFile);
-
-                byte bt[] = new byte[1024];
-
-                int c;
-
-                while ((c = fosfrom.read(bt)) > 0) {
-
-                    fosto.write(bt, 0, c); //将内容写到新文件当中
-
-                }
-
-                fosfrom.close();
-
-                fosto.close();
-
-            } catch (Exception ex) {
-
-                Log.e("readfile", ex.getMessage());
-
-            }
-
-        }
-
     }
-
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
@@ -238,23 +70,193 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
     @Override
     public int getItemCount() {
 
-        return newsList.size();
+        return bookList.size();
     }
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
 
-        News news = newsList.get(position);
+        final com.unicorn.csp.model.Book book = bookList.get(position);
+        viewHolder.tvName.setText(book.getName());
+        // todo change book_default
+        viewHolder.nivPicture.setDefaultImageResId(R.drawable.book_default);
+        viewHolder.nivPicture.setImageUrl(ConfigUtils.getBaseUrl() + book.getPicture(), MyVolley.getImageLoader());
+
+        viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isBookExist(book)) {
+                    openBook(book);
+                } else {
+                    showConfirmDownloadDialog(book);
+                }
+            }
+        });
     }
 
-    public List<News> getNewsList() {
+    private MaterialDialog showConfirmDownloadDialog(final com.unicorn.csp.model.Book book) {
 
-        return newsList;
+        return new MaterialDialog.Builder(activity)
+                .title("该书籍未缓存，是否需要下载？")
+                .positiveText("确认")
+                .negativeText("取消")
+                .cancelable(false)
+                .callback(new MaterialDialog.ButtonCallback() {
+                    @Override
+                    public void onPositive(MaterialDialog dialog) {
+                        dialog.dismiss();
+                        download(book);
+                    }
+                })
+                .show();
     }
 
-    public void setNewsList(List<News> newsList) {
+    private boolean isBookExist(com.unicorn.csp.model.Book book) {
 
-        this.newsList = newsList;
+        return new File(getBookPath(book)).exists();
+    }
+
+    private String getBookPath(com.unicorn.csp.model.Book book) {
+
+        return ConfigUtils.getDownloadDirPath() + "/" + book.getEbookFilename();
+    }
+
+    int id = 19;
+
+    private void openBook(com.unicorn.csp.model.Book book) {
+
+        // todo 研究 Fbreader book 的使用/
+        Book bookzz = new Book(id++, getBookPath(book), "", null, null);
+        FBReader.openBookActivity(activity, bookzz, null);
+    }
+
+
+
+    private void download(final com.unicorn.csp.model.Book book) {
+
+        final MaterialDialog downloadDialog = showDownloadDialog(book);
+        String url = ConfigUtils.getBaseUrl() + book.getEbook();
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.get(url, new FileAsyncHttpResponseHandler(MyApplication.getInstance()) {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, File response) {
+
+                copyfile(response, new File(getBookPath(book)), true);
+                downloadDialog.setTitle("下载完成");
+                downloadDialog.setActionButton(DialogAction.POSITIVE, "开始阅读");
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
+
+                ToastUtils.show("下载失败");
+                downloadDialog.dismiss();
+            }
+
+            @Override
+            public void onProgress(long bytesWritten, long totalSize) {
+
+                downloadDialog.setMaxProgress((int) totalSize / 1024);
+                downloadDialog.setProgress((int) bytesWritten / 1024);
+            }
+        });
+    }
+
+    private MaterialDialog showDownloadDialog(final com.unicorn.csp.model.Book book) {
+
+        return new MaterialDialog.Builder(activity)
+                .title("下载书籍中")
+                .progress(false, 100)
+                .cancelable(false)
+                .callback(new MaterialDialog.ButtonCallback() {
+                    @Override
+                    public void onPositive(MaterialDialog dialog) {
+                        dialog.dismiss();
+                        openBook(book);
+                    }
+                })
+                .show();
+    }
+
+    public void copyfile(File fromFile, File toFile, Boolean rewrite) {
+
+        if (!fromFile.exists()) {
+
+            return;
+
+        }
+
+        if (!fromFile.isFile()) {
+
+            return;
+
+        }
+
+        if (!fromFile.canRead()) {
+
+            return;
+
+        }
+
+        if (!toFile.getParentFile().exists()) {
+
+            toFile.getParentFile().mkdirs();
+
+        }
+
+        if (toFile.exists() && rewrite) {
+
+            toFile.delete();
+
+        }
+
+
+        // if (!toFile.canWrite()) {
+
+        // MessageDialog.openError(new Shell(),"错误信息","不能够写将要复制的目标文件" + toFile.getPath());
+
+        // Toast.makeText(this,"不能够写将要复制的目标文件", Toast.LENGTH_SHORT);
+
+        // return ;
+
+        // }
+
+        try {
+
+            java.io.FileInputStream fosfrom = new java.io.FileInputStream(fromFile);
+
+            java.io.FileOutputStream fosto = new FileOutputStream(toFile);
+
+            byte bt[] = new byte[1024];
+
+            int c;
+
+            while ((c = fosfrom.read(bt)) > 0) {
+
+                fosto.write(bt, 0, c); //将内容写到新文件当中
+
+            }
+
+            fosfrom.close();
+
+            fosto.close();
+
+        } catch (Exception ex) {
+
+            Log.e("readfile", ex.getMessage());
+
+        }
+
+    }
+
+    public List<com.unicorn.csp.model.Book> getBookList() {
+
+        return bookList;
+    }
+
+    public void setBookList(List<com.unicorn.csp.model.Book> bookList) {
+
+        this.bookList = bookList;
     }
 
 }

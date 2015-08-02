@@ -16,11 +16,11 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.unicorn.csp.R;
 import com.unicorn.csp.adapter.recycle.BookAdapter;
 import com.unicorn.csp.fragment.base.LazyLoadFragment;
-import com.unicorn.csp.greendao.Menu;
-import com.unicorn.csp.model.News;
+import com.unicorn.csp.model.Book;
 import com.unicorn.csp.other.greenmatter.ColorOverrider;
 import com.unicorn.csp.utils.ConfigUtils;
 import com.unicorn.csp.utils.JSONUtils;
+import com.unicorn.csp.utils.RecycleViewUtils;
 import com.unicorn.csp.utils.ToastUtils;
 import com.unicorn.csp.volley.MyVolley;
 import com.unicorn.csp.volley.toolbox.VolleyErrorHelper;
@@ -29,7 +29,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.Bind;
@@ -39,7 +38,7 @@ public class BookFragment extends LazyLoadFragment {
 
     @Override
     public int getLayoutResId() {
-        return R.layout.fragment_news;
+        return R.layout.fragment_refresh_recycleview;
     }
 
 
@@ -59,7 +58,7 @@ public class BookFragment extends LazyLoadFragment {
 
     // ==================== page data ====================
 
-    final Integer PAGE_SIZE = 5;
+    final Integer PAGE_SIZE = 10;
 
     Integer pageNo;
 
@@ -103,7 +102,7 @@ public class BookFragment extends LazyLoadFragment {
     private void initRecyclerView() {
 
         recyclerView.setHasFixedSize(true);
-        final GridLayoutManager gridLayoutManager = getGridLayoutManager();
+        final GridLayoutManager gridLayoutManager = RecycleViewUtils.getGridLayoutManager(getActivity());
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setAdapter(bookAdapter = new BookAdapter(getActivity()));
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -134,7 +133,7 @@ public class BookFragment extends LazyLoadFragment {
         new Handler().post(new Runnable() {
             @Override
             public void run() {
-                swipeRefreshLayout.setRefreshing(true);
+                startRefreshing();
             }
         });
         MyVolley.addRequest(new JsonObjectRequest(getUrl(pageNo),
@@ -142,7 +141,7 @@ public class BookFragment extends LazyLoadFragment {
                     @Override
                     public void onResponse(JSONObject response) {
                         stopRefreshing();
-                        bookAdapter.setNewsList(getNewsList(response));
+                        bookAdapter.setBookList(parseBookList(response));
                         bookAdapter.notifyDataSetChanged();
                         checkLastPage(response);
                     }
@@ -165,7 +164,7 @@ public class BookFragment extends LazyLoadFragment {
                     public void onResponse(JSONObject response) {
                         loadingMore = false;
                         pageNo++;
-                        bookAdapter.getNewsList().addAll(getNewsList(response));
+                        bookAdapter.getBookList().addAll(parseBookList(response));
                         bookAdapter.notifyDataSetChanged();
                         checkLastPage(response);
                     }
@@ -188,47 +187,39 @@ public class BookFragment extends LazyLoadFragment {
         lastPage = false;
     }
 
-    private String getUrl(int pageNo) {
+    private String getUrl(Integer pageNo) {
 
-        Uri.Builder builder = Uri.parse(ConfigUtils.getBaseUrl() + "/api/v1/news?").buildUpon();
-        builder.appendQueryParameter("pageNo", pageNo + "");
+        Uri.Builder builder = Uri.parse(ConfigUtils.getBaseUrl() + "/api/v1/book/list?").buildUpon();
+        builder.appendQueryParameter("pageNo", pageNo.toString());
         builder.appendQueryParameter("pageSize", PAGE_SIZE.toString());
-        Menu menu = (Menu) getArguments().getSerializable("menu");
-        builder.appendQueryParameter("regionId", menu == null ? "" : menu.getId());
-        String title = getArguments().getString("title");
-        builder.appendQueryParameter("title", title == null ? "" : title);
+
+        // todo menu
+//        Menu menu = (Menu) getArguments().getSerializable("menu");
+//        builder.appendQueryParameter("menuId", menu == null ? "" : menu.getId());
+//
+//        String keyword = getArguments().getString("keyword");
+//        builder.appendQueryParameter("keyword", keyword == null ? "" : keyword);
+//        newsAdapter.setKeyword(keyword == null ? "" : keyword);
+
         return builder.toString();
     }
 
-    private List<News> parseNewsList(JSONObject response) {
+    private List<Book> parseBookList(JSONObject response) {
 
-        JSONArray contents = JSONUtils.getJSONArray(response, "content", null);
-        List<News> newsList = new ArrayList<>();
-        for (int i = 0; i != contents.length(); i++) {
-            JSONObject content = JSONUtils.getJSONObject(contents, i);
-            String id = JSONUtils.getString(content, "id", "");
-            String title = JSONUtils.getString(content, "title", "");
-            JSONObject contentData = JSONUtils.getJSONObject(content, "contentData", null);
-            String data = JSONUtils.getString(contentData, "data", "");
-            String picture = JSONUtils.getString(content, "picture", "");
-            int commentCount = JSONUtils.getInt(content, "commentCount", 0);
-            newsList.add(new News(id, title, new Date(), commentCount,1, picture));
+        JSONArray bookJSONArray = JSONUtils.getJSONArray(response, "content", null);
+        List<Book> bookList = new ArrayList<>();
+        for (int i = 0; i != bookJSONArray.length(); i++) {
+            JSONObject bookJSONObject = JSONUtils.getJSONObject(bookJSONArray, i);
+            String id = JSONUtils.getString(bookJSONObject, "id", "");
+            String name = JSONUtils.getString(bookJSONObject, "name", "");
+            String picture = JSONUtils.getString(bookJSONObject, "picture", "");
+            String ebook = JSONUtils.getString(bookJSONObject, "ebook", "");
+            String ebookFilename = JSONUtils.getString(bookJSONObject, "ebookFilename", "");
+            bookList.add(new Book(id, name, picture, ebook, ebookFilename));
         }
-        return newsList;
+        return bookList;
     }
 
-    private List<News> getNewsList(JSONObject response) {
-
-        List<News> newsList = new ArrayList<>();
-        for (int i = 0; i != 10; i++) {
-            News news = new News("", "", new Date(), 0,1, "");
-            newsList.add(news);
-        }
-        return newsList;
-    }
-
-
-    // 检查是否所有数据加载完毕
     private void checkLastPage(JSONObject response) {
 
         if (lastPage = isLastPage(response)) {
@@ -253,9 +244,11 @@ public class BookFragment extends LazyLoadFragment {
         }
     }
 
-    private GridLayoutManager getGridLayoutManager() {
+    private void startRefreshing() {
 
-        return new GridLayoutManager(getActivity(), 2);
+        if (swipeRefreshLayout != null) {
+            swipeRefreshLayout.setRefreshing(true);
+        }
     }
 
 }

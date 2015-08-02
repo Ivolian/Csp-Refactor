@@ -1,8 +1,12 @@
 package com.unicorn.csp.utils;
 
 
+import android.os.Environment;
+
 import com.unicorn.csp.MyApplication;
 import com.unicorn.csp.other.TinyDB;
+
+import java.io.File;
 
 public class ConfigUtils {
 
@@ -22,6 +26,15 @@ public class ConfigUtils {
     public static String getUserId() {
 
         return new TinyDB(MyApplication.getInstance().getApplicationContext()).getString(SF_USER_ID);
+    }
+
+    public static String getDownloadDirPath() {
+
+        File dir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "csp");
+        if (!dir.exists()) {
+            dir.mkdir();
+        }
+        return dir.getAbsolutePath();
     }
 
 }
