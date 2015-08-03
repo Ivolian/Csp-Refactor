@@ -14,7 +14,7 @@ import com.unicorn.csp.greendao.SearchHistory;
 /** 
  * DAO for table SEARCH_HISTORY.
 */
-public class SearchHistoryDao extends AbstractDao<SearchHistory, Void> {
+public class SearchHistoryDao extends AbstractDao<SearchHistory, String> {
 
     public static final String TABLENAME = "SEARCH_HISTORY";
 
@@ -23,7 +23,8 @@ public class SearchHistoryDao extends AbstractDao<SearchHistory, Void> {
      * Can be used for QueryBuilder and for referencing column names.
     */
     public static class Properties {
-        public final static Property Keyword = new Property(0, String.class, "keyword", false, "KEYWORD");
+        public final static Property Keyword = new Property(0, String.class, "keyword", true, "KEYWORD");
+        public final static Property Type = new Property(1, String.class, "type", false, "TYPE");
     };
 
     private DaoSession daoSession;
@@ -42,7 +43,8 @@ public class SearchHistoryDao extends AbstractDao<SearchHistory, Void> {
     public static void createTable(SQLiteDatabase db, boolean ifNotExists) {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "'SEARCH_HISTORY' (" + //
-                "'KEYWORD' TEXT);"); // 0: keyword
+                "'KEYWORD' TEXT PRIMARY KEY NOT NULL ," + // 0: keyword
+                "'TYPE' TEXT);"); // 1: type
     }
 
     /** Drops the underlying database table. */
@@ -60,6 +62,11 @@ public class SearchHistoryDao extends AbstractDao<SearchHistory, Void> {
         if (keyword != null) {
             stmt.bindString(1, keyword);
         }
+ 
+        String type = entity.getType();
+        if (type != null) {
+            stmt.bindString(2, type);
+        }
     }
 
     @Override
@@ -70,15 +77,16 @@ public class SearchHistoryDao extends AbstractDao<SearchHistory, Void> {
 
     /** @inheritdoc */
     @Override
-    public Void readKey(Cursor cursor, int offset) {
-        return null;
+    public String readKey(Cursor cursor, int offset) {
+        return cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0);
     }    
 
     /** @inheritdoc */
     @Override
     public SearchHistory readEntity(Cursor cursor, int offset) {
         SearchHistory entity = new SearchHistory( //
-            cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0) // keyword
+            cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0), // keyword
+            cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1) // type
         );
         return entity;
     }
@@ -87,19 +95,23 @@ public class SearchHistoryDao extends AbstractDao<SearchHistory, Void> {
     @Override
     public void readEntity(Cursor cursor, SearchHistory entity, int offset) {
         entity.setKeyword(cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0));
+        entity.setType(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
      }
     
     /** @inheritdoc */
     @Override
-    protected Void updateKeyAfterInsert(SearchHistory entity, long rowId) {
-        // Unsupported or missing PK type
-        return null;
+    protected String updateKeyAfterInsert(SearchHistory entity, long rowId) {
+        return entity.getKeyword();
     }
     
     /** @inheritdoc */
     @Override
-    public Void getKey(SearchHistory entity) {
-        return null;
+    public String getKey(SearchHistory entity) {
+        if(entity != null) {
+            return entity.getKeyword();
+        } else {
+            return null;
+        }
     }
 
     /** @inheritdoc */

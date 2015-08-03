@@ -45,6 +45,8 @@
         <activity android:name=".activity.NewsSearchActivity" />
         <activity android:name=".activity.FavoriteActivity" />
         <activity android:name=".activity.ChangePasswordActivity" />
+        <activity android:name=".activity.base.BookSearchActivity" />
+
     </application>
 
 </manifest>

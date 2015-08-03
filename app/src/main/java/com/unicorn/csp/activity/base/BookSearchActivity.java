@@ -1,4 +1,4 @@
-package com.unicorn.csp.activity;
+package com.unicorn.csp.activity.base;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -11,8 +11,7 @@ import com.quinny898.library.persistentsearch.SearchBox;
 import com.quinny898.library.persistentsearch.SearchResult;
 import com.unicorn.csp.MyApplication;
 import com.unicorn.csp.R;
-import com.unicorn.csp.activity.base.ButterKnifeActivity;
-import com.unicorn.csp.fragment.NewsFragment;
+import com.unicorn.csp.fragment.BookFragment;
 import com.unicorn.csp.greendao.SearchHistory;
 import com.unicorn.csp.greendao.SearchHistoryDao;
 
@@ -25,7 +24,7 @@ import java.util.Queue;
 import butterknife.Bind;
 
 
-public class NewsSearchActivity extends ButterKnifeActivity implements SearchBox.SearchListener {
+public class BookSearchActivity extends ButterKnifeActivity implements SearchBox.SearchListener {
 
     @Bind(R.id.searchbox)
     SearchBox searchBox;
@@ -33,7 +32,7 @@ public class NewsSearchActivity extends ButterKnifeActivity implements SearchBox
     // 关键词队列，用于维护用户查询历史
     Queue<String> keywordQueue = new LinkedList<>();
 
-    NewsFragment newsFragment;
+    BookFragment bookFragment;
 
 
     // ================================ onCreate ================================
@@ -63,19 +62,19 @@ public class NewsSearchActivity extends ButterKnifeActivity implements SearchBox
 
     private void initTitleQueue() {
 
-        for (SearchHistory searchHistory : getNewsSearchHistory()) {
+        for (SearchHistory searchHistory : getBookSearchHistory()) {
             keywordQueue.add(searchHistory.getKeyword());
         }
     }
 
     private void initNewsFragment() {
 
-        newsFragment = new NewsFragment();
+        bookFragment = new BookFragment();
         // 不知道为什么，这里 newsFragment 没有调用 setUserVisibleHint 方法，需要手动调用 initPrepare 方法
-        newsFragment.initPrepare();
+        bookFragment.initPrepare();
         Bundle bundle = new Bundle();
-        newsFragment.setArguments(bundle);
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, newsFragment).commit();
+        bookFragment.setArguments(bundle);
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, bookFragment).commit();
     }
 
 
@@ -126,17 +125,17 @@ public class NewsSearchActivity extends ButterKnifeActivity implements SearchBox
 
     private void persistSearchHistory() {
 
-        MyApplication.getSearchHistoryDao().deleteInTx(getNewsSearchHistory());
+        MyApplication.getSearchHistoryDao().deleteInTx(getBookSearchHistory());
         List<SearchHistory> searchHistoryList = new ArrayList<>();
         for (String keyword : keywordQueue) {
-            searchHistoryList.add(new SearchHistory(keyword,"news"));
+            searchHistoryList.add(new SearchHistory(keyword, "book"));
         }
         MyApplication.getSearchHistoryDao().insertInTx(searchHistoryList);
     }
 
-    private List<SearchHistory> getNewsSearchHistory() {
+    private List<SearchHistory> getBookSearchHistory() {
 
-        return MyApplication.getSearchHistoryDao().queryBuilder().where(SearchHistoryDao.Properties.Type.eq("news")).list();
+        return MyApplication.getSearchHistoryDao().queryBuilder().where(SearchHistoryDao.Properties.Type.eq("book")).list();
     }
 
 
@@ -154,8 +153,8 @@ public class NewsSearchActivity extends ButterKnifeActivity implements SearchBox
 
     private void reloadNews(String keyword) {
 
-        newsFragment.getArguments().putString("keyword", keyword);
-        newsFragment.reload();
+        bookFragment.getArguments().putString("keyword", keyword);
+        bookFragment.reload();
     }
 
     private Drawable getHistoryDrawable() {

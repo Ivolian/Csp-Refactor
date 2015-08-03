@@ -27,6 +27,7 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.OnCheckedChangeListener;
 import com.unicorn.csp.MyApplication;
 import com.unicorn.csp.R;
+import com.unicorn.csp.activity.base.BookSearchActivity;
 import com.unicorn.csp.activity.base.ToolbarActivity;
 import com.unicorn.csp.adapter.pager.ViewPagerAdapter;
 import com.unicorn.csp.greendao.Menu;
@@ -306,7 +307,9 @@ public class MainActivity extends ToolbarActivity {
             case R.id.search_news:
                 startActivity(NewsSearchActivity.class);
                 return true;
-            // todo search_book
+            case R.id.search_book:
+                startActivity(BookSearchActivity.class);
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }

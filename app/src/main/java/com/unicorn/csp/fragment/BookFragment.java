@@ -199,10 +199,8 @@ public class BookFragment extends LazyLoadFragment {
 
         Menu menu = (Menu) getArguments().getSerializable("menu");
         builder.appendQueryParameter("menuId", menu == null ? "" : menu.getId());
-//
-//        String keyword = getArguments().getString("keyword");
-//        builder.appendQueryParameter("keyword", keyword == null ? "" : keyword);
-//        newsAdapter.setKeyword(keyword == null ? "" : keyword);
+        String keyword = getArguments().getString("keyword");
+        builder.appendQueryParameter("keyword", keyword == null ? "" : keyword);
 
         return builder.toString();
     }
