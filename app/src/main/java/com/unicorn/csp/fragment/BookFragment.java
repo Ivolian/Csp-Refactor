@@ -16,6 +16,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.unicorn.csp.R;
 import com.unicorn.csp.adapter.recycle.BookAdapter;
 import com.unicorn.csp.fragment.base.LazyLoadFragment;
+import com.unicorn.csp.greendao.Menu;
 import com.unicorn.csp.model.Book;
 import com.unicorn.csp.other.greenmatter.ColorOverrider;
 import com.unicorn.csp.utils.ConfigUtils;
@@ -187,15 +188,17 @@ public class BookFragment extends LazyLoadFragment {
         lastPage = false;
     }
 
+
+
+
     private String getUrl(Integer pageNo) {
 
         Uri.Builder builder = Uri.parse(ConfigUtils.getBaseUrl() + "/api/v1/book/list?").buildUpon();
         builder.appendQueryParameter("pageNo", pageNo.toString());
         builder.appendQueryParameter("pageSize", PAGE_SIZE.toString());
 
-        // todo menu
-//        Menu menu = (Menu) getArguments().getSerializable("menu");
-//        builder.appendQueryParameter("menuId", menu == null ? "" : menu.getId());
+        Menu menu = (Menu) getArguments().getSerializable("menu");
+        builder.appendQueryParameter("menuId", menu == null ? "" : menu.getId());
 //
 //        String keyword = getArguments().getString("keyword");
 //        builder.appendQueryParameter("keyword", keyword == null ? "" : keyword);
