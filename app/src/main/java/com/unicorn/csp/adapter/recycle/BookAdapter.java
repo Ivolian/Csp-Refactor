@@ -57,7 +57,6 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
         @Bind(R.id.niv_picture)
         NetworkImageView nivPicture;
 
-
         ViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
@@ -221,42 +220,23 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
     public void copyfile(File fromFile, File toFile, Boolean rewrite) {
 
         if (!fromFile.exists()) {
-
             return;
-
         }
-
         if (!fromFile.isFile()) {
-
             return;
-
         }
-
         if (!fromFile.canRead()) {
-
             return;
-
         }
-
         if (!toFile.getParentFile().exists()) {
-
             toFile.getParentFile().mkdirs();
-
         }
-
         if (toFile.exists() && rewrite) {
-
             toFile.delete();
-
         }
-
-
         // if (!toFile.canWrite()) {
-
         // MessageDialog.openError(new Shell(),"错误信息","不能够写将要复制的目标文件" + toFile.getPath());
-
         // Toast.makeText(this,"不能够写将要复制的目标文件", Toast.LENGTH_SHORT);
-
         // return ;
 
         // }

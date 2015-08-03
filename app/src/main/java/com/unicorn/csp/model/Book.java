@@ -15,12 +15,15 @@ public class Book implements Serializable {
 
     private String ebookFilename;
 
-    public Book(Integer id, String name, String picture, String ebook, String ebookFilename) {
+    private String summary;
+
+    public Book(Integer id, String name, String picture, String ebook, String ebookFilename,String summary) {
         this.id = id;
         this.name = name;
         this.picture = picture;
         this.ebook = ebook;
         this.ebookFilename = ebookFilename;
+        this.summary = summary;
     }
 
     public Integer getId() {
@@ -61,6 +64,14 @@ public class Book implements Serializable {
 
     public void setEbookFilename(String ebookFilename) {
         this.ebookFilename = ebookFilename;
+    }
+
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary;
     }
 }
 

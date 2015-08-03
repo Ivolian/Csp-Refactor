@@ -4,7 +4,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -59,7 +59,7 @@ public class BookFragment extends LazyLoadFragment {
 
     // ==================== page data ====================
 
-    final Integer PAGE_SIZE = 10;
+    final Integer PAGE_SIZE = 5;
 
     Integer pageNo;
 
@@ -103,8 +103,8 @@ public class BookFragment extends LazyLoadFragment {
     private void initRecyclerView() {
 
         recyclerView.setHasFixedSize(true);
-        final GridLayoutManager gridLayoutManager = RecycleViewUtils.getGridLayoutManager(getActivity());
-        recyclerView.setLayoutManager(gridLayoutManager);
+        final LinearLayoutManager linearLayoutManager = RecycleViewUtils.getLinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(bookAdapter = new BookAdapter(getActivity()));
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -114,8 +114,8 @@ public class BookFragment extends LazyLoadFragment {
                     return;
                 }
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    int lastVisibleItem = gridLayoutManager.findLastCompletelyVisibleItemPosition();
-                    int totalItemCount = gridLayoutManager.getItemCount();
+                    int lastVisibleItem = linearLayoutManager.findLastCompletelyVisibleItemPosition();
+                    int totalItemCount = linearLayoutManager.getItemCount();
                     if (totalItemCount != 0 && totalItemCount == (lastVisibleItem + 1)) {
                         loadMore();
                     }
@@ -188,9 +188,6 @@ public class BookFragment extends LazyLoadFragment {
         lastPage = false;
     }
 
-
-
-
     private String getUrl(Integer pageNo) {
 
         Uri.Builder builder = Uri.parse(ConfigUtils.getBaseUrl() + "/api/v1/book/list?").buildUpon();
@@ -216,7 +213,8 @@ public class BookFragment extends LazyLoadFragment {
             String picture = JSONUtils.getString(bookJSONObject, "picture", "");
             String ebook = JSONUtils.getString(bookJSONObject, "ebook", "");
             String ebookFilename = JSONUtils.getString(bookJSONObject, "ebookFilename", "");
-            bookList.add(new Book(id, name, picture, ebook, ebookFilename));
+            String summary = JSONUtils.getString(bookJSONObject, "summary", "");
+            bookList.add(new Book(id, name, picture, ebook, ebookFilename,summary));
         }
         return bookList;
     }
