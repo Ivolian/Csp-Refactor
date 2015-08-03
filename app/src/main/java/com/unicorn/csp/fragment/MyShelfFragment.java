@@ -14,9 +14,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.unicorn.csp.R;
-import com.unicorn.csp.adapter.recycle.BookAdapter;
+import com.unicorn.csp.adapter.recycle.MyShelfAdapter;
 import com.unicorn.csp.fragment.base.LazyLoadFragment;
-import com.unicorn.csp.greendao.Menu;
 import com.unicorn.csp.model.Book;
 import com.unicorn.csp.other.greenmatter.ColorOverrider;
 import com.unicorn.csp.utils.ConfigUtils;
@@ -35,7 +34,7 @@ import java.util.List;
 import butterknife.Bind;
 
 
-public class BookFragment extends LazyLoadFragment {
+public class MyShelfFragment extends LazyLoadFragment {
 
     @Override
     public int getLayoutResId() {
@@ -54,7 +53,7 @@ public class BookFragment extends LazyLoadFragment {
 
     // ==================== myShelfAdapter ====================
 
-    BookAdapter bookAdapter;
+    MyShelfAdapter myShelfAdapter;
 
 
     // ==================== page data ====================
@@ -105,7 +104,7 @@ public class BookFragment extends LazyLoadFragment {
         recyclerView.setHasFixedSize(true);
         final LinearLayoutManager linearLayoutManager = RecycleViewUtils.getLinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setAdapter(bookAdapter = new BookAdapter(getActivity()));
+        recyclerView.setAdapter(myShelfAdapter = new MyShelfAdapter(getActivity()));
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -142,8 +141,8 @@ public class BookFragment extends LazyLoadFragment {
                     @Override
                     public void onResponse(JSONObject response) {
                         stopRefreshing();
-                        bookAdapter.setBookList(parseBookList(response));
-                        bookAdapter.notifyDataSetChanged();
+                        myShelfAdapter.setBookList(parseBookList(response));
+                        myShelfAdapter.notifyDataSetChanged();
                         checkLastPage(response);
                     }
                 },
@@ -165,8 +164,8 @@ public class BookFragment extends LazyLoadFragment {
                     public void onResponse(JSONObject response) {
                         loadingMore = false;
                         pageNo++;
-                        bookAdapter.getBookList().addAll(parseBookList(response));
-                        bookAdapter.notifyDataSetChanged();
+                        myShelfAdapter.getBookList().addAll(parseBookList(response));
+                        myShelfAdapter.notifyDataSetChanged();
                         checkLastPage(response);
                     }
                 },
@@ -190,15 +189,10 @@ public class BookFragment extends LazyLoadFragment {
 
     private String getUrl(Integer pageNo) {
 
-        Uri.Builder builder = Uri.parse(ConfigUtils.getBaseUrl() + "/api/v1/book/list?").buildUpon();
+        Uri.Builder builder = Uri.parse(ConfigUtils.getBaseUrl() + "/api/v1/favoritebook?").buildUpon();
         builder.appendQueryParameter("pageNo", pageNo.toString());
         builder.appendQueryParameter("pageSize", PAGE_SIZE.toString());
-
-        Menu menu = (Menu) getArguments().getSerializable("menu");
-        builder.appendQueryParameter("menuId", menu == null ? "" : menu.getId());
-        String keyword = getArguments().getString("keyword");
-        builder.appendQueryParameter("keyword", keyword == null ? "" : keyword);
-
+        builder.appendQueryParameter("userId", ConfigUtils.getUserId());
         return builder.toString();
     }
 

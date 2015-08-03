@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.unicorn.csp.fragment.BookFragment;
+import com.unicorn.csp.fragment.MyShelfFragment;
 import com.unicorn.csp.fragment.NewsFragment;
 import com.unicorn.csp.fragment.OnlineStoreFragment;
 import com.unicorn.csp.fragment.QuestionFragment;
@@ -65,6 +66,8 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
                 return new OnlineStoreFragment();
             case "question":
                 return new QuestionFragment();
+            case "myShelf":
+                return new MyShelfFragment();
             default:
                 throw new RuntimeException("未知的菜单类型");
         }
