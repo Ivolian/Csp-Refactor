@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.unicorn.csp.fragment.BookFragment;
+import com.unicorn.csp.fragment.ChartFragment;
 import com.unicorn.csp.fragment.MyShelfFragment;
 import com.unicorn.csp.fragment.NewsFragment;
 import com.unicorn.csp.fragment.OnlineStoreFragment;
@@ -45,7 +46,7 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
     static public Fragment getFragmentByMenu(Menu menu, boolean mainActivity) {
 
-        Fragment fragment = null;
+        Fragment fragment;
         if (menu.getChildren().size() != 0) {
             fragment = mainActivity ? new ViewPagerFragmentL1() : new ViewPagerFragmentL2();
         } else {
@@ -68,6 +69,8 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
                 return new QuestionFragment();
             case "myShelf":
                 return new MyShelfFragment();
+            case"chart":
+                return new ChartFragment();
             default:
                 throw new RuntimeException("未知的菜单类型");
         }

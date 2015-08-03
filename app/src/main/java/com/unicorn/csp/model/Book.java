@@ -19,6 +19,9 @@ public class Book implements Serializable {
 
     private String id;
 
+    public Book() {
+    }
+
     public Book(Integer id2, String name, String picture, String ebook, String ebookFilename, String summary, String id) {
         this.id2 = id2;
         this.name = name;
