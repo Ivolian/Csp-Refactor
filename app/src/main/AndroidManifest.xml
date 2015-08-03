@@ -18,7 +18,7 @@
         android:hardwareAccelerated="true"
         android:icon="@drawable/logo"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme.NoActionBar"
+        android:theme="@style/AppTheme.NoActionBar.Transparent"
         tools:replace="android:icon,android:name,android:label">
 
         <meta-data
@@ -36,6 +36,7 @@
         <activity android:name=".activity.QuestionActivity" />
         <activity
             android:name=".activity.NewsDetailActivity"
+            android:theme="@style/AppTheme.NoActionBar"
             android:configChanges="orientation|screenSize" />
         <activity
             android:name=".activity.CommentActivity"

@@ -296,5 +296,12 @@ public class NewsDetailActivity extends ToolbarActivity implements ObservableScr
         return builder.toString();
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (webView != null) {
+            webView.destroy();
+        }
+    }
 
 }
