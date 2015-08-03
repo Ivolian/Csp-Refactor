@@ -2,19 +2,25 @@ package com.unicorn.csp.adapter.recycle;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.android.volley.Response;
 import com.android.volley.toolbox.NetworkImageView;
+import com.android.volley.toolbox.StringRequest;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.FileAsyncHttpResponseHandler;
+import com.malinskiy.materialicons.widget.IconTextView;
 import com.unicorn.csp.MyApplication;
 import com.unicorn.csp.R;
 import com.unicorn.csp.utils.ConfigUtils;
@@ -51,11 +57,17 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
         @Bind(R.id.cardview)
         CardView cardView;
 
+        @Bind(R.id.niv_picture)
+        NetworkImageView nivPicture;
+
         @Bind(R.id.tv_name)
         TextView tvName;
 
-        @Bind(R.id.niv_picture)
-        NetworkImageView nivPicture;
+        @Bind(R.id.itv_more_action)
+        IconTextView itvMoreAction;
+
+        @Bind(R.id.tv_summary)
+        TextView tvSummary;
 
         ViewHolder(View view) {
             super(view);
@@ -79,11 +91,42 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
 
         final com.unicorn.csp.model.Book book = bookList.get(position);
-        viewHolder.tvName.setText(book.getName());
         // todo change book_default
         viewHolder.nivPicture.setDefaultImageResId(R.drawable.book_default);
         viewHolder.nivPicture.setImageUrl(ConfigUtils.getBaseUrl() + book.getPicture(), MyVolley.getImageLoader());
+        viewHolder.tvName.setText(book.getName());
+        viewHolder.tvSummary.setText(book.getSummary());
 
+        // 添加事件
+        viewHolder.itvMoreAction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                PopupMenu popupMenu = new PopupMenu(activity, v);
+                popupMenu.inflate(R.menu.more_action);
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        switch (menuItem.getItemId()) {
+                            case R.id.add_to_my_shelf:
+                                addFavoriteBook(book.getId());
+                                return true;
+                            case R.id.delete:
+                                if (isBookExist(book)) {
+                                    showConfirmDeleteDialog(book);
+                                } else {
+                                    ToastUtils.show("该书籍尚未缓存");
+                                }
+                                return true;
+                        }
+                        return false;
+                    }
+                });
+                popupMenu.show();
+            }
+        });
+
+        // 添加事件
         viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -94,21 +137,12 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
                 }
             }
         });
-        viewHolder.cardView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                if (isBookExist(book)) {
-                    showConfirmDeleteDialog(book);
-                }
-                return true;
-            }
-        });
     }
 
     private MaterialDialog showConfirmDeleteDialog(final com.unicorn.csp.model.Book book) {
 
         return new MaterialDialog.Builder(activity)
-                .title("确认要删除该书籍？")
+                .title("确认要删除该书籍缓存？")
                 .positiveText("确认")
                 .negativeText("取消")
                 .cancelable(false)
@@ -165,7 +199,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
         // todo 研究 Fbreader book 的使用
         // todo 目前只是暂时用 BookDetailActivity 解决
         // todo 貌似 bookId 和 bookPath 都不能重复
-        Book bookzz = new Book(book.getId(), getBookPath(book), book.getName(), null, null);
+        Book bookzz = new Book(book.getId2(), getBookPath(book), book.getName(), null, null);
         Intent intent = new Intent(activity, BookInfoActivity.class);
         FBReaderIntents.putBookExtra(intent, bookzz);
         OrientationUtil.startActivity(activity, intent);
@@ -278,5 +312,29 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
 
         this.bookList = bookList;
     }
+
+
+    private void addFavoriteBook(String bookId) {
+
+        MyVolley.addRequest(new StringRequest(getFavoriteBookUrl(bookId),
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        boolean result = response.equals(Boolean.TRUE.toString());
+                        ToastUtils.show(result ? "添加成功" : "已加入我的书架");
+                    }
+                },
+                MyVolley.getDefaultErrorListener()));
+    }
+
+
+    private String getFavoriteBookUrl(String bookId) {
+
+        Uri.Builder builder = Uri.parse(ConfigUtils.getBaseUrl() + "/api/v1/favoritebook/create?").buildUpon();
+        builder.appendQueryParameter("bookId", bookId);
+        builder.appendQueryParameter("userId", ConfigUtils.getUserId());
+        return builder.toString();
+    }
+
 
 }

@@ -208,13 +208,14 @@ public class BookFragment extends LazyLoadFragment {
         List<Book> bookList = new ArrayList<>();
         for (int i = 0; i != bookJSONArray.length(); i++) {
             JSONObject bookJSONObject = JSONUtils.getJSONObject(bookJSONArray, i);
-            Integer id = JSONUtils.getInt(bookJSONObject, "id", 0);
+            Integer id2 = JSONUtils.getInt(bookJSONObject, "id2", 0);
             String name = JSONUtils.getString(bookJSONObject, "name", "");
             String picture = JSONUtils.getString(bookJSONObject, "picture", "");
             String ebook = JSONUtils.getString(bookJSONObject, "ebook", "");
             String ebookFilename = JSONUtils.getString(bookJSONObject, "ebookFilename", "");
             String summary = JSONUtils.getString(bookJSONObject, "summary", "");
-            bookList.add(new Book(id, name, picture, ebook, ebookFilename,summary));
+            String id = JSONUtils.getString(bookJSONObject, "id", "");
+            bookList.add(new Book(id2, name, picture, ebook, ebookFilename,summary,id));
         }
         return bookList;
     }
