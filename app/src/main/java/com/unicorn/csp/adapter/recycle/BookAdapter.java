@@ -95,6 +95,43 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
                 }
             }
         });
+        viewHolder.cardView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if (isBookExist(book)) {
+                    showConfirmDeleteDialog(book);
+                }
+                return true;
+            }
+        });
+    }
+
+    private MaterialDialog showConfirmDeleteDialog(final com.unicorn.csp.model.Book book) {
+
+        return new MaterialDialog.Builder(activity)
+                .title("确认要删除该书籍？")
+                .positiveText("确认")
+                .negativeText("取消")
+                .cancelable(false)
+                .callback(new MaterialDialog.ButtonCallback() {
+                    @Override
+                    public void onPositive(MaterialDialog dialog) {
+                        dialog.dismiss();
+                        File file = new File(getBookPath(book));
+                        boolean result = file.delete();
+                        showResultDialog(result ? "删除成功" : "删除失败");
+                    }
+                })
+                .show();
+    }
+
+    private MaterialDialog showResultDialog(String result) {
+
+        return new MaterialDialog.Builder(activity)
+                .title(result)
+                .positiveText("确认")
+                .cancelable(false)
+                .show();
     }
 
     private MaterialDialog showConfirmDownloadDialog(final com.unicorn.csp.model.Book book) {
