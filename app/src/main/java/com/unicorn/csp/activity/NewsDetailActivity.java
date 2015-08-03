@@ -49,6 +49,7 @@ public class NewsDetailActivity extends ToolbarActivity implements ObservableScr
 
     private VideoEnabledWebChromeClient webChromeClient;
 
+
     // =============================== onCreate ===============================
 
     @Override
@@ -64,18 +65,18 @@ public class NewsDetailActivity extends ToolbarActivity implements ObservableScr
 
         initWebView();
         initFilterMenuLayout();
+        loadData();
     }
 
     private void initWebView() {
 
         webView.getSettings().setJavaScriptEnabled(true);
-        // todo try remove
-//        webView.getSettings().setDefaultTextEncodingName("UTF-8");
-        // todo 考虑到节省流量的问题，news 应该在这再发一次请求去取
-//        webView.loadData(news.getData(), "text/html; charset=UTF-8", null);
         webView.setWebViewClient(new WebViewClient());
         webView.setScrollViewCallbacks(this);
         enableVideo();
+    }
+
+    private void loadData() {
 
         MyVolley.addRequest(new StringRequest(getUrl(),
                 new Response.Listener<String>() {
@@ -140,6 +141,16 @@ public class NewsDetailActivity extends ToolbarActivity implements ObservableScr
         });
         webView.setWebChromeClient(webChromeClient);
     }
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (webView != null) {
+            webView.destroy();
+        }
+    }
+
 
     @Override
     public void onBackPressed() {
@@ -279,7 +290,6 @@ public class NewsDetailActivity extends ToolbarActivity implements ObservableScr
                 MyVolley.getDefaultErrorListener()));
     }
 
-
     private String getFavoriteUrl() {
 
         Uri.Builder builder = Uri.parse(ConfigUtils.getBaseUrl() + "/api/v1/favorite/create?").buildUpon();
@@ -294,14 +304,6 @@ public class NewsDetailActivity extends ToolbarActivity implements ObservableScr
         builder.appendQueryParameter("newsId", news.getId());
         builder.appendQueryParameter("userId", ConfigUtils.getUserId());
         return builder.toString();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (webView != null) {
-            webView.destroy();
-        }
     }
 
 }
