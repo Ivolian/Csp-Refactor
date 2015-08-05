@@ -63,6 +63,6 @@ dependencies {
     compile 'me.grantland:autofittextview:0.2.1'
     compile(name: 'MPChartLib', ext: 'aar')
     compile 'com.github.lzyzsd.randomcolor:library:1.0.0'
-
+    compile 'com.bigkoo:convenientbanner:1.0.3'
 
 }

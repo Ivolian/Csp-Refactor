@@ -5,11 +5,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import com.unicorn.csp.fragment.BookCityFragment;
 import com.unicorn.csp.fragment.BookFragment;
 import com.unicorn.csp.fragment.ChartFragment;
 import com.unicorn.csp.fragment.MyShelfFragment;
 import com.unicorn.csp.fragment.NewsFragment;
-import com.unicorn.csp.fragment.OnlineStoreFragment;
 import com.unicorn.csp.fragment.QuestionFragment;
 import com.unicorn.csp.fragment.ViewPagerFragmentL1;
 import com.unicorn.csp.fragment.ViewPagerFragmentL2;
@@ -64,7 +64,7 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
             case "book":
                 return new BookFragment();
             case "onlineStore":
-                return new OnlineStoreFragment();
+                return new BookCityFragment();
             case "question":
                 return new QuestionFragment();
             case "myShelf":
