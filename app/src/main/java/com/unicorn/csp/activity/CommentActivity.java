@@ -137,7 +137,6 @@ public class CommentActivity extends ToolbarActivity {
             }
         });
         recyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(this).build());
-
     }
 
     private void initFab() {

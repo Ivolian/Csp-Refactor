@@ -13,6 +13,11 @@ public class Answer {
 
     //
 
+
+    public Answer(String content) {
+        this.content = content;
+    }
+
     public String getContent() {
         return content;
     }

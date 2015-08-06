@@ -19,16 +19,10 @@ import java.util.List;
 
 import butterknife.Bind;
 
-/**
- * Created by Administrator on 2015/8/1.
- */
-public class QuestionFragment extends ButterKnifeFragment{
 
-    @Bind(R.id.recyclerView)
-    RecyclerView recyclerView;
+public class QuestionFragment extends ButterKnifeFragment {
 
-    QuestionAdapter questionAdapter;
-
+    // todo 5dp
     @Override
     public int getLayoutResId() {
         return R.layout.fragment_refresh_recycleview;
@@ -42,33 +36,54 @@ public class QuestionFragment extends ButterKnifeFragment{
         return rootView;
     }
 
-    private void initViews(){
 
-        questionAdapter = new QuestionAdapter(getActivity(),getQuestionList(),R.id.recycler_item_arrow_parent,500);
+    //
+
+    @Bind(R.id.recyclerView)
+    RecyclerView recyclerView;
+
+    QuestionAdapter questionAdapter;
+
+
+    private void initViews() {
+
+        questionAdapter = new QuestionAdapter(getActivity(), getQuestionList(), R.id.itv_expand, 500);
         recyclerView.setAdapter(questionAdapter);
         recyclerView.setLayoutManager(RecycleViewUtils.getLinearLayoutManager(getActivity()));
-        questionAdapter.setParentAndIconExpandOnClick(true);
+//        questionAdapter.setParentAndIconExpandOnClick(true);
+
     }
 
 
-    private List<ParentObject> getQuestionList(){
+    private List<ParentObject> getQuestionList() {
 
         Question question = new Question();
-        question.setContent("你是SB吗？");
-
-        Answer answer = new Answer();
-        answer.setContent("不是");
+        question.setContent("能不能建一个我的收藏，方便大家把自己需啊哟的法律法规收藏在自己的文件夹里，便于查阅。");
 
         List<Object> answerList = new ArrayList<>();
-        answerList.add(answer);
-        answerList.add(answer);
-        answerList.add(answer);
-        answerList.add(answer);
-
+        answerList.add(new Answer("说的不错"));
+        answerList.add(new Answer("可也。"));
         question.setChildObjectList(answerList);
+
+        Question question2 = new Question();
+        question2.setContent("我问个啥问题吧我个啥问题吧我问个啥问题吧");
+
+
+        List<Object> answerList2 = new ArrayList<>();
+        answerList2.add(new Answer("hehe3"));
+        answerList2.add(new Answer("hehe4"));
+        question2.setChildObjectList(answerList2);
+
+
+        Question question3 = new Question();
+        question3.setContent("我问个啥问题吧我");
+
 
         List<ParentObject> questionList = new ArrayList<>();
         questionList.add(question);
-        return  questionList;
+        questionList.add(question2);
+        questionList.add(question3);
+        return questionList;
     }
+
 }
