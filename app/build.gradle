@@ -64,5 +64,6 @@ dependencies {
     compile(name: 'MPChartLib', ext: 'aar')
     compile 'com.github.lzyzsd.randomcolor:library:1.0.0'
     compile 'com.bigkoo:convenientbanner:1.0.3'
+    compile 'com.bignerdranch.android:expandablerecyclerview:1.0.3'
 
 }
