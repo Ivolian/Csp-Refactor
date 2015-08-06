@@ -12,8 +12,8 @@
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.write_external_storage"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.write_external_storage" />
 
 
     <application
@@ -22,7 +22,7 @@
         android:hardwareAccelerated="true"
         android:icon="@drawable/logo"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme.NoActionBar.Transparent"
+        android:theme="@style/AppTheme.NoActionBar"
         tools:replace="android:icon,android:name,android:label">
 
         <meta-data
@@ -40,20 +40,22 @@
         <activity android:name=".activity.QuestionActivity" />
         <activity
             android:name=".activity.NewsDetailActivity"
-            android:theme="@style/AppTheme.NoActionBar"
             android:configChanges="orientation|screenSize" />
         <activity
             android:name=".activity.CommentActivity"
-            android:launchMode="singleTask" />
-        <activity android:name=".activity.AddCommentActivity" />
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme.NoActionBar.Transparent" />
+        <activity
+            android:name=".activity.AddCommentActivity"
+            android:theme="@style/AppTheme.NoActionBar.Transparent" />
         <activity android:name="im.dino.dbinspector.activities.DbInspectorActivity" />
         <activity android:name=".activity.NewsSearchActivity" />
         <activity android:name=".activity.FavoriteActivity" />
         <activity android:name=".activity.ChangePasswordActivity" />
         <activity android:name=".activity.base.BookSearchActivity" />
-        <activity android:name=".activity.WebViewActivity"
-            android:hardwareAccelerated="true"
-        />
+        <activity
+            android:name=".activity.WebViewActivity"
+            android:hardwareAccelerated="true" />
     </application>
 
 </manifest>
