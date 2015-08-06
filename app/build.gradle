@@ -50,7 +50,7 @@ dependencies {
     compile 'com.quinny898.library.persistentsearch:library:1.0.0-SNAPSHOT'
     compile(name: 'SmartTabLayout-mc', ext: 'aar')
     compile 'com.github.ksoichiro:android-observablescrollview:1.5.2'
-    compile(name: 'FilterMenu', ext: 'aar')
+    compile 'com.linroid.filtermenu:library:0.2.3@aar'
     compile 'com.f2prateek.dart:dart:1.1.0'
     compile 'com.github.lawloretienne:trestle:0.0.2'
     compile 'com.loopj.android:android-async-http:1.4.8'
