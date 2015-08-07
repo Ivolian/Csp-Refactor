@@ -2,11 +2,12 @@ package com.unicorn.csp.model;
 
 import com.bignerdranch.expandablerecyclerview.Model.ParentObject;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 
-public class Question implements ParentObject {
+public class Question implements ParentObject ,Serializable {
 
     private List<Object> answerList;
 
@@ -16,16 +17,19 @@ public class Question implements ParentObject {
 
     private Date eventTime;
 
+    private String id;
+
     public Question() {
     }
 
-    public Question( String content, String name, Date eventTime) {
+    public Question(String content, String name, Date eventTime, String id) {
         this.content = content;
         this.name = name;
         this.eventTime = eventTime;
+        this.id = id;
     }
 
-    //
+//
 
     public String getContent() {
         return content;
@@ -60,4 +64,13 @@ public class Question implements ParentObject {
     public void setChildObjectList(List<Object> childObjectList) {
         answerList = childObjectList;
     }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
 }

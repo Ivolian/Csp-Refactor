@@ -108,7 +108,7 @@ public class QuestionAdapter extends ExpandableRecyclerAdapter<QuestionAdapter.Q
                 public void onClick(View v) {
                     Intent intent = new Intent(activity, QuestionDetailActivity.class);
                     Question question = (Question)mParentItemList.get(getAdapterPosition());
-                    intent.putExtra("content",question.getContent());
+                    intent.putExtra("question",question);
                             activity.startActivity(intent);
 
                 }

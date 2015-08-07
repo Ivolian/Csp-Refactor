@@ -23,6 +23,7 @@ import com.unicorn.csp.R;
 import com.unicorn.csp.activity.AddQuestionActivity;
 import com.unicorn.csp.adapter.recycle.QuestionAdapter;
 import com.unicorn.csp.fragment.base.LazyLoadFragment;
+import com.unicorn.csp.model.Answer;
 import com.unicorn.csp.model.Question;
 import com.unicorn.csp.other.greenmatter.ColorOverrider;
 import com.unicorn.csp.utils.ConfigUtils;
@@ -239,7 +240,23 @@ public class QuestionFragment extends LazyLoadFragment {
             String username = JSONUtils.getString(questionJSONObject, "username", "");
             long time = JSONUtils.getLong(questionJSONObject, "eventtime", 0);
             Date eventTime = new Date(time);
-            questionList.add(new Question(content, username, eventTime));
+            String id = JSONUtils.getString(questionJSONObject,"id","");
+            Question question = new Question(content, username, eventTime,id);
+
+            List<Object> answerList = new ArrayList<>();
+            JSONArray answerJSONArray = JSONUtils.getJSONArray(questionJSONObject,"answerList",null);
+            for (int j=0;j!=answerJSONArray.length();j++){
+                JSONObject answerJSONObject = JSONUtils.getJSONObject(answerJSONArray, j);
+                String answerId = JSONUtils.getString(answerJSONObject, "id", "");
+                String answerContent = JSONUtils.getString(answerJSONObject,"content","");
+//                String answerUsername = JSONUtils.getString(answerJSONObject,"username","");
+                long time2 = JSONUtils.getLong(answerJSONObject, "eventtime", 0);
+                Date eventTime2 = new Date(time2);
+                answerList.add(new Answer(answerContent,"",eventTime2,id));
+            }
+
+            question.setChildObjectList(answerList);
+            questionList.add(question);
         }
         return questionList;
     }

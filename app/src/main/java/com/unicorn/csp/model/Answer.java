@@ -1,9 +1,10 @@
 package com.unicorn.csp.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 
-public class Answer {
+public class Answer implements Serializable {
 
     private String content;
 
@@ -11,12 +12,17 @@ public class Answer {
 
     private Date eventTime;
 
+    private String id;
     //
 
 
-    public Answer(String content) {
+    public Answer(String content, String name, Date eventTime, String id) {
         this.content = content;
+        this.name = name;
+        this.eventTime = eventTime;
+        this.id = id;
     }
+
 
     public String getContent() {
         return content;
@@ -42,4 +48,11 @@ public class Answer {
         this.eventTime = eventTime;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 }
