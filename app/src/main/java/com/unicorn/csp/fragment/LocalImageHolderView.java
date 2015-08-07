@@ -40,11 +40,11 @@ public class LocalImageHolderView implements CBPageAdapter.Holder<Integer>{
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //µã»÷ÊÂ¼þ
+                //ç‚¹å‡»äº‹ä»¶
                 Intent intent =new Intent(activity, WebViewActivity.class);
                 intent.putExtra("url",urls[position]);
                 activity.startActivity(intent);
-//                Toast.makeText(view.getContext(), "µã»÷ÁËµÚ" + (position + 1) + "Í¼Æ¬", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(view.getContext(), "ç‚¹å‡»äº†ç¬¬" + (position + 1) + "å›¾ç‰‡", Toast.LENGTH_SHORT).show();
             }
         });
     }

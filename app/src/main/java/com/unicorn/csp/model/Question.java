@@ -16,6 +16,15 @@ public class Question implements ParentObject {
 
     private Date eventTime;
 
+    public Question() {
+    }
+
+    public Question( String content, String name, Date eventTime) {
+        this.content = content;
+        this.name = name;
+        this.eventTime = eventTime;
+    }
+
     //
 
     public String getContent() {

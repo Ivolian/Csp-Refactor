@@ -21,10 +21,13 @@ public class QuestionAdapter extends ExpandableRecyclerAdapter<QuestionAdapter.Q
 
     private LayoutInflater mInflater;
 
+
+
     public QuestionAdapter(Context context, List<ParentObject> parentItemList) {
         super(context, parentItemList);
         mInflater = LayoutInflater.from(context);
     }
+
 
     /**
      * Public secondary constructor. This constructor adds the ability to add a custom triggering
