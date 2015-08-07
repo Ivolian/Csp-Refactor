@@ -1,5 +1,6 @@
 package com.unicorn.csp.fragment;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -19,9 +20,9 @@ import com.malinskiy.materialicons.IconDrawable;
 import com.malinskiy.materialicons.Iconify;
 import com.melnykov.fab.FloatingActionButton;
 import com.unicorn.csp.R;
+import com.unicorn.csp.activity.AddQuestionActivity;
 import com.unicorn.csp.adapter.recycle.QuestionAdapter;
 import com.unicorn.csp.fragment.base.LazyLoadFragment;
-import com.unicorn.csp.model.Answer;
 import com.unicorn.csp.model.Question;
 import com.unicorn.csp.other.greenmatter.ColorOverrider;
 import com.unicorn.csp.utils.ConfigUtils;
@@ -39,6 +40,7 @@ import java.util.Date;
 import java.util.List;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 
 
 public class QuestionFragment extends LazyLoadFragment {
@@ -148,6 +150,13 @@ public class QuestionFragment extends LazyLoadFragment {
 
         fab.setImageDrawable(getHelpDrawable());
         fab.attachToRecyclerView(recyclerView);
+    }
+
+    @OnClick(R.id.fab)
+    public void onFabClick() {
+
+        Intent intent =new Intent(getActivity(), AddQuestionActivity.class);
+        startActivity(intent);
     }
 
     public void reload() {
@@ -270,41 +279,9 @@ public class QuestionFragment extends LazyLoadFragment {
 
     private Drawable getHelpDrawable() {
 
-        return new IconDrawable(getActivity(), Iconify.IconValue.zmdi_help)
+        return new IconDrawable(getActivity(), Iconify.IconValue.zmdi_pin_help)
                 .colorRes(android.R.color.white)
                 .actionBarSize();
-    }
-
-
-    private List<ParentObject> getQuestionList() {
-
-        Question question = new Question();
-        question.setContent("能不能建一个我的收藏，方便大家把自己需啊哟的法律法规收藏在自己的文件夹里，便于查阅。");
-
-        List<Object> answerList = new ArrayList<>();
-        answerList.add(new Answer("说的不错"));
-        answerList.add(new Answer("可也。"));
-        question.setChildObjectList(answerList);
-
-        Question question2 = new Question();
-        question2.setContent("我问个啥问题吧我个啥问题吧我问个啥问题吧");
-
-
-        List<Object> answerList2 = new ArrayList<>();
-        answerList2.add(new Answer("hehe3"));
-        answerList2.add(new Answer("hehe4"));
-        question2.setChildObjectList(answerList2);
-
-
-        Question question3 = new Question();
-        question3.setContent("我问个啥问题吧我");
-
-
-        List<ParentObject> questionList = new ArrayList<>();
-        questionList.add(question);
-        questionList.add(question2);
-        questionList.add(question3);
-        return questionList;
     }
 
 }
