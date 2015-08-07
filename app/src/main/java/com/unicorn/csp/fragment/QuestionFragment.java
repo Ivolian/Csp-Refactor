@@ -1,7 +1,5 @@
 package com.unicorn.csp.fragment;
 
-import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,11 +14,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.bignerdranch.expandablerecyclerview.Model.ParentObject;
-import com.malinskiy.materialicons.IconDrawable;
-import com.malinskiy.materialicons.Iconify;
-import com.melnykov.fab.FloatingActionButton;
 import com.unicorn.csp.R;
-import com.unicorn.csp.activity.AddQuestionActivity;
 import com.unicorn.csp.adapter.recycle.QuestionAdapter;
 import com.unicorn.csp.fragment.base.LazyLoadFragment;
 import com.unicorn.csp.model.Answer;
@@ -41,7 +35,6 @@ import java.util.Date;
 import java.util.List;
 
 import butterknife.Bind;
-import butterknife.OnClick;
 
 
 public class QuestionFragment extends LazyLoadFragment {
@@ -68,9 +61,6 @@ public class QuestionFragment extends LazyLoadFragment {
 
     @Bind(R.id.recyclerView)
     RecyclerView recyclerView;
-
-    @Bind(R.id.fab)
-    FloatingActionButton fab;
 
 
     // ==================== adapter ====================
@@ -102,7 +92,6 @@ public class QuestionFragment extends LazyLoadFragment {
 
         initSwipeRefreshLayout();
         initRecyclerView();
-        initFab();
         reload();
     }
 
@@ -147,19 +136,6 @@ public class QuestionFragment extends LazyLoadFragment {
         });
     }
 
-    private void initFab() {
-
-        fab.setImageDrawable(getHelpDrawable());
-        fab.attachToRecyclerView(recyclerView);
-    }
-
-    @OnClick(R.id.fab)
-    public void onFabClick() {
-
-        Intent intent = new Intent(getActivity(), AddQuestionActivity.class);
-        startActivity(intent);
-    }
-
     public void reload() {
 
         clearPageData();
@@ -177,6 +153,7 @@ public class QuestionFragment extends LazyLoadFragment {
                         questionList = parseQuestionList(response);
                         questionAdapter = new QuestionAdapter(getActivity(), questionList, R.id.itv_expand, 500);
                         recyclerView.setAdapter(questionAdapter);
+                        questionAdapter.notifyDataSetChanged();
                         checkLastPage(response);
                     }
                 },
@@ -201,6 +178,7 @@ public class QuestionFragment extends LazyLoadFragment {
                         questionList.addAll(parseQuestionList(response));
                         questionAdapter = new QuestionAdapter(getActivity(), questionList, R.id.itv_expand, 500);
                         recyclerView.setAdapter(questionAdapter);
+                        questionAdapter.notifyDataSetChanged();
                         checkLastPage(response);
                     }
                 },
@@ -238,7 +216,7 @@ public class QuestionFragment extends LazyLoadFragment {
             JSONObject questionJSONObject = JSONUtils.getJSONObject(questionJSONArray, i);
             String content = JSONUtils.getString(questionJSONObject, "content", "");
             String username = JSONUtils.getString(questionJSONObject, "username", "");
-            long time = JSONUtils.getLong(questionJSONObject, "eventtime", 0);
+            long time = JSONUtils.getLong(questionJSONObject, "eventTime", 0);
             Date eventTime = new Date(time);
             String id = JSONUtils.getString(questionJSONObject, "id", "");
             Question question = new Question(content, username, eventTime, id);
@@ -250,7 +228,7 @@ public class QuestionFragment extends LazyLoadFragment {
                 String answerId = JSONUtils.getString(answerJSONObject, "id", "");
                 String answerContent = JSONUtils.getString(answerJSONObject, "content", "");
                 String answerUsername = JSONUtils.getString(answerJSONObject,"username","");
-                long time2 = JSONUtils.getLong(answerJSONObject, "eventtime", 0);
+                long time2 = JSONUtils.getLong(answerJSONObject, "eventTime", 0);
                 Date eventTime2 = new Date(time2);
                 answerList.add(new Answer(answerContent, answerUsername, eventTime2, answerId));
             }
@@ -290,15 +268,6 @@ public class QuestionFragment extends LazyLoadFragment {
         if (swipeRefreshLayout != null) {
             swipeRefreshLayout.setRefreshing(true);
         }
-
-
-    }
-
-    private Drawable getHelpDrawable() {
-
-        return new IconDrawable(getActivity(), Iconify.IconValue.zmdi_pin_help)
-                .colorRes(android.R.color.white)
-                .actionBarSize();
     }
 
 }

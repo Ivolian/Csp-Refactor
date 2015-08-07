@@ -17,8 +17,11 @@ import com.unicorn.csp.R;
 import com.unicorn.csp.activity.QuestionDetailActivity;
 import com.unicorn.csp.model.Answer;
 import com.unicorn.csp.model.Question;
+import com.unicorn.csp.utils.DateUtils;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 
 public class QuestionAdapter extends ExpandableRecyclerAdapter<QuestionAdapter.QuestionViewHolder, QuestionAdapter.AnswerViewHolder> {
@@ -86,12 +89,17 @@ public class QuestionAdapter extends ExpandableRecyclerAdapter<QuestionAdapter.Q
             parentViewHolder.itvExpand.setVisibility(View.GONE);
             parentViewHolder.line.setVisibility(View.GONE);
         }
+        parentViewHolder.tvTime.setText(DateUtils.getFormatDateString(question.getEventTime(), new SimpleDateFormat("MM-dd HH:mm", Locale.CHINA)));
+        parentViewHolder.tvUsername.setText(question.getName());
     }
 
     @Override
     public void onBindChildViewHolder(AnswerViewHolder childViewHolder, int position, Object childObject) {
         Answer answer = (Answer) childObject;
         childViewHolder.tvContent.setText(answer.getContent());
+        childViewHolder.tvTime.setText(DateUtils.getFormatDateString(answer.getEventTime(), new SimpleDateFormat("MM-dd HH:mm", Locale.CHINA)));
+        childViewHolder.tvUsername.setText(answer.getName());
+
     }
 
 
@@ -102,6 +110,10 @@ public class QuestionAdapter extends ExpandableRecyclerAdapter<QuestionAdapter.Q
         public IconTextView itvExpand;
 
         public View line;
+
+        public TextView tvTime;
+
+        public TextView tvUsername;
 
         /**
          * Public constructor for the CustomViewHolder.
@@ -114,6 +126,8 @@ public class QuestionAdapter extends ExpandableRecyclerAdapter<QuestionAdapter.Q
             tvContent = (TextView) itemView.findViewById(R.id.tv_content);
             itvExpand = (IconTextView) itemView.findViewById(R.id.itv_expand);
             line = itemView.findViewById(R.id.line);
+            tvTime = (TextView) itemView.findViewById(R.id.tv_time);
+            tvUsername = (TextView) itemView.findViewById(R.id.tv_username);
             tvContent.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -132,10 +146,16 @@ public class QuestionAdapter extends ExpandableRecyclerAdapter<QuestionAdapter.Q
 
         public TextView tvContent;
 
+        public TextView tvTime;
+
+        public TextView tvUsername;
+
         public AnswerViewHolder(View itemView) {
             super(itemView);
 
             tvContent = (TextView) itemView.findViewById(R.id.tv_content);
+            tvTime = (TextView) itemView.findViewById(R.id.tv_time);
+            tvUsername = (TextView) itemView.findViewById(R.id.tv_username);
         }
 
     }
