@@ -1,6 +1,8 @@
 package com.unicorn.csp.adapter.recycle;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,7 @@ import com.bignerdranch.expandablerecyclerview.Model.ParentObject;
 import com.bignerdranch.expandablerecyclerview.ViewHolder.ChildViewHolder;
 import com.bignerdranch.expandablerecyclerview.ViewHolder.ParentViewHolder;
 import com.unicorn.csp.R;
+import com.unicorn.csp.activity.QuestionDetailActivity;
 import com.unicorn.csp.model.Answer;
 import com.unicorn.csp.model.Question;
 
@@ -21,6 +24,7 @@ public class QuestionAdapter extends ExpandableRecyclerAdapter<QuestionAdapter.Q
 
     private LayoutInflater mInflater;
 
+    private Activity activity;
 
 
     public QuestionAdapter(Context context, List<ParentObject> parentItemList) {
@@ -34,8 +38,8 @@ public class QuestionAdapter extends ExpandableRecyclerAdapter<QuestionAdapter.Q
      * view when the adapter is created without having to set it later. This is here for demo
      * purposes.
      *
-     * @param context for inflating views
-     * @param parentItemList the list of parent items to be displayed in the RecyclerView
+     * @param context               for inflating views
+     * @param parentItemList        the list of parent items to be displayed in the RecyclerView
      * @param customClickableViewId the id of the view that triggers the expansion
      */
     public QuestionAdapter(Context context, List<ParentObject> parentItemList,
@@ -49,15 +53,16 @@ public class QuestionAdapter extends ExpandableRecyclerAdapter<QuestionAdapter.Q
      * view and a custom animation duration when the adapter is created without having to set them
      * later. This is here for demo purposes.
      *
-     * @param context for inflating views
-     * @param parentItemList the list of parent items to be displayed in the RecyclerView
+     * @param context               for inflating views
+     * @param parentItemList        the list of parent items to be displayed in the RecyclerView
      * @param customClickableViewId the id of the view that triggers the expansion
-     * @param animationDuration the duration (in ms) of the rotation animation
+     * @param animationDuration     the duration (in ms) of the rotation animation
      */
     public QuestionAdapter(Context context, List<ParentObject> parentItemList,
                            int customClickableViewId, long animationDuration) {
         super(context, parentItemList, customClickableViewId, animationDuration);
         mInflater = LayoutInflater.from(context);
+        this.activity = (Activity) context;
     }
 
     @Override
@@ -98,6 +103,16 @@ public class QuestionAdapter extends ExpandableRecyclerAdapter<QuestionAdapter.Q
             super(itemView);
 
             tvContent = (TextView) itemView.findViewById(R.id.tv_content);
+            tvContent.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(activity, QuestionDetailActivity.class);
+                    Question question = (Question)mParentItemList.get(getAdapterPosition());
+                    intent.putExtra("content",question.getContent());
+                            activity.startActivity(intent);
+
+                }
+            });
         }
     }
 

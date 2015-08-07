@@ -56,8 +56,10 @@
         <activity
             android:name=".activity.WebViewActivity"
             android:hardwareAccelerated="true" />
-        <activity android:name=".activity.AddQuestionActivity"
+        <activity
+            android:name=".activity.AddQuestionActivity"
             android:theme="@style/AppTheme.NoActionBar.Transparent" />
+        <activity android:name=".activity.QuestionDetailActivity" />
     </application>
 
 </manifest>
