@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="账号: sygzgf   密码: sygzgf123"
+        android:text=" 账号: sygzgf   密码: sygzgf123"
         android:textSize="16sp" />
 
 </LinearLayout>
