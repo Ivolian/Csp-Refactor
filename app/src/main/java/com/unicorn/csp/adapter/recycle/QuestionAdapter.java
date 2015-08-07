@@ -12,6 +12,7 @@ import com.bignerdranch.expandablerecyclerview.Adapter.ExpandableRecyclerAdapter
 import com.bignerdranch.expandablerecyclerview.Model.ParentObject;
 import com.bignerdranch.expandablerecyclerview.ViewHolder.ChildViewHolder;
 import com.bignerdranch.expandablerecyclerview.ViewHolder.ParentViewHolder;
+import com.malinskiy.materialicons.widget.IconTextView;
 import com.unicorn.csp.R;
 import com.unicorn.csp.activity.QuestionDetailActivity;
 import com.unicorn.csp.model.Answer;
@@ -81,6 +82,10 @@ public class QuestionAdapter extends ExpandableRecyclerAdapter<QuestionAdapter.Q
     public void onBindParentViewHolder(QuestionViewHolder parentViewHolder, int position, Object parentObject) {
         Question question = (Question) parentObject;
         parentViewHolder.tvContent.setText(question.getContent());
+        if (question.getChildObjectList().size() == 0) {
+            parentViewHolder.itvExpand.setVisibility(View.GONE);
+            parentViewHolder.line.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -94,6 +99,10 @@ public class QuestionAdapter extends ExpandableRecyclerAdapter<QuestionAdapter.Q
 
         public TextView tvContent;
 
+        public IconTextView itvExpand;
+
+        public View line;
+
         /**
          * Public constructor for the CustomViewHolder.
          *
@@ -103,13 +112,15 @@ public class QuestionAdapter extends ExpandableRecyclerAdapter<QuestionAdapter.Q
             super(itemView);
 
             tvContent = (TextView) itemView.findViewById(R.id.tv_content);
+            itvExpand = (IconTextView) itemView.findViewById(R.id.itv_expand);
+            line = itemView.findViewById(R.id.line);
             tvContent.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(activity, QuestionDetailActivity.class);
-                    Question question = (Question)mParentItemList.get(getAdapterPosition());
-                    intent.putExtra("question",question);
-                            activity.startActivity(intent);
+                    Question question = (Question) mParentItemList.get(getAdapterPosition());
+                    intent.putExtra("question", question);
+                    activity.startActivity(intent);
 
                 }
             });

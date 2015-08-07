@@ -156,7 +156,7 @@ public class QuestionFragment extends LazyLoadFragment {
     @OnClick(R.id.fab)
     public void onFabClick() {
 
-        Intent intent =new Intent(getActivity(), AddQuestionActivity.class);
+        Intent intent = new Intent(getActivity(), AddQuestionActivity.class);
         startActivity(intent);
     }
 
@@ -175,7 +175,7 @@ public class QuestionFragment extends LazyLoadFragment {
                     public void onResponse(JSONObject response) {
                         stopRefreshing();
                         questionList = parseQuestionList(response);
-                        questionAdapter = new QuestionAdapter(getActivity(),questionList,R.id.itv_expand,500);
+                        questionAdapter = new QuestionAdapter(getActivity(), questionList, R.id.itv_expand, 500);
                         recyclerView.setAdapter(questionAdapter);
                         checkLastPage(response);
                     }
@@ -198,8 +198,8 @@ public class QuestionFragment extends LazyLoadFragment {
                     public void onResponse(JSONObject response) {
                         loadingMore = false;
                         pageNo++;
-                        questionList.addAll(parseQuestionList(response))   ;
-                        questionAdapter = new QuestionAdapter(getActivity(),questionList,R.id.itv_expand,500);
+                        questionList.addAll(parseQuestionList(response));
+                        questionAdapter = new QuestionAdapter(getActivity(), questionList, R.id.itv_expand, 500);
                         recyclerView.setAdapter(questionAdapter);
                         checkLastPage(response);
                     }
@@ -240,19 +240,19 @@ public class QuestionFragment extends LazyLoadFragment {
             String username = JSONUtils.getString(questionJSONObject, "username", "");
             long time = JSONUtils.getLong(questionJSONObject, "eventtime", 0);
             Date eventTime = new Date(time);
-            String id = JSONUtils.getString(questionJSONObject,"id","");
-            Question question = new Question(content, username, eventTime,id);
+            String id = JSONUtils.getString(questionJSONObject, "id", "");
+            Question question = new Question(content, username, eventTime, id);
 
             List<Object> answerList = new ArrayList<>();
-            JSONArray answerJSONArray = JSONUtils.getJSONArray(questionJSONObject,"answerList",null);
-            for (int j=0;j!=answerJSONArray.length();j++){
+            JSONArray answerJSONArray = JSONUtils.getJSONArray(questionJSONObject, "answerList", new JSONArray());
+            for (int j = 0; j != answerJSONArray.length(); j++) {
                 JSONObject answerJSONObject = JSONUtils.getJSONObject(answerJSONArray, j);
                 String answerId = JSONUtils.getString(answerJSONObject, "id", "");
-                String answerContent = JSONUtils.getString(answerJSONObject,"content","");
-//                String answerUsername = JSONUtils.getString(answerJSONObject,"username","");
+                String answerContent = JSONUtils.getString(answerJSONObject, "content", "");
+                String answerUsername = JSONUtils.getString(answerJSONObject,"username","");
                 long time2 = JSONUtils.getLong(answerJSONObject, "eventtime", 0);
                 Date eventTime2 = new Date(time2);
-                answerList.add(new Answer(answerContent,"",eventTime2,id));
+                answerList.add(new Answer(answerContent, answerUsername, eventTime2, answerId));
             }
 
             question.setChildObjectList(answerList);
