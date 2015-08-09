@@ -8,7 +8,6 @@ import android.widget.EditText;
 import com.android.volley.Response;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.f2prateek.dart.InjectExtra;
-import com.r0adkll.slidr.Slidr;
 import com.unicorn.csp.R;
 import com.unicorn.csp.activity.base.ToolbarActivity;
 import com.unicorn.csp.model.Question;
@@ -36,7 +35,6 @@ public class QuestionDetailActivity extends ToolbarActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question_detail);
         initToolbar("问答详情", true);
-        Slidr.attach(this);
 
         etQuestion.setText(question.getContent());
     }

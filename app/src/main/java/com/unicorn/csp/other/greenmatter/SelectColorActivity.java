@@ -10,7 +10,6 @@ import android.widget.SeekBar;
 
 import com.malinskiy.materialicons.IconDrawable;
 import com.malinskiy.materialicons.Iconify;
-import com.r0adkll.slidr.Slidr;
 import com.unicorn.csp.R;
 import com.unicorn.csp.activity.base.ToolbarActivity;
 import com.unicorn.csp.other.TinyDB;

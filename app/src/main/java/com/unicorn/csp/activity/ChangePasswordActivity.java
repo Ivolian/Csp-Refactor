@@ -8,7 +8,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.ivo.flatbutton.FlatButton;
-import com.r0adkll.slidr.Slidr;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.unicorn.csp.R;
 import com.unicorn.csp.activity.base.ToolbarActivity;

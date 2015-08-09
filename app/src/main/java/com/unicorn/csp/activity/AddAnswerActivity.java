@@ -1,6 +1,5 @@
 package com.unicorn.csp.activity;
 
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -25,20 +24,16 @@ import org.json.JSONObject;
 import butterknife.Bind;
 
 
-public class AddCommentActivity extends ToolbarActivity {
+public class AddAnswerActivity extends ToolbarActivity {
 
+
+    @InjectExtra("questionId")
+    String questionId;
 
     // ==================== view ====================
 
-    @Bind(R.id.et_question)
-    EditText etComment;
-
-
-    // ==================== 必要参数，新闻 Id ====================
-
-    // 可能来自 NewsDetailActivity，可能来自 CommentActivity。
-    @InjectExtra("newsId")
-    String newsId;
+    @Bind(R.id.et_answer)
+    EditText etQuestion;
 
 
     // ==================== onCreate ====================
@@ -47,17 +42,17 @@ public class AddCommentActivity extends ToolbarActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_comment);
-        initToolbar("发表评论", true);
+        setContentView(R.layout.activity_add_answer);
+        initToolbar("提交回答", true);
     }
 
 
     // ==================== 发送评论 ====================
 
-    private void postCommentToServer() {
+    private void postQuestionToServer() {
 
-        if (getComment().equals("")) {
-            ToastUtils.show("评论不能为空");
+        if (getAnswer().equals("")) {
+            ToastUtils.show("回答不能为空");
             return;
         }
         MyVolley.addRequest(new JsonObjectRequest(getUrl(),
@@ -66,10 +61,10 @@ public class AddCommentActivity extends ToolbarActivity {
                     public void onResponse(JSONObject response) {
                         boolean result = JSONUtils.getBoolean(response, "result", false);
                         if (result) {
-                            ToastUtils.show("发表评论成功");
-                            startCommentActivityAndFinish();
+                            ToastUtils.show("提交成功");
+                            finish();
                         } else {
-                            ToastUtils.show("发表评论失败");
+                            ToastUtils.show("提交失败");
                         }
                     }
                 },
@@ -78,35 +73,21 @@ public class AddCommentActivity extends ToolbarActivity {
 
     private String getUrl() {
 
-        Uri.Builder builder = Uri.parse(ConfigUtils.getBaseUrl() + "/api/v1/comment/create?").buildUpon();
+        Uri.Builder builder = Uri.parse(ConfigUtils.getBaseUrl() + "/api/v1/answer/create?").buildUpon();
         builder.appendQueryParameter("userId", ConfigUtils.getUserId());
-        builder.appendQueryParameter("contentId", newsId);
-        builder.appendQueryParameter("content", getComment());
+        builder.appendQueryParameter("questionId", questionId);
+        builder.appendQueryParameter("content", getAnswer());
         return builder.toString();
     }
 
-    /*
-        有两种可能: 1.打开评论列表 2.回到评论列表界面
-        1. 传递 newsId
-        2. 评论界面已获得 newsId
-      */
-    private void startCommentActivityAndFinish() {
-
-        Intent intent = new Intent(this, CommentActivity.class);
-        intent.putExtra("newsId", newsId);
-        startActivity(intent);
-        finish();
-    }
-
-
-    // ====================== 菜单 ======================
+    // ====================== 菜单 ======================e
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
-            case R.id.add_comment:
-                postCommentToServer();
+            case R.id.add_question:
+                postQuestionToServer();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -115,8 +96,8 @@ public class AddCommentActivity extends ToolbarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
-        getMenuInflater().inflate(R.menu.activity_add_comment, menu);
-        menu.findItem(R.id.add_comment).setIcon(getMailSendDrawable());
+        getMenuInflater().inflate(R.menu.activity_add_question, menu);
+        menu.findItem(R.id.add_question).setIcon(getMailSendDrawable());
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -127,9 +108,9 @@ public class AddCommentActivity extends ToolbarActivity {
                 .actionBarSize();
     }
 
-    private String getComment() {
+    private String getAnswer() {
 
-        return etComment.getText().toString().trim();
+        return etQuestion.getText().toString().trim();
     }
 
 }

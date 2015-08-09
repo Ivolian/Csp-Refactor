@@ -11,7 +11,6 @@ import com.android.volley.Response;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.malinskiy.materialicons.IconDrawable;
 import com.malinskiy.materialicons.Iconify;
-import com.r0adkll.slidr.Slidr;
 import com.unicorn.csp.R;
 import com.unicorn.csp.activity.base.ToolbarActivity;
 import com.unicorn.csp.utils.ConfigUtils;
@@ -41,7 +40,6 @@ public class AddQuestionActivity extends ToolbarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_question);
         initToolbar("我要提问", true);
-        Slidr.attach(this);
     }
 
 
