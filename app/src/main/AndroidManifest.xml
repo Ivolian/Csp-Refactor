@@ -3,12 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.unicorn.csp">
 
-    <!-- Required: Used to deliver Bugsnag crash reports -->
     <uses-permission android:name="android.permission.INTERNET" />
-    <!-- Optional: To provide network connectivity information to Bugsnag -->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <!-- Optional: To see which Activity was active at the time of a crash -->
-    <uses-permission android:name="android.permission.GET_TASKS" />
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
@@ -42,7 +37,6 @@
             android:name=".activity.CommentActivity"
             android:launchMode="singleTask" />
         <activity android:name=".activity.AddCommentActivity" />
-        <activity android:name="im.dino.dbinspector.activities.DbInspectorActivity" />
         <activity android:name=".activity.NewsSearchActivity" />
         <activity android:name=".activity.FavoriteActivity" />
         <activity android:name=".activity.ChangePasswordActivity" />

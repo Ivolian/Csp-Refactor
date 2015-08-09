@@ -2,7 +2,6 @@ package com.unicorn.csp;
 
 import android.database.sqlite.SQLiteDatabase;
 
-import com.bugsnag.android.Bugsnag;
 import com.unicorn.csp.greendao.DaoMaster;
 import com.unicorn.csp.greendao.DaoSession;
 import com.unicorn.csp.greendao.MenuDao;
@@ -27,18 +26,12 @@ public class MyApplication extends ZLAndroidApplication {
     public void onCreate() {
 
         super.onCreate();
+
         instance = this;
         CustomActivityOnCrash.install(this);
-
-        Bugsnag.init(instance);
-        MyVolley.init(instance);
+        MyVolley.init(this);
         initGreenDao();
     }
-
-
-
-
-
 
     private static DaoSession daoSession;
 

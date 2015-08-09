@@ -65,16 +65,17 @@ public class MainActivity extends ToolbarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        initToolbar("", false);
-        initViews();
-
-        if (savedInstanceState == null) {
-            selectBottomTab(0, true);
-        } else {
-            selectBottomTab(savedInstanceState.getInt(SELECTED), false);
-        }
+        throw new RuntimeException("");
+//        super.onCreate(savedInstanceState);
+//        setContentView(R.layout.activity_main);
+//        initToolbar("", false);
+//        initViews();
+//
+//        if (savedInstanceState == null) {
+//            selectBottomTab(0, true);
+//        } else {
+//            selectBottomTab(savedInstanceState.getInt(SELECTED), false);
+//        }
     }
 
     private void initViews() {
