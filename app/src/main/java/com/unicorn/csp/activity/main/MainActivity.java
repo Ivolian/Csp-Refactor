@@ -103,6 +103,7 @@ public class MainActivity extends ToolbarActivity {
                 // todo 用户头像功能等
                 .withHeader(R.layout.drawer_header)
                 .withHeaderDivider(true)
+                .withCloseOnClick(false)
                 .addDrawerItems(
                         // todo 顺序以及适当的添加分割线
                         new PrimaryDrawerItem().withName("我的关注").withIcon(FontAwesome.Icon.faw_star).withIdentifier(1).withCheckable(false),

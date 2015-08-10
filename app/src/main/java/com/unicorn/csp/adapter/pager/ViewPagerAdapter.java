@@ -10,7 +10,7 @@ import com.unicorn.csp.fragment.BookFragment;
 import com.unicorn.csp.fragment.ChartFragment;
 import com.unicorn.csp.fragment.MyShelfFragment;
 import com.unicorn.csp.fragment.NewsFragment;
-import com.unicorn.csp.fragment.QuestionFragment;
+import com.unicorn.csp.fragment.question.QuestionFragment;
 import com.unicorn.csp.fragment.ViewPagerFragmentL1;
 import com.unicorn.csp.fragment.ViewPagerFragmentL2;
 import com.unicorn.csp.greendao.Menu;

@@ -14,7 +14,7 @@ public class FavoriteNewsActivity extends ToolbarActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_favorite);
+        setContentView(R.layout.activity_favorite_news);
         initToolbar("我的关注", true);
         replaceFragment();
     }
