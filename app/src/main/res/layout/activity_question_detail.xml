@@ -1,24 +1,15 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white">
+    android:background="@color/background_material_light">
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:layout_marginTop="?attr/actionBarSize"
-        android:id="@+id/swipeRefreshLayout"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/background_material_light">
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:padding="8dp"
-            android:scrollbars="none" />
-
-    </android.support.v4.widget.SwipeRefreshLayout>
+        android:layout_marginTop="?attr/actionBarSize"
+        android:clipToPadding="false"
+        android:scrollbars="none" />
 
     <include layout="@layout/toolbar_with_shadow" />
 
