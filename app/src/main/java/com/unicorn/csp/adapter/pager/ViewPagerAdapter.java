@@ -44,11 +44,11 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
         return menu.getChildren().get(position).getName();
     }
 
-    static public Fragment getFragmentByMenu(Menu menu, boolean mainActivity) {
+    static public Fragment getFragmentByMenu(Menu menu, boolean inMainActivity) {
 
         Fragment fragment;
         if (menu.getChildren().size() != 0) {
-            fragment = mainActivity ? new ViewPagerFragmentL1() : new ViewPagerFragmentL2();
+            fragment = inMainActivity ? new ViewPagerFragmentL1() : new ViewPagerFragmentL2();
         } else {
             fragment = getSimpleFragmentByMenu(menu);
         }

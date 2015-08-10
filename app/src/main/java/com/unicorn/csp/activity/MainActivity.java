@@ -40,12 +40,12 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.OnClick;
-import im.dino.dbinspector.activities.DbInspectorActivity;
 
 
 public class MainActivity extends ToolbarActivity {
 
 
+    // todo 用更酷的方法来完成
     // ========================== 保存选中项 ==========================
 
     final String SELECTED = "selected";
@@ -65,17 +65,16 @@ public class MainActivity extends ToolbarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        throw new RuntimeException("");
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_main);
-//        initToolbar("", false);
-//        initViews();
-//
-//        if (savedInstanceState == null) {
-//            selectBottomTab(0, true);
-//        } else {
-//            selectBottomTab(savedInstanceState.getInt(SELECTED), false);
-//        }
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        initToolbar("", false);
+        initViews();
+
+        if (savedInstanceState == null) {
+            selectBottomTab(0, true);
+        } else {
+            selectBottomTab(savedInstanceState.getInt(SELECTED), false);
+        }
     }
 
     private void initViews() {
@@ -96,12 +95,13 @@ public class MainActivity extends ToolbarActivity {
                 .withTranslucentStatusBar(false)
                 .withToolbar(getToolbar())
                 .withActionBarDrawerToggleAnimated(true)
+                // todo 用户头像功能等
                 .withHeader(R.layout.drawer_header)
                 .withHeaderDivider(true)
                 .addDrawerItems(
+                        // todo 顺序以及适当的添加分割线
                         new PrimaryDrawerItem().withName("我的关注").withIcon(FontAwesome.Icon.faw_star).withIdentifier(1).withCheckable(false),
                         new PrimaryDrawerItem().withName("我要提问").withIcon(FontAwesome.Icon.faw_question_circle).withIdentifier(2).withCheckable(false),
-                        new DividerDrawerItem(),
                         new PrimaryDrawerItem().withName("修改密码").withIcon(FontAwesome.Icon.faw_lock).withIdentifier(3).withCheckable(false),
                         new PrimaryDrawerItem().withName("主题色彩").withIcon(FontAwesome.Icon.faw_paint_brush).withIdentifier(4).withCheckable(false),
                         new PrimaryDrawerItem().withName("用户登出").withIcon(FontAwesome.Icon.faw_sign_out).withIdentifier(5).withCheckable(false),
@@ -119,11 +119,10 @@ public class MainActivity extends ToolbarActivity {
                     public boolean onItemClick(AdapterView<?> parent, View view, int position, long id, IDrawerItem drawerItem) {
                         switch (drawerItem.getIdentifier()) {
                             case 1:
-                                startActivity(FavoriteActivity.class);
+                                startActivity(FavoriteNewsActivity.class);
                                 break;
                             case 2:
-//                                startActivity(QuestionActivity.class);
-                                startActivity(DbInspectorActivity.class);
+                                startActivity(AddQuestionActivity.class);
                                 break;
                             case 3:
                                 startActivity(ChangePasswordActivity.class);
@@ -140,6 +139,9 @@ public class MainActivity extends ToolbarActivity {
                 }).build();
     }
 
+
+    // ========================== 用户登出 ==========================
+
     private MaterialDialog showSignOutDialog() {
 
         return new MaterialDialog.Builder(this)
@@ -149,7 +151,7 @@ public class MainActivity extends ToolbarActivity {
                 .callback(new MaterialDialog.ButtonCallback() {
                     @Override
                     public void onPositive(MaterialDialog dialog) {
-                        // todo 后台登出
+                        // todo make sure 后台登出
                         startActivityAndFinish(LoginActivity.class);
                     }
                 })
@@ -205,17 +207,16 @@ public class MainActivity extends ToolbarActivity {
     @Bind({R.id.llHotSpot, R.id.llStudyField, R.id.llBookCity, R.id.llMyStudy, R.id.llSocialRegion})
     List<LinearLayout> bottomTabList;
 
-    @SuppressWarnings("SuspiciousMethodCalls")
-    @OnClick({R.id.llHotSpot, R.id.llStudyField, R.id.llBookCity, R.id.llMyStudy, R.id.llSocialRegion})
-    public void onBottomTabClick(LinearLayout bottomTab) {
-        selectBottomTab(bottomTabList.indexOf(bottomTab), true);
-    }
-
     private void initBottomTabList() {
 
         for (LinearLayout bottomTab : bottomTabList) {
             changeBottomTabColor(bottomTab, getResources().getColor(R.color.tab_unselected));
         }
+    }
+
+    @OnClick({R.id.llHotSpot, R.id.llStudyField, R.id.llBookCity, R.id.llMyStudy, R.id.llSocialRegion})
+    public void onBottomTabClick(LinearLayout bottomTab) {
+        selectBottomTab(bottomTabList.indexOf(bottomTab), true);
     }
 
     private void selectBottomTab(int index, boolean replaceFragment) {
@@ -290,11 +291,11 @@ public class MainActivity extends ToolbarActivity {
     public boolean onCreateOptionsMenu(android.view.Menu menu) {
 
         getMenuInflater().inflate(R.menu.activity_main, menu);
-        menu.findItem(R.id.search).setIcon(getSearchDrawable());
+        menu.findItem(R.id.search).setIcon(getActionDrawable());
         return super.onCreateOptionsMenu(menu);
     }
 
-    private Drawable getSearchDrawable() {
+    private Drawable getActionDrawable() {
 
         return new IconDrawable(this, Iconify.IconValue.zmdi_search)
                 .colorRes(android.R.color.white)

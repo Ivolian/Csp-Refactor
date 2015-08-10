@@ -7,7 +7,6 @@
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
-
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -17,10 +16,7 @@
         android:theme="@style/AppTheme.NoActionBar"
         tools:replace="android:icon,android:name,android:label">
 
-        <meta-data
-            android:name="com.bugsnag.android.API_KEY"
-            android:value="444a63569379f99a2ae116597cb1ccca" />
-
+        <!-- todo 为大部分 Activity 加上竖屏限制 -->
         <activity android:name=".activity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,7 +25,6 @@
         </activity>
         <activity android:name=".activity.MainActivity" />
         <activity android:name=".other.greenmatter.SelectColorActivity" />
-        <activity android:name=".activity.QuestionActivity" />
         <activity
             android:name=".activity.NewsDetailActivity"
             android:configChanges="orientation|screenSize" />
@@ -38,7 +33,7 @@
             android:launchMode="singleTask" />
         <activity android:name=".activity.AddCommentActivity" />
         <activity android:name=".activity.NewsSearchActivity" />
-        <activity android:name=".activity.FavoriteActivity" />
+        <activity android:name=".activity.FavoriteNewsActivity" />
         <activity android:name=".activity.ChangePasswordActivity" />
         <activity android:name=".activity.base.BookSearchActivity" />
         <activity

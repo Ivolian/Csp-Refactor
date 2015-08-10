@@ -37,7 +37,7 @@ import java.util.List;
 import butterknife.Bind;
 
 
-public class FavoriteActivity extends ToolbarActivity {
+public class FavoriteNewsActivity extends ToolbarActivity {
 
 
     // ==================== views ====================
