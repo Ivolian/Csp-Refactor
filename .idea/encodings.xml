@@ -2,6 +2,7 @@
 <project version="4">
   <component name="Encoding" defaultCharsetForPropertiesFiles="UTF-8">
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/unicorn/csp/activity/main/MainActivity.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/unicorn/csp/adapter/recyclerView/BigramHeaderAdapter.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/unicorn/csp/fragment/LocalImageHolderView.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/unicorn/csp/other/webview/VideoEnabledWebChromeClient.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/unicorn/csp/other/webview/VideoEnabledWebView.java" charset="GBK" />

@@ -21,6 +21,10 @@ import butterknife.ButterKnife;
 
 public class AnswerAdapter extends RecyclerView.Adapter<AnswerAdapter.ViewHolder> {
 
+    public AnswerAdapter() {
+        setHasStableIds(true);
+    }
+
     private List<Answer> answerList = new ArrayList<>();
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -28,7 +32,7 @@ public class AnswerAdapter extends RecyclerView.Adapter<AnswerAdapter.ViewHolder
         @Bind(R.id.tv_content)
         TextView tvContent;
 
-        // todo
+        // todo modify to eventTime
         @Bind(R.id.tv_time)
         TextView tvTime;
 
@@ -45,6 +49,11 @@ public class AnswerAdapter extends RecyclerView.Adapter<AnswerAdapter.ViewHolder
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
 
         return new ViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_answer2, viewGroup, false));
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return answerList.get(position).hashCode();
     }
 
     @Override

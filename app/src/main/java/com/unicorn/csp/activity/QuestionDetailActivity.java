@@ -4,25 +4,24 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.TextView;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.bartoszlipinski.recyclerviewheader.RecyclerViewHeader;
+import com.eowise.recyclerview.stickyheaders.StickyHeadersBuilder;
+import com.eowise.recyclerview.stickyheaders.StickyHeadersItemDecoration;
 import com.f2prateek.dart.InjectExtra;
 import com.unicorn.csp.R;
 import com.unicorn.csp.activity.base.ToolbarActivity;
 import com.unicorn.csp.adapter.recyclerView.AnswerAdapter;
+import com.unicorn.csp.adapter.recyclerView.BigramHeaderAdapter;
 import com.unicorn.csp.model.Answer;
 import com.unicorn.csp.model.Question;
 import com.unicorn.csp.utils.ConfigUtils;
 import com.unicorn.csp.utils.JSONUtils;
-import com.unicorn.csp.utils.RecycleViewUtils;
 import com.unicorn.csp.utils.ToastUtils;
 import com.unicorn.csp.volley.MyVolley;
 import com.unicorn.csp.volley.toolbox.VolleyErrorHelper;
-import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -77,11 +76,13 @@ public class QuestionDetailActivity extends ToolbarActivity{
         reload();
     }
 
+    private StickyHeadersItemDecoration top;
+
+
     private void initRecyclerView() {
 
-        // 如果不使用多类型 item 的话，可以加上这句提高效率
         recyclerView.setHasFixedSize(true);
-        final LinearLayoutManager linearLayoutManager = RecycleViewUtils.getLinearLayoutManager(this);
+        final LinearLayoutManager linearLayoutManager =new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(answerAdapter = new AnswerAdapter());
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -104,16 +105,12 @@ public class QuestionDetailActivity extends ToolbarActivity{
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
             }
         });
-        recyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(this).build());
-        attachHeader();
-    }
-
-    private void attachHeader(){
-
-        RecyclerViewHeader header = RecyclerViewHeader.fromXml(this,R.layout.question_detail_header);
-        TextView tvQuestion = (TextView)header.findViewById(R.id.tv_content);
-        tvQuestion.setText(question.getContent());
-        header.attachTo(recyclerView);
+        top = new StickyHeadersBuilder()
+                .setAdapter(answerAdapter)
+                .setRecyclerView(recyclerView)
+                .setStickyHeadersAdapter(new BigramHeaderAdapter())
+                .build();
+        recyclerView.addItemDecoration(top);
     }
 
     public void reload() {
@@ -123,7 +120,12 @@ public class QuestionDetailActivity extends ToolbarActivity{
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        answerAdapter.setAnswerList(parseAnswerList(response));
+
+                        Answer answer =new Answer(question.getId(),question.getContent(),question.getName(),question.getEventTime());
+                        List<Answer> answerList = new ArrayList<Answer>();
+                        answerList.add(answer);
+                        answerAdapter.setAnswerList(answerList);
+                        answerAdapter.getAnswerList().addAll(parseAnswerList(response));
                         answerAdapter.notifyDataSetChanged();
                         checkLastPage(response);
                     }
