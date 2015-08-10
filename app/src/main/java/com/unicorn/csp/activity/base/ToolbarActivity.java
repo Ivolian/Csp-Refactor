@@ -12,6 +12,7 @@ import butterknife.Bind;
 import me.grantland.widget.AutofitTextView;
 
 
+// clear
 public abstract class ToolbarActivity extends ButterKnifeActivity {
 
 
@@ -41,13 +42,12 @@ public abstract class ToolbarActivity extends ButterKnifeActivity {
 
     protected void initToolbar(String toolbarTitle, boolean displayHomeAsUpEnable) {
 
+        // 隐藏默认标题，使用自定义标题
+        toolbar.setTitle("");
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(displayHomeAsUpEnable);
         }
-
-        // 隐藏默认标题，使用自定义标题
-        toolbar.setTitle("");
         atvToolbarTitle.setText(toolbarTitle);
     }
 
