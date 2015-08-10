@@ -29,9 +29,9 @@
             android:name=".activity.news.NewsDetailActivity"
             android:configChanges="orientation|screenSize" />
         <activity
-            android:name=".activity.CommentActivity"
+            android:name=".activity.news.CommentActivity"
             android:launchMode="singleTask" />
-        <activity android:name=".activity.AddCommentActivity" />
+        <activity android:name=".activity.news.AddCommentActivity" />
         <activity android:name=".activity.search.NewsSearchActivity" />
         <activity android:name=".activity.news.FavoriteNewsActivity" />
         <activity android:name=".activity.other.ModifyPasswordActivity" />

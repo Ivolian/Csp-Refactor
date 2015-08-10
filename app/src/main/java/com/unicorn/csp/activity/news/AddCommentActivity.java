@@ -1,4 +1,4 @@
-package com.unicorn.csp.activity;
+package com.unicorn.csp.activity.news;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -25,13 +25,8 @@ import org.json.JSONObject;
 import butterknife.Bind;
 
 
+// clear
 public class AddCommentActivity extends ToolbarActivity {
-
-
-    // ==================== view ====================
-
-    @Bind(R.id.et_question)
-    EditText etComment;
 
 
     // ==================== 必要参数，新闻 Id ====================
@@ -39,6 +34,12 @@ public class AddCommentActivity extends ToolbarActivity {
     // 可能来自 NewsDetailActivity，可能来自 CommentActivity。
     @InjectExtra("newsId")
     String newsId;
+
+
+    // ==================== view ====================
+
+    @Bind(R.id.et_content)
+    EditText etContent;
 
 
     // ==================== onCreate ====================
@@ -52,11 +53,40 @@ public class AddCommentActivity extends ToolbarActivity {
     }
 
 
+    // ====================== toolbar 发送按钮 ======================
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.add_comment:
+                addComment();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.add_comment, menu);
+        menu.findItem(R.id.add_comment).setIcon(getActionDrawable());
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    private Drawable getActionDrawable() {
+
+        return new IconDrawable(this, Iconify.IconValue.zmdi_mail_send)
+                .colorRes(android.R.color.white)
+                .actionBarSize();
+    }
+
+
     // ==================== 发送评论 ====================
 
-    private void postCommentToServer() {
+    private void addComment() {
 
-        if (getComment().equals("")) {
+        if (getContent().equals("")) {
             ToastUtils.show("评论不能为空");
             return;
         }
@@ -76,60 +106,29 @@ public class AddCommentActivity extends ToolbarActivity {
                 MyVolley.getDefaultErrorListener()));
     }
 
+    private String getContent() {
+
+        return etContent.getText().toString().trim();
+    }
+
     private String getUrl() {
 
         Uri.Builder builder = Uri.parse(ConfigUtils.getBaseUrl() + "/api/v1/comment/create?").buildUpon();
         builder.appendQueryParameter("userId", ConfigUtils.getUserId());
-        builder.appendQueryParameter("contentId", newsId);
-        builder.appendQueryParameter("content", getComment());
+        builder.appendQueryParameter("newsId", newsId);
+        builder.appendQueryParameter("content", getContent());
         return builder.toString();
     }
 
-    /*
-        有两种可能: 1.打开评论列表 2.回到评论列表界面
-        1. 传递 newsId
-        2. 评论界面已获得 newsId
-      */
+
+    // ====================  有两种可能: 1.打开评论界面 2.回到评论界面 ====================
+
     private void startCommentActivityAndFinish() {
 
         Intent intent = new Intent(this, CommentActivity.class);
         intent.putExtra("newsId", newsId);
         startActivity(intent);
         finish();
-    }
-
-
-    // ====================== 菜单 ======================
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch (item.getItemId()) {
-            case R.id.add_comment:
-                postCommentToServer();
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-        getMenuInflater().inflate(R.menu.activity_add_comment, menu);
-        menu.findItem(R.id.add_comment).setIcon(getMailSendDrawable());
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    private Drawable getMailSendDrawable() {
-
-        return new IconDrawable(this, Iconify.IconValue.zmdi_mail_send)
-                .colorRes(android.R.color.white)
-                .actionBarSize();
-    }
-
-    private String getComment() {
-
-        return etComment.getText().toString().trim();
     }
 
 }

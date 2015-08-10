@@ -1,4 +1,4 @@
-package com.unicorn.csp.activity;
+package com.unicorn.csp.activity.news;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -55,7 +55,7 @@ public class CommentActivity extends ToolbarActivity {
     FloatingActionButton fab;
 
 
-    // ==================== 必要参数，新闻 Id ====================
+    // ==================== 必要参数 newsId ====================
 
     // 可能来自 NewsDetailActivity，可能来自 AddCommentActivity。
     @InjectExtra("newsId")
@@ -139,8 +139,15 @@ public class CommentActivity extends ToolbarActivity {
 
     private void initFab() {
 
-        fab.setImageDrawable(getHistoryDrawable());
+        fab.setImageDrawable(getFabDrawable());
         fab.attachToRecyclerView(recyclerView);
+    }
+
+    private Drawable getFabDrawable() {
+
+        return new IconDrawable(this, Iconify.IconValue.zmdi_comment_text_alt)
+                .colorRes(android.R.color.white)
+                .actionBarSize();
     }
 
 
@@ -170,7 +177,30 @@ public class CommentActivity extends ToolbarActivity {
     }
 
 
-    // ====================== 底层方法 ======================
+    // ====================== 通用的分页方法，可否抽象出父类呢 ======================
+
+    private String getUrl(Integer pageNo) {
+
+        Uri.Builder builder = Uri.parse(ConfigUtils.getBaseUrl() + "/api/v1/comment?").buildUpon();
+        builder.appendQueryParameter("pageNo", pageNo.toString());
+        builder.appendQueryParameter("pageSize", PAGE_SIZE.toString());
+        builder.appendQueryParameter("newsId", newsId);
+        return builder.toString();
+    }
+
+    private List<Comment> parseCommentList(JSONObject response) {
+
+        JSONArray commentJSONArray = JSONUtils.getJSONArray(response, "content", null);
+        List<Comment> commentList = new ArrayList<>();
+        for (int i = 0; i != commentJSONArray.length(); i++) {
+            JSONObject commentJSONObject = JSONUtils.getJSONObject(commentJSONArray, i);
+            String username = JSONUtils.getString(commentJSONObject, "username", "");
+            Date eventTime = new Date(JSONUtils.getLong(commentJSONObject, "eventtime", 0));
+            String content = JSONUtils.getString(commentJSONObject, "content", "");
+            commentList.add(new Comment(username, eventTime, content));
+        }
+        return commentList;
+    }
 
     public void reload() {
 
@@ -229,30 +259,6 @@ public class CommentActivity extends ToolbarActivity {
         lastPage = false;
     }
 
-    private String getUrl(Integer pageNo) {
-
-        Uri.Builder builder = Uri.parse(ConfigUtils.getBaseUrl() + "/api/v1/comment?").buildUpon();
-        builder.appendQueryParameter("pageNo", pageNo.toString());
-        builder.appendQueryParameter("pageSize", PAGE_SIZE.toString());
-        builder.appendQueryParameter("contentId", newsId);
-        return builder.toString();
-    }
-
-    private List<Comment> parseCommentList(JSONObject response) {
-
-        JSONArray commentJSONArray = JSONUtils.getJSONArray(response, "content", null);
-        List<Comment> commentList = new ArrayList<>();
-        for (int i = 0; i != commentJSONArray.length(); i++) {
-            JSONObject commentJSONObject = JSONUtils.getJSONObject(commentJSONArray, i);
-            String username = JSONUtils.getString(commentJSONObject, "username", "");
-            long time = JSONUtils.getLong(commentJSONObject, "eventtime", 0);
-            Date eventTime = new Date(time);
-            String content = JSONUtils.getString(commentJSONObject, "content", "");
-            commentList.add(new Comment(username, eventTime, content));
-        }
-        return commentList;
-    }
-
     private void checkLastPage(JSONObject response) {
 
         if (lastPage = isLastPage(response)) {
@@ -275,13 +281,6 @@ public class CommentActivity extends ToolbarActivity {
         if (swipeRefreshLayout != null) {
             swipeRefreshLayout.setRefreshing(false);
         }
-    }
-
-    private Drawable getHistoryDrawable() {
-
-        return new IconDrawable(this, Iconify.IconValue.zmdi_comment_text_alt)
-                .colorRes(android.R.color.white)
-                .actionBarSize();
     }
 
 }

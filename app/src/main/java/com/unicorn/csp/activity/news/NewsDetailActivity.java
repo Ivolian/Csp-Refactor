@@ -23,8 +23,6 @@ import com.linroid.filtermenu.library.FilterMenuLayout;
 import com.malinskiy.materialicons.IconDrawable;
 import com.malinskiy.materialicons.Iconify;
 import com.unicorn.csp.R;
-import com.unicorn.csp.activity.AddCommentActivity;
-import com.unicorn.csp.activity.CommentActivity;
 import com.unicorn.csp.activity.base.ToolbarActivity;
 import com.unicorn.csp.model.News;
 import com.unicorn.csp.other.greenmatter.ColorOverrider;
