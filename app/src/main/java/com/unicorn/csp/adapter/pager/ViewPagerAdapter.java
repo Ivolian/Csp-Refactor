@@ -67,6 +67,7 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
                 return new BookCityFragment();
             case "question":
                 return new QuestionFragment();
+            // todo 确认这个，在服务端
             case "myShelf":
                 return new MyShelfFragment();
             case"chart":

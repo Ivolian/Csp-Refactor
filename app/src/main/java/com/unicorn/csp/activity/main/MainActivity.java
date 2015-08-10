@@ -296,7 +296,7 @@ public class MainActivity extends ToolbarActivity {
     @Override
     public boolean onCreateOptionsMenu(android.view.Menu menu) {
 
-        getMenuInflater().inflate(R.menu.activity_main, menu);
+        getMenuInflater().inflate(R.menu.main, menu);
         menu.findItem(R.id.search).setIcon(getActionDrawable());
         return super.onCreateOptionsMenu(menu);
     }

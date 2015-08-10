@@ -1,53 +1,24 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:flatui="http://schemas.android.com/apk/res-auto"
     android:background="@android:color/white">
 
-    <RelativeLayout
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:layout_marginTop="?attr/actionBarSize"
+        android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="?attr/actionBarSize">
+        android:background="@color/background_material_light">
 
-        <TextView
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="14dp"
-            android:text="这只是个Demo，没有反馈功能。"
-            android:textSize="15sp" />
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:padding="8dp"
+            android:scrollbars="none" />
 
-        <!-- 反馈输入框 -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:layout_alignParentBottom="true"
-            android:background="#dddddd"
-            android:padding="6dp">
-
-            <EditText
-                android:id="@+id/et_question"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@color/white"
-                android:hint="我想说"
-                android:padding="2dp"
-                android:textSize="19sp" />
-
-            <com.ivo.flatbutton.FlatButton
-                android:id="@+id/btn_send"
-                android:layout_width="70dp"
-                android:layout_height="wrap_content"
-                android:text="发送"
-                android:layout_marginLeft="9dp"
-                android:textSize="18sp"
-                flatui:fl_mainColor="?attr/colorAccent"
-                flatui:fl_textAppearance="fl_none"
-                flatui:fl_touchEffect="fl_ripple" />
-
-        </LinearLayout>
-
-    </RelativeLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>
 
     <include layout="@layout/toolbar_with_shadow" />
 

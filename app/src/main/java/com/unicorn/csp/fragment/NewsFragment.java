@@ -54,7 +54,7 @@ public class NewsFragment extends LazyLoadFragment {
     public RecyclerView recyclerView;
 
 
-    // ==================== newsAdapter ====================
+    // ==================== answerAdapter ====================
 
     public NewsAdapter newsAdapter;
 
