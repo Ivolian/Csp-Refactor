@@ -1,4 +1,4 @@
-package com.unicorn.csp.adapter.recycle;
+package com.unicorn.csp.adapter.recyclerView;
 
 import android.app.Activity;
 import android.content.Context;

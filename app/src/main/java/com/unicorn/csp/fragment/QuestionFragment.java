@@ -15,7 +15,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.bignerdranch.expandablerecyclerview.Model.ParentObject;
 import com.unicorn.csp.R;
-import com.unicorn.csp.adapter.recycle.QuestionAdapter;
+import com.unicorn.csp.adapter.recyclerView.QuestionAdapter;
 import com.unicorn.csp.fragment.base.LazyLoadFragment;
 import com.unicorn.csp.model.Answer;
 import com.unicorn.csp.model.Question;

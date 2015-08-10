@@ -1,4 +1,4 @@
-package com.unicorn.csp.adapter.recycle;
+package com.unicorn.csp.adapter.recyclerView;
 
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
@@ -12,7 +12,7 @@ import com.etiennelawlor.trestle.library.Span;
 import com.etiennelawlor.trestle.library.Trestle;
 import com.unicorn.csp.MyApplication;
 import com.unicorn.csp.R;
-import com.unicorn.csp.activity.NewsDetailActivity;
+import com.unicorn.csp.activity.news.NewsDetailActivity;
 import com.unicorn.csp.model.News;
 import com.unicorn.csp.other.greenmatter.ColorOverrider;
 import com.unicorn.csp.utils.ConfigUtils;

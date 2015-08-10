@@ -1,4 +1,4 @@
-package com.unicorn.csp.activity;
+package com.unicorn.csp.activity.news;
 
 import android.animation.ArgbEvaluator;
 import android.content.Intent;
@@ -23,6 +23,8 @@ import com.linroid.filtermenu.library.FilterMenuLayout;
 import com.malinskiy.materialicons.IconDrawable;
 import com.malinskiy.materialicons.Iconify;
 import com.unicorn.csp.R;
+import com.unicorn.csp.activity.AddCommentActivity;
+import com.unicorn.csp.activity.CommentActivity;
 import com.unicorn.csp.activity.base.ToolbarActivity;
 import com.unicorn.csp.model.News;
 import com.unicorn.csp.other.greenmatter.ColorOverrider;
@@ -35,19 +37,26 @@ import com.unicorn.csp.volley.MyVolley;
 import butterknife.Bind;
 
 
+// clear
 public class NewsDetailActivity extends ToolbarActivity implements ObservableScrollViewCallbacks, FilterMenu.OnMenuChangeListener {
 
+    /*
+        新闻详情界面
+        1. 可以通过 VideoEnabledWebView 加载服务器上的视频
+        也可以通过优酷连接什么的，直接播放优酷的视频。
+        2. VideoEnabledWebView 和 video 标签研究较少，有需要时再说
+     */
 
     @InjectExtra("news")
     News news;
 
-    @Bind(R.id.webview)
-    VideoEnabledWebView webView;
-
     @Bind(R.id.filter_menu_layout)
     FilterMenuLayout filterMenuLayout;
 
-    private VideoEnabledWebChromeClient webChromeClient;
+    @Bind(R.id.webview)
+    VideoEnabledWebView webView;
+
+    VideoEnabledWebChromeClient webChromeClient;
 
 
     // =============================== onCreate ===============================
@@ -65,7 +74,7 @@ public class NewsDetailActivity extends ToolbarActivity implements ObservableScr
 
         initWebView();
         initFilterMenuLayout();
-        loadData();
+        loadContent();
     }
 
     private void initWebView() {
@@ -74,25 +83,6 @@ public class NewsDetailActivity extends ToolbarActivity implements ObservableScr
         webView.setWebViewClient(new WebViewClient());
         webView.setScrollViewCallbacks(this);
         enableVideo();
-    }
-
-    private void loadData() {
-
-        MyVolley.addRequest(new StringRequest(getUrl(),
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        webView.loadData(response, "text/html; charset=UTF-8", null);
-                    }
-                },
-                MyVolley.getDefaultErrorListener()));
-    }
-
-    private String getUrl() {
-
-        Uri.Builder builder = Uri.parse(ConfigUtils.getBaseUrl() + "/api/v1/news/contentData?").buildUpon();
-        builder.appendQueryParameter("newsId", news.getId());
-        return builder.toString();
     }
 
     private void enableVideo() {
@@ -142,16 +132,6 @@ public class NewsDetailActivity extends ToolbarActivity implements ObservableScr
         webView.setWebChromeClient(webChromeClient);
     }
 
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (webView != null) {
-            webView.destroy();
-        }
-    }
-
-
     @Override
     public void onBackPressed() {
         // Notify the VideoEnabledWebChromeClient, and handle it ourselves if it doesn't handle it
@@ -164,6 +144,39 @@ public class NewsDetailActivity extends ToolbarActivity implements ObservableScr
             }
         }
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (webView != null) {
+            webView.destroy();
+        }
+    }
+
+
+    // =============================== loadContent ===============================
+
+    private void loadContent() {
+
+        MyVolley.addRequest(new StringRequest(getUrl(),
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        webView.loadData(response, "text/html; charset=UTF-8", null);
+                    }
+                },
+                MyVolley.getDefaultErrorListener()));
+    }
+
+    private String getUrl() {
+
+        Uri.Builder builder = Uri.parse(ConfigUtils.getBaseUrl() + "/api/v1/news/contentData?").buildUpon();
+        builder.appendQueryParameter("newsId", news.getId());
+        return builder.toString();
+    }
+
+
+    // =============================== initFilterMenuLayout ===============================
 
     private void initFilterMenuLayout() {
 
@@ -241,7 +254,7 @@ public class NewsDetailActivity extends ToolbarActivity implements ObservableScr
     }
 
 
-    // =============================== 底层方法 ===============================
+    // =============================== 其他方法 ===============================
 
     private Drawable getIconDrawable(Iconify.IconValue iconValue, int size) {
 
@@ -271,10 +284,18 @@ public class NewsDetailActivity extends ToolbarActivity implements ObservableScr
                     @Override
                     public void onResponse(String response) {
                         boolean result = response.equals(Boolean.TRUE.toString());
-                        ToastUtils.show(result ? "添加关注成功" : "已关注");
+                        ToastUtils.show(result ? "关注成功" : "已关注");
                     }
                 },
                 MyVolley.getDefaultErrorListener()));
+    }
+
+    private String getFavoriteUrl() {
+
+        Uri.Builder builder = Uri.parse(ConfigUtils.getBaseUrl() + "/api/v1/favorite/create?").buildUpon();
+        builder.appendQueryParameter("newsId", news.getId());
+        builder.appendQueryParameter("userId", ConfigUtils.getUserId());
+        return builder.toString();
     }
 
     private void addThumb() {
@@ -288,14 +309,6 @@ public class NewsDetailActivity extends ToolbarActivity implements ObservableScr
                     }
                 },
                 MyVolley.getDefaultErrorListener()));
-    }
-
-    private String getFavoriteUrl() {
-
-        Uri.Builder builder = Uri.parse(ConfigUtils.getBaseUrl() + "/api/v1/favorite/create?").buildUpon();
-        builder.appendQueryParameter("newsId", news.getId());
-        builder.appendQueryParameter("userId", ConfigUtils.getUserId());
-        return builder.toString();
     }
 
     private String getThumbUrl() {

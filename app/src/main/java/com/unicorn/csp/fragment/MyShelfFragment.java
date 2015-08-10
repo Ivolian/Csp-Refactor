@@ -14,7 +14,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.unicorn.csp.R;
-import com.unicorn.csp.adapter.recycle.MyShelfAdapter;
+import com.unicorn.csp.adapter.recyclerView.MyShelfAdapter;
 import com.unicorn.csp.fragment.base.LazyLoadFragment;
 import com.unicorn.csp.model.Book;
 import com.unicorn.csp.other.greenmatter.ColorOverrider;

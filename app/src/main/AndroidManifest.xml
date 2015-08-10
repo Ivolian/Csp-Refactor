@@ -26,7 +26,7 @@
         <activity android:name=".activity.main.MainActivity" />
         <activity android:name=".other.greenmatter.SelectColorActivity" />
         <activity
-            android:name=".activity.NewsDetailActivity"
+            android:name=".activity.news.NewsDetailActivity"
             android:configChanges="orientation|screenSize" />
         <activity
             android:name=".activity.CommentActivity"

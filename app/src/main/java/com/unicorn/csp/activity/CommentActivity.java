@@ -18,7 +18,7 @@ import com.malinskiy.materialicons.Iconify;
 import com.melnykov.fab.FloatingActionButton;
 import com.unicorn.csp.R;
 import com.unicorn.csp.activity.base.ToolbarActivity;
-import com.unicorn.csp.adapter.recycle.CommentAdapter;
+import com.unicorn.csp.adapter.recyclerView.CommentAdapter;
 import com.unicorn.csp.model.Comment;
 import com.unicorn.csp.other.greenmatter.ColorOverrider;
 import com.unicorn.csp.utils.ConfigUtils;

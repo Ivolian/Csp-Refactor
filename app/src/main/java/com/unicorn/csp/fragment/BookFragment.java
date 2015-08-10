@@ -14,7 +14,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.unicorn.csp.R;
-import com.unicorn.csp.adapter.recycle.BookAdapter;
+import com.unicorn.csp.adapter.recyclerView.BookAdapter;
 import com.unicorn.csp.fragment.base.LazyLoadFragment;
 import com.unicorn.csp.greendao.Menu;
 import com.unicorn.csp.model.Book;
