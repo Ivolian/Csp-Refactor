@@ -34,7 +34,6 @@ public class LoginActivity extends ToolbarActivity {
 
     // ========================== SF 常量 ==========================
 
-    // 一律使用 username，而不是 account
     final String SF_USERNAME = "username";
 
     final String SF_PASSWORD = "password";
@@ -142,19 +141,19 @@ public class LoginActivity extends ToolbarActivity {
                 .show();
     }
 
-    private void hideLoginDialog() {
-
-        if (loginDialog != null) {
-            loginDialog.dismiss();
-        }
-    }
-
     private String getLoginUrl() {
 
         Uri.Builder builder = Uri.parse(ConfigUtils.getBaseUrl() + "/api/v1/user/login?").buildUpon();
         builder.appendQueryParameter("username", getUsername());
         builder.appendQueryParameter("password", getPassword());
         return builder.toString();
+    }
+
+    private void hideLoginDialog() {
+
+        if (loginDialog != null) {
+            loginDialog.dismiss();
+        }
     }
 
     private void saveUserId(JSONObject response) {
@@ -164,7 +163,7 @@ public class LoginActivity extends ToolbarActivity {
     }
 
 
-    // ========================== 有关菜单的方法 ==========================
+    // ========================== 保存菜单到数据库 ==========================
 
     private void saveMenu(JSONObject response) {
 
