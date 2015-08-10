@@ -30,7 +30,7 @@ import com.unicorn.csp.R;
 import com.unicorn.csp.activity.AddQuestionActivity;
 import com.unicorn.csp.activity.search.BookSearchActivity;
 import com.unicorn.csp.activity.ChangePasswordActivity;
-import com.unicorn.csp.activity.FavoriteNewsActivity;
+import com.unicorn.csp.activity.news.FavoriteNewsActivity;
 import com.unicorn.csp.activity.search.NewsSearchActivity;
 import com.unicorn.csp.activity.base.ToolbarActivity;
 import com.unicorn.csp.adapter.pager.ViewPagerAdapter;

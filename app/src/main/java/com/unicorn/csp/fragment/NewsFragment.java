@@ -51,17 +51,17 @@ public class NewsFragment extends LazyLoadFragment {
     SwipeRefreshLayout swipeRefreshLayout;
 
     @Bind(R.id.recyclerView)
-    RecyclerView recyclerView;
+    public RecyclerView recyclerView;
 
 
     // ==================== newsAdapter ====================
 
-    NewsAdapter newsAdapter;
+    public NewsAdapter newsAdapter;
 
 
     // ==================== page data ====================
 
-    final Integer PAGE_SIZE = 5;
+    protected final Integer PAGE_SIZE = 5;
 
     Integer pageNo;
 
@@ -191,7 +191,7 @@ public class NewsFragment extends LazyLoadFragment {
         lastPage = false;
     }
 
-    private String getUrl(Integer pageNo) {
+    protected String getUrl(Integer pageNo) {
 
         Uri.Builder builder = Uri.parse(ConfigUtils.getBaseUrl() + "/api/v1/news/list?").buildUpon();
         builder.appendQueryParameter("pageNo", pageNo.toString());

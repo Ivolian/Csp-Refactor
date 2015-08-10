@@ -33,7 +33,7 @@
             android:launchMode="singleTask" />
         <activity android:name=".activity.AddCommentActivity" />
         <activity android:name=".activity.search.NewsSearchActivity" />
-        <activity android:name=".activity.FavoriteNewsActivity" />
+        <activity android:name=".activity.news.FavoriteNewsActivity" />
         <activity android:name=".activity.ChangePasswordActivity" />
         <activity android:name=".activity.search.BookSearchActivity" />
         <activity
