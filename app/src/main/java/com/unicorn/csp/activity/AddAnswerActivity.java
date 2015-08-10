@@ -96,7 +96,7 @@ public class AddAnswerActivity extends ToolbarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
-        getMenuInflater().inflate(R.menu.activity_add_question, menu);
+        getMenuInflater().inflate(R.menu.add_question, menu);
         menu.findItem(R.id.add_question).setIcon(getMailSendDrawable());
         return super.onCreateOptionsMenu(menu);
     }

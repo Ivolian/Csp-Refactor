@@ -39,7 +39,7 @@
         <activity
             android:name=".activity.WebViewActivity"
             android:hardwareAccelerated="true" />
-        <activity android:name=".activity.AddQuestionActivity" />
+        <activity android:name=".activity.question.AddQuestionActivity" />
         <activity android:name=".activity.QuestionDetailActivity" />
         <activity android:name=".activity.AddAnswerActivity" />
 

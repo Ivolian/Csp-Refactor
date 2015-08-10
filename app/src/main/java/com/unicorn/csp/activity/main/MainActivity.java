@@ -27,7 +27,7 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.OnCheckedChangeListener;
 import com.unicorn.csp.MyApplication;
 import com.unicorn.csp.R;
-import com.unicorn.csp.activity.AddQuestionActivity;
+import com.unicorn.csp.activity.question.AddQuestionActivity;
 import com.unicorn.csp.activity.search.BookSearchActivity;
 import com.unicorn.csp.activity.other.ModifyPasswordActivity;
 import com.unicorn.csp.activity.news.FavoriteNewsActivity;

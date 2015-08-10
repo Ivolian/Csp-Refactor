@@ -1,4 +1,4 @@
-package com.unicorn.csp.activity;
+package com.unicorn.csp.activity.question;
 
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -28,8 +28,8 @@ public class AddQuestionActivity extends ToolbarActivity {
 
     // ==================== view ====================
 
-    @Bind(R.id.et_question)
-    EditText etQuestion;
+    @Bind(R.id.et_content)
+    EditText etContent;
 
 
     // ==================== onCreate ====================
@@ -43,12 +43,41 @@ public class AddQuestionActivity extends ToolbarActivity {
     }
 
 
-    // ==================== 发送评论 ====================
+    // ====================== toolbar 发送按钮 ======================e
 
-    private void postQuestionToServer() {
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.add_question:
+                addQuestion();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.add_question, menu);
+        menu.findItem(R.id.add_question).setIcon(getActionDrawable());
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    private Drawable getActionDrawable() {
+
+        return new IconDrawable(this, Iconify.IconValue.zmdi_mail_send)
+                .colorRes(android.R.color.white)
+                .actionBarSize();
+    }
+
+
+    // ==================== 提问 ====================
+
+    private void addQuestion() {
 
         if (getQuestion().equals("")) {
-            ToastUtils.show("提问不能为空");
+            ToastUtils.show("问题不能为空");
             return;
         }
         MyVolley.addRequest(new JsonObjectRequest(getUrl(),
@@ -59,7 +88,6 @@ public class AddQuestionActivity extends ToolbarActivity {
                         if (result) {
                             ToastUtils.show("提问成功");
                             finish();
-                            // TODO MAYBE 添加提问后的刷新问题
                         } else {
                             ToastUtils.show("提问失败");
                         }
@@ -76,38 +104,9 @@ public class AddQuestionActivity extends ToolbarActivity {
         return builder.toString();
     }
 
-
-    // ====================== 菜单 ======================e
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch (item.getItemId()) {
-            case R.id.add_question:
-                postQuestionToServer();
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-        getMenuInflater().inflate(R.menu.activity_add_question, menu);
-        menu.findItem(R.id.add_question).setIcon(getMailSendDrawable());
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    private Drawable getMailSendDrawable() {
-
-        return new IconDrawable(this, Iconify.IconValue.zmdi_mail_send)
-                .colorRes(android.R.color.white)
-                .actionBarSize();
-    }
-
     private String getQuestion() {
 
-        return etQuestion.getText().toString().trim();
+        return etContent.getText().toString().trim();
     }
 
 }

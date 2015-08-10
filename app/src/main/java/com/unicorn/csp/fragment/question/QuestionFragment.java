@@ -37,6 +37,7 @@ import java.util.List;
 import butterknife.Bind;
 
 
+// clear
 public class QuestionFragment extends LazyLoadFragment {
 
 
