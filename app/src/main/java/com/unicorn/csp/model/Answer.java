@@ -6,23 +6,22 @@ import java.util.Date;
 
 public class Answer implements Serializable {
 
+    private String id;
+
     private String content;
 
     private String name;
 
     private Date eventTime;
 
-    private String id;
-    //
+     //
 
-
-    public Answer(String content, String name, Date eventTime, String id) {
+    public Answer(String id, String content, String name, Date eventTime) {
+        this.id = id;
         this.content = content;
         this.name = name;
         this.eventTime = eventTime;
-        this.id = id;
     }
-
 
     public String getContent() {
         return content;

@@ -11,25 +11,27 @@ public class Question implements ParentObject ,Serializable {
 
     private List<Object> answerList;
 
+    private String id;
+
     private String content;
 
     private String name;
 
     private Date eventTime;
 
-    private String id;
 
     public Question() {
     }
 
-    public Question(String content, String name, Date eventTime, String id) {
+    public Question(String id, String content, String name, Date eventTime) {
+        this.id = id;
         this.content = content;
         this.name = name;
         this.eventTime = eventTime;
-        this.id = id;
     }
 
-//
+
+    //
 
     public String getContent() {
         return content;

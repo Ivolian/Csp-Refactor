@@ -39,7 +39,7 @@ import butterknife.Bind;
 
 public class QuestionFragment extends LazyLoadFragment {
 
-    // todo 5dp
+
     @Override
     public int getLayoutResId() {
         return R.layout.fragment_question;
@@ -48,9 +48,7 @@ public class QuestionFragment extends LazyLoadFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        initViews();
-        return rootView;
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
 
@@ -63,11 +61,10 @@ public class QuestionFragment extends LazyLoadFragment {
     RecyclerView recyclerView;
 
 
-    // ==================== adapter ====================
-
-    QuestionAdapter questionAdapter;
+    // ==================== 因为 ExpandableAdapter 没有提供改变内部值的方法，暂时在 fragment 这边维护 data  ====================
 
     List<ParentObject> questionList;
+
 
     // ==================== page data ====================
 
@@ -112,8 +109,7 @@ public class QuestionFragment extends LazyLoadFragment {
         final LinearLayoutManager linearLayoutManager = RecycleViewUtils.getLinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
         questionList = new ArrayList<>();
-        questionAdapter = new QuestionAdapter(getActivity(), new ArrayList<ParentObject>(), R.id.itv_expand, 500);
-        recyclerView.setAdapter(questionAdapter);
+        recyclerView.setAdapter(new QuestionAdapter(getActivity(), new ArrayList<ParentObject>(), R.id.itv_expand, 500));
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -151,9 +147,7 @@ public class QuestionFragment extends LazyLoadFragment {
                     public void onResponse(JSONObject response) {
                         stopRefreshing();
                         questionList = parseQuestionList(response);
-                        questionAdapter = new QuestionAdapter(getActivity(), questionList, R.id.itv_expand, 500);
-                        recyclerView.setAdapter(questionAdapter);
-                        questionAdapter.notifyDataSetChanged();
+                        notifyDataSetChanged();
                         checkLastPage(response);
                     }
                 },
@@ -176,9 +170,7 @@ public class QuestionFragment extends LazyLoadFragment {
                         loadingMore = false;
                         pageNo++;
                         questionList.addAll(parseQuestionList(response));
-                        questionAdapter = new QuestionAdapter(getActivity(), questionList, R.id.itv_expand, 500);
-                        recyclerView.setAdapter(questionAdapter);
-                        questionAdapter.notifyDataSetChanged();
+                        notifyDataSetChanged();
                         checkLastPage(response);
                     }
                 },
@@ -191,13 +183,15 @@ public class QuestionFragment extends LazyLoadFragment {
                 }));
     }
 
-    // ========================== 基础方法 ==========================
+    private void notifyDataSetChanged() {
 
-    private void clearPageData() {
-
-        pageNo = 1;
-        lastPage = false;
+        QuestionAdapter questionAdapter = new QuestionAdapter(getActivity(), questionList, R.id.itv_expand, 500);
+        recyclerView.setAdapter(questionAdapter);
+        questionAdapter.notifyDataSetChanged();
     }
+
+
+    // ========================== 分页的常见方法 ==========================
 
     private String getUrl(Integer pageNo) {
 
@@ -207,36 +201,42 @@ public class QuestionFragment extends LazyLoadFragment {
         return builder.toString();
     }
 
-    // todo modify
     private List<ParentObject> parseQuestionList(JSONObject response) {
 
         JSONArray questionJSONArray = JSONUtils.getJSONArray(response, "content", null);
         List<ParentObject> questionList = new ArrayList<>();
         for (int i = 0; i != questionJSONArray.length(); i++) {
             JSONObject questionJSONObject = JSONUtils.getJSONObject(questionJSONArray, i);
+            String id = JSONUtils.getString(questionJSONObject, "id", "");
             String content = JSONUtils.getString(questionJSONObject, "content", "");
             String username = JSONUtils.getString(questionJSONObject, "username", "");
-            long time = JSONUtils.getLong(questionJSONObject, "eventTime", 0);
-            Date eventTime = new Date(time);
-            String id = JSONUtils.getString(questionJSONObject, "id", "");
-            Question question = new Question(content, username, eventTime, id);
-
-            List<Object> answerList = new ArrayList<>();
-            JSONArray answerJSONArray = JSONUtils.getJSONArray(questionJSONObject, "answerList", new JSONArray());
-            for (int j = 0; j != answerJSONArray.length(); j++) {
-                JSONObject answerJSONObject = JSONUtils.getJSONObject(answerJSONArray, j);
-                String answerId = JSONUtils.getString(answerJSONObject, "id", "");
-                String answerContent = JSONUtils.getString(answerJSONObject, "content", "");
-                String answerUsername = JSONUtils.getString(answerJSONObject,"username","");
-                long time2 = JSONUtils.getLong(answerJSONObject, "eventTime", 0);
-                Date eventTime2 = new Date(time2);
-                answerList.add(new Answer(answerContent, answerUsername, eventTime2, answerId));
-            }
-
-            question.setChildObjectList(answerList);
+            Date eventTime = new Date(JSONUtils.getLong(questionJSONObject, "eventTime", 0));
+            Question question = new Question(id, content, username, eventTime);
+            question.setChildObjectList(parseAnswerList(questionJSONObject));
             questionList.add(question);
         }
         return questionList;
+    }
+
+    private List<Object> parseAnswerList(JSONObject questionJSONObject) {
+
+        List<Object> answerList = new ArrayList<>();
+        JSONArray answerJSONArray = JSONUtils.getJSONArray(questionJSONObject, "answerList", new JSONArray());
+        for (int i = 0; i != answerJSONArray.length(); i++) {
+            JSONObject answerJSONObject = JSONUtils.getJSONObject(answerJSONArray, i);
+            String id = JSONUtils.getString(answerJSONObject, "id", "");
+            String content = JSONUtils.getString(answerJSONObject, "content", "");
+            String username = JSONUtils.getString(answerJSONObject, "username", "");
+            Date eventTime = new Date(JSONUtils.getLong(answerJSONObject, "eventTime", 0));
+            answerList.add(new Answer(id, content, username, eventTime));
+        }
+        return answerList;
+    }
+
+    private void clearPageData() {
+
+        pageNo = 1;
+        lastPage = false;
     }
 
     private void checkLastPage(JSONObject response) {
