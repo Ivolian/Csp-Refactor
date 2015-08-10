@@ -25,15 +25,25 @@ import java.util.Queue;
 import butterknife.Bind;
 
 
+// clear
 public class BookSearchActivity extends ButterKnifeActivity implements SearchBox.SearchListener {
+
+    /*
+        1. 注释都写于 BookSearchActivity
+        2. 当 BookSearchActivity 有所改动时，记得修改 NewsSearchActivity
+     */
+
+    // ================================ views ================================
 
     @Bind(R.id.searchbox)
     SearchBox searchBox;
 
-    // 关键词队列，用于维护用户查询历史
-    Queue<String> keywordQueue = new LinkedList<>();
-
     BookFragment bookFragment;
+
+
+    // ================================ 关键词队列，用于维护用户查询历史 ================================
+
+    Queue<String> keywordQueue = new LinkedList<>();
 
 
     // ================================ onCreate ================================
@@ -52,6 +62,9 @@ public class BookSearchActivity extends ButterKnifeActivity implements SearchBox
         initNewsFragment();
     }
 
+
+    // ================================ initSearchBox ================================
+
     private void initSearchBox() {
 
         searchBox.enableVoiceRecognition(this);
@@ -68,10 +81,36 @@ public class BookSearchActivity extends ButterKnifeActivity implements SearchBox
         }
     }
 
+    private List<SearchHistory> getBookSearchHistory() {
+
+        return MyApplication.getSearchHistoryDao().queryBuilder().where(SearchHistoryDao.Properties.Type.eq("book")).list();
+    }
+
+    private void refreshSearchBox() {
+
+        ArrayList<SearchResult> searchResultList = new ArrayList<>();
+        for (String keyword : keywordQueue) {
+            searchResultList.add(new SearchResult(keyword, getHistoryDrawable()));
+        }
+        Collections.reverse(searchResultList);
+        searchBox.setSearchables(searchResultList);
+    }
+
+    private Drawable getHistoryDrawable() {
+
+        return new IconDrawable(this, Iconify.IconValue.zmdi_time)
+                .colorRes(android.R.color.darker_gray)
+                .actionBarSize();
+    }
+
+
+    // ================================ initNewsFragment ================================
+
     private void initNewsFragment() {
 
         bookFragment = new BookFragment();
-        // 不知道为什么，这里 newsFragment 没有调用 setUserVisibleHint 方法，需要手动调用 initPrepare 方法
+        // 不知道为什么，这里没有调用 setUserVisibleHint 方法，所以手动调用 initPrepare 方法
+        // todo 有空可以研究一下
         bookFragment.initPrepare();
         Bundle bundle = new Bundle();
         bookFragment.setArguments(bundle);
@@ -94,7 +133,7 @@ public class BookSearchActivity extends ButterKnifeActivity implements SearchBox
     }
 
 
-    // ================================ 查询按钮被点击 ================================
+    // ================================ 查询 ================================
 
     private void search(String keyword) {
 
@@ -115,16 +154,16 @@ public class BookSearchActivity extends ButterKnifeActivity implements SearchBox
     }
 
 
-    // ================================ persistSearchHistory ================================
+    // ================================ 保存查询历史 ================================
 
     @Override
     protected void onDestroy() {
 
-        persistSearchHistory();
+        saveSearchHistory();
         super.onDestroy();
     }
 
-    private void persistSearchHistory() {
+    private void saveSearchHistory() {
 
         MyApplication.getSearchHistoryDao().deleteInTx(getBookSearchHistory());
         List<SearchHistory> searchHistoryList = new ArrayList<>();
@@ -134,35 +173,14 @@ public class BookSearchActivity extends ButterKnifeActivity implements SearchBox
         MyApplication.getSearchHistoryDao().insertInTx(searchHistoryList);
     }
 
-    private List<SearchHistory> getBookSearchHistory() {
 
-        return MyApplication.getSearchHistoryDao().queryBuilder().where(SearchHistoryDao.Properties.Type.eq("book")).list();
-    }
+    // ================================ 其他方法 ================================
 
-
-    // ================================ 底层方法 ================================
-
-    private void refreshSearchBox() {
-
-        ArrayList<SearchResult> searchResultList = new ArrayList<>();
-        for (String keyword : keywordQueue) {
-            searchResultList.add(new SearchResult(keyword, getHistoryDrawable()));
-        }
-        Collections.reverse(searchResultList);
-        searchBox.setSearchables(searchResultList);
-    }
 
     private void searchNewsByKeyword(String keyword) {
 
         bookFragment.getArguments().putString("keyword", keyword);
         bookFragment.reload();
-    }
-
-    private Drawable getHistoryDrawable() {
-
-        return new IconDrawable(this, Iconify.IconValue.zmdi_time)
-                .colorRes(android.R.color.darker_gray)
-                .actionBarSize();
     }
 
 
