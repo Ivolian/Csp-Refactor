@@ -99,4 +99,11 @@ public abstract class LazyLoadFragment extends ButterKnifeFragment {
 
     }
 
+
+    //
+
+    public void reload(){
+
+    }
+
 }
