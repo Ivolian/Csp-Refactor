@@ -26,15 +26,13 @@ public class MyApplication extends ZLAndroidApplication {
     public void onCreate() {
 
         super.onCreate();
-
-        instance = this;
         CustomActivityOnCrash.install(this);
         MyVolley.init(this);
         initGreenDao();
+        instance = this;
     }
 
     private static DaoSession daoSession;
-
 
     public static MenuDao getMenuDao(){
 
@@ -45,7 +43,6 @@ public class MyApplication extends ZLAndroidApplication {
 
         return daoSession.getSearchHistoryDao();
     }
-
 
     private void initGreenDao(){
 
