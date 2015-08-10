@@ -1,4 +1,4 @@
-package com.unicorn.csp.activity;
+package com.unicorn.csp.activity.search;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -96,9 +96,9 @@ public class BookSearchActivity extends ButterKnifeActivity implements SearchBox
 
     // ================================ 查询按钮被点击 ================================
 
-    private void onSearchBtnClick(String keyword) {
+    private void search(String keyword) {
 
-        reloadNews(keyword);
+        searchNewsByKeyword(keyword);
         addKeywordToQueue(keyword);
         refreshSearchBox();
     }
@@ -152,7 +152,7 @@ public class BookSearchActivity extends ButterKnifeActivity implements SearchBox
         searchBox.setSearchables(searchResultList);
     }
 
-    private void reloadNews(String keyword) {
+    private void searchNewsByKeyword(String keyword) {
 
         bookFragment.getArguments().putString("keyword", keyword);
         bookFragment.reload();
@@ -166,7 +166,13 @@ public class BookSearchActivity extends ButterKnifeActivity implements SearchBox
     }
 
 
-    // ================================ SearchBox.SearchListener ================================
+    // ================================ 查询事件 ================================
+
+    @Override
+    public void onSearch(String keyword) {
+
+        search(keyword);
+    }
 
     @Override
     public void onSearchOpened() {
@@ -186,12 +192,6 @@ public class BookSearchActivity extends ButterKnifeActivity implements SearchBox
     @Override
     public void onSearchTermChanged() {
 
-    }
-
-    @Override
-    public void onSearch(String keyword) {
-
-        onSearchBtnClick(keyword);
     }
 
 }

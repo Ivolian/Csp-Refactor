@@ -1,4 +1,4 @@
-package com.unicorn.csp.activity;
+package com.unicorn.csp.activity.main;
 
 import android.content.Intent;
 import android.graphics.PorterDuff;
@@ -27,6 +27,11 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.OnCheckedChangeListener;
 import com.unicorn.csp.MyApplication;
 import com.unicorn.csp.R;
+import com.unicorn.csp.activity.AddQuestionActivity;
+import com.unicorn.csp.activity.search.BookSearchActivity;
+import com.unicorn.csp.activity.ChangePasswordActivity;
+import com.unicorn.csp.activity.FavoriteNewsActivity;
+import com.unicorn.csp.activity.search.NewsSearchActivity;
 import com.unicorn.csp.activity.base.ToolbarActivity;
 import com.unicorn.csp.adapter.pager.ViewPagerAdapter;
 import com.unicorn.csp.greendao.Menu;

@@ -1,4 +1,4 @@
-package com.unicorn.csp.activity;
+package com.unicorn.csp.activity.search;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
