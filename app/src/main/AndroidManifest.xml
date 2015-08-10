@@ -34,7 +34,7 @@
         <activity android:name=".activity.AddCommentActivity" />
         <activity android:name=".activity.search.NewsSearchActivity" />
         <activity android:name=".activity.news.FavoriteNewsActivity" />
-        <activity android:name=".activity.ChangePasswordActivity" />
+        <activity android:name=".activity.other.ModifyPasswordActivity" />
         <activity android:name=".activity.search.BookSearchActivity" />
         <activity
             android:name=".activity.WebViewActivity"

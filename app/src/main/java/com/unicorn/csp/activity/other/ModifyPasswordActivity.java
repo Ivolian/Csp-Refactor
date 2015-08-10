@@ -1,4 +1,4 @@
-package com.unicorn.csp.activity;
+package com.unicorn.csp.activity.other;
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -24,7 +24,8 @@ import butterknife.OnClick;
 import butterknife.OnTextChanged;
 
 
-public class ChangePasswordActivity extends ToolbarActivity {
+// clear
+public class ModifyPasswordActivity extends ToolbarActivity {
 
 
     // ========================== views ==========================
@@ -38,13 +39,13 @@ public class ChangePasswordActivity extends ToolbarActivity {
     @Bind(R.id.et_confirm_password)
     MaterialEditText etConfirmPassword;
 
-    @Bind(R.id.btn_confirm)
-    FlatButton btnConfirm;
+    @Bind(R.id.btn_modify)
+    FlatButton btnModify;
 
 
     // ========================== dialog handler ==========================
 
-    MaterialDialog copyDialog;
+    MaterialDialog dialog;
 
 
     // ========================== onCreate ==========================
@@ -53,14 +54,14 @@ public class ChangePasswordActivity extends ToolbarActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_change_password);
+        setContentView(R.layout.activity_modify_password);
         initToolbar("修改密码", true);
     }
 
 
     // ========================== 确认密码 ==========================
 
-    @OnClick(R.id.btn_confirm)
+    @OnClick(R.id.btn_modify)
     public void changePassword() {
 
         if (!getNewPassword().equals(getConfirmPassword())) {
@@ -68,12 +69,12 @@ public class ChangePasswordActivity extends ToolbarActivity {
             return;
         }
 
-        copyDialog = showCopeDialog();
+        dialog = showDialog();
         MyVolley.addRequest(new JsonObjectRequest(getUrl(),
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        hideCopeDialog();
+                        hideDialog();
                         boolean result = JSONUtils.getBoolean(response, "result", false);
                         if (result) {
                             ToastUtils.show("修改成功");
@@ -86,22 +87,13 @@ public class ChangePasswordActivity extends ToolbarActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError volleyError) {
-                        hideCopeDialog();
+                        hideDialog();
                         ToastUtils.show(VolleyErrorHelper.getErrorMessage(volleyError));
                     }
                 }));
     }
 
-    private String getUrl() {
-
-        Uri.Builder builder = Uri.parse(ConfigUtils.getBaseUrl() + "/api/v1/user/changePassword?").buildUpon();
-        builder.appendQueryParameter("userId", ConfigUtils.getUserId());
-        builder.appendQueryParameter("oldPassword", getOldPassword());
-        builder.appendQueryParameter("newPassword", getNewPassword());
-        return builder.toString();
-    }
-
-    private MaterialDialog showCopeDialog() {
+    private MaterialDialog showDialog() {
 
         return new MaterialDialog.Builder(this)
                 .title("处理中")
@@ -112,15 +104,25 @@ public class ChangePasswordActivity extends ToolbarActivity {
                 .show();
     }
 
-    private void hideCopeDialog() {
+    private String getUrl() {
 
-        if (copyDialog != null) {
-            copyDialog.dismiss();
+        // todo 也许可以将后台修改成统一的 modifyPassword
+        Uri.Builder builder = Uri.parse(ConfigUtils.getBaseUrl() + "/api/v1/user/changePassword?").buildUpon();
+        builder.appendQueryParameter("userId", ConfigUtils.getUserId());
+        builder.appendQueryParameter("oldPassword", getOldPassword());
+        builder.appendQueryParameter("newPassword", getNewPassword());
+        return builder.toString();
+    }
+
+    private void hideDialog() {
+
+        if (dialog != null) {
+            dialog.dismiss();
         }
     }
 
 
-    // ========================== 确认按钮状态 ==========================
+    // ========================== 修改按钮状态 ==========================
 
     @OnTextChanged(R.id.et_old_password)
     public void onOldPasswordChange() {
@@ -134,7 +136,6 @@ public class ChangePasswordActivity extends ToolbarActivity {
         onPasswordChange();
     }
 
-
     @OnTextChanged(R.id.et_confirm_password)
     public void onConfirmPasswordChange() {
 
@@ -143,8 +144,11 @@ public class ChangePasswordActivity extends ToolbarActivity {
 
     private void onPasswordChange() {
 
-        btnConfirm.setEnabled(!isOldPasswordEmpty() && !isNewPasswordEmpty() && !isConfirmPasswordEmpty());
+        btnModify.setEnabled(!isOldPasswordEmpty() && !isNewPasswordEmpty() && !isConfirmPasswordEmpty());
     }
+
+
+    // ========================== 其他方法 ==========================
 
     private boolean isOldPasswordEmpty() {
 
