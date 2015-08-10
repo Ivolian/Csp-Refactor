@@ -34,7 +34,7 @@ public class QuestionAdapter extends ExpandableRecyclerAdapter<QuestionAdapter.Q
                            int customClickableViewId, long animationDuration) {
         super(context, parentItemList, customClickableViewId, animationDuration);
         mInflater = LayoutInflater.from(context);
-        this.activity = (Activity) context;
+        activity = (Activity) context;
     }
 
     @Override
