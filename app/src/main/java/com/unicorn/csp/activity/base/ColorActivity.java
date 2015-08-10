@@ -5,6 +5,7 @@ import com.negusoft.greenmatter.activity.MatActivity;
 import com.unicorn.csp.other.greenmatter.ColorOverrider;
 
 
+// clear
 public abstract class ColorActivity extends MatActivity {
 
     @Override

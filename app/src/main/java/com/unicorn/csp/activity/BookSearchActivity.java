@@ -1,4 +1,4 @@
-package com.unicorn.csp.activity.base;
+package com.unicorn.csp.activity;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -11,6 +11,7 @@ import com.quinny898.library.persistentsearch.SearchBox;
 import com.quinny898.library.persistentsearch.SearchResult;
 import com.unicorn.csp.MyApplication;
 import com.unicorn.csp.R;
+import com.unicorn.csp.activity.base.ButterKnifeActivity;
 import com.unicorn.csp.fragment.BookFragment;
 import com.unicorn.csp.greendao.SearchHistory;
 import com.unicorn.csp.greendao.SearchHistoryDao;

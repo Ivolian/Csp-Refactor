@@ -5,21 +5,23 @@ import android.support.annotation.StringRes;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 
 import com.unicorn.csp.R;
 
 import butterknife.Bind;
-import me.grantland.widget.AutofitHelper;
+import me.grantland.widget.AutofitTextView;
 
 
 public abstract class ToolbarActivity extends ButterKnifeActivity {
 
+
+    // ========================== views ==========================
+
     @Bind(R.id.toolbar)
     Toolbar toolbar;
 
-    @Bind(R.id.tv_toolbar_title)
-    TextView tvToolbarTitle;
+    @Bind(R.id.atv_toolbar_title)
+    AutofitTextView atvToolbarTitle;
 
 
     // ========================== home键后退 ==========================
@@ -39,24 +41,19 @@ public abstract class ToolbarActivity extends ButterKnifeActivity {
 
     protected void initToolbar(String toolbarTitle, boolean displayHomeAsUpEnable) {
 
-        // 隐藏默认的标题
-        toolbar.setTitle("");
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(displayHomeAsUpEnable);
         }
-        AutofitHelper.create(tvToolbarTitle);
-        tvToolbarTitle.setText(toolbarTitle);
+
+        // 隐藏默认标题，使用自定义标题
+        toolbar.setTitle("");
+        atvToolbarTitle.setText(toolbarTitle);
     }
 
     protected void setToolbarTitle(@StringRes int toolbarTitle) {
 
-        tvToolbarTitle.setText(toolbarTitle);
-    }
-
-    protected void setToolbarTitle(String toolbarTitle) {
-
-        tvToolbarTitle.setText(toolbarTitle);
+        atvToolbarTitle.setText(toolbarTitle);
     }
 
     protected boolean isToolbarHidden() {
@@ -89,7 +86,7 @@ public abstract class ToolbarActivity extends ButterKnifeActivity {
     }
 
 
-    // ========================== 底层方法 ==========================
+    // ========================== 其他方法 ==========================
 
     protected void startActivity(Class activityClass) {
 

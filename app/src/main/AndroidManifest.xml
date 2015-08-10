@@ -35,7 +35,7 @@
         <activity android:name=".activity.NewsSearchActivity" />
         <activity android:name=".activity.FavoriteNewsActivity" />
         <activity android:name=".activity.ChangePasswordActivity" />
-        <activity android:name=".activity.base.BookSearchActivity" />
+        <activity android:name=".activity.BookSearchActivity" />
         <activity
             android:name=".activity.WebViewActivity"
             android:hardwareAccelerated="true" />

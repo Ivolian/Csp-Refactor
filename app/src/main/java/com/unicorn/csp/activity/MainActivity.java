@@ -27,7 +27,6 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.OnCheckedChangeListener;
 import com.unicorn.csp.MyApplication;
 import com.unicorn.csp.R;
-import com.unicorn.csp.activity.base.BookSearchActivity;
 import com.unicorn.csp.activity.base.ToolbarActivity;
 import com.unicorn.csp.adapter.pager.ViewPagerAdapter;
 import com.unicorn.csp.greendao.Menu;
@@ -42,6 +41,7 @@ import butterknife.Bind;
 import butterknife.OnClick;
 
 
+// clear
 public class MainActivity extends ToolbarActivity {
 
 

@@ -7,6 +7,8 @@ import com.f2prateek.dart.Dart;
 
 import butterknife.ButterKnife;
 
+
+// clear
 public abstract class ButterKnifeActivity extends ColorActivity {
 
     @Override

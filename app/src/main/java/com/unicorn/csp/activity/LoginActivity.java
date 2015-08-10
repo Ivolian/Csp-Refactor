@@ -29,6 +29,7 @@ import butterknife.OnClick;
 import butterknife.OnTextChanged;
 
 
+// clear
 public class LoginActivity extends ToolbarActivity {
 
 
