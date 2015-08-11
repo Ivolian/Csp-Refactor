@@ -1,4 +1,4 @@
-package com.unicorn.csp.fragment;
+package com.unicorn.csp.fragment.viewpager;
 
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.unicorn.csp.R;
-import com.unicorn.csp.adapter.pager.ViewPagerAdapter;
+import com.unicorn.csp.adapter.viewpager.ViewPagerAdapter;
 import com.unicorn.csp.fragment.base.ButterKnifeFragment;
 
 import butterknife.Bind;
@@ -40,7 +40,9 @@ public class ViewPagerFragmentL2 extends ButterKnifeFragment {
 
         final com.unicorn.csp.greendao.Menu menu = (com.unicorn.csp.greendao.Menu) getArguments().getSerializable("menu");
         viewPager.setAdapter(new ViewPagerAdapter(getChildFragmentManager(), menu));
-        viewPager.setOffscreenPageLimit(menu.getChildren().size());
+        if (menu != null) {
+            viewPager.setOffscreenPageLimit(menu.getChildren().size());
+        }
         smartTabLayout.setAlpha(0.8f);
         smartTabLayout.setViewPager(viewPager);
     }

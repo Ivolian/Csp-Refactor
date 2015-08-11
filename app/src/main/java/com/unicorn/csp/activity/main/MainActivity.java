@@ -33,7 +33,7 @@ import com.unicorn.csp.activity.other.ModifyPasswordActivity;
 import com.unicorn.csp.activity.news.FavoriteNewsActivity;
 import com.unicorn.csp.activity.search.NewsSearchActivity;
 import com.unicorn.csp.activity.base.ToolbarActivity;
-import com.unicorn.csp.adapter.pager.ViewPagerAdapter;
+import com.unicorn.csp.adapter.viewpager.ViewPagerAdapter;
 import com.unicorn.csp.greendao.Menu;
 import com.unicorn.csp.greendao.MenuDao;
 import com.unicorn.csp.other.greenmatter.ColorOverrider;

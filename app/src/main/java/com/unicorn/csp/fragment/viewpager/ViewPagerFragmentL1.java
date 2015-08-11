@@ -1,4 +1,4 @@
-package com.unicorn.csp.fragment;
+package com.unicorn.csp.fragment.viewpager;
 
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.unicorn.csp.R;
-import com.unicorn.csp.adapter.pager.ViewPagerAdapter;
+import com.unicorn.csp.adapter.viewpager.ViewPagerAdapter;
 import com.unicorn.csp.fragment.base.ButterKnifeFragment;
 import com.unicorn.csp.other.greenmatter.ColorOverrider;
 
@@ -38,9 +38,11 @@ public class ViewPagerFragmentL1 extends ButterKnifeFragment {
 
     private void initViews() {
 
-        com.unicorn.csp.greendao.Menu menu = (com.unicorn.csp.greendao.Menu)getArguments().getSerializable("menu");
-        viewPager.setAdapter(new ViewPagerAdapter(getActivity().getSupportFragmentManager(),menu));
-        viewPager.setOffscreenPageLimit(menu.getChildren().size());
+        com.unicorn.csp.greendao.Menu menu = (com.unicorn.csp.greendao.Menu) getArguments().getSerializable("menu");
+        viewPager.setAdapter(new ViewPagerAdapter(getActivity().getSupportFragmentManager(), menu));
+        if (menu != null) {
+            viewPager.setOffscreenPageLimit(menu.getChildren().size());
+        }
         pagerSlidingTabStrip.setViewPager(viewPager);
         pagerSlidingTabStrip.setIndicatorColor(ColorOverrider.getInstance(getActivity()).getColorAccent());
     }

@@ -1,4 +1,4 @@
-package com.unicorn.csp.adapter.pager;
+package com.unicorn.csp.adapter.viewpager;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,10 +9,10 @@ import com.unicorn.csp.fragment.BookCityFragment;
 import com.unicorn.csp.fragment.BookFragment;
 import com.unicorn.csp.fragment.ChartFragment;
 import com.unicorn.csp.fragment.MyShelfFragment;
-import com.unicorn.csp.fragment.NewsFragment;
+import com.unicorn.csp.fragment.news.NewsFragment;
 import com.unicorn.csp.fragment.question.QuestionFragment;
-import com.unicorn.csp.fragment.ViewPagerFragmentL1;
-import com.unicorn.csp.fragment.ViewPagerFragmentL2;
+import com.unicorn.csp.fragment.viewpager.ViewPagerFragmentL1;
+import com.unicorn.csp.fragment.viewpager.ViewPagerFragmentL2;
 import com.unicorn.csp.greendao.Menu;
 
 

@@ -1,4 +1,4 @@
-package com.unicorn.csp.activity.search;
+package com.unicorn.csp.activity.search.base;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -13,7 +13,7 @@ import com.unicorn.csp.MyApplication;
 import com.unicorn.csp.R;
 import com.unicorn.csp.activity.base.ButterKnifeActivity;
 import com.unicorn.csp.fragment.BookFragment;
-import com.unicorn.csp.fragment.NewsFragment;
+import com.unicorn.csp.fragment.news.NewsFragment;
 import com.unicorn.csp.fragment.base.LazyLoadFragment;
 import com.unicorn.csp.greendao.SearchHistory;
 import com.unicorn.csp.greendao.SearchHistoryDao;
