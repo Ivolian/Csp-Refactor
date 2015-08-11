@@ -4,7 +4,7 @@ import android.os.Bundle;
 
 import com.unicorn.csp.R;
 import com.unicorn.csp.activity.base.ToolbarActivity;
-import com.unicorn.csp.fragment.FavoriteNewsFragment;
+import com.unicorn.csp.fragment.news.FavoriteNewsFragment;
 
 
 // clear

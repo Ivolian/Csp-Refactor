@@ -32,7 +32,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
     private List<News> newsList = new ArrayList<>();
 
-    // 关键字着重色
     private String keyword = "";
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -87,6 +86,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         viewHolder.tvTime.setText(DateUtils.getFormatDateString(news.getTime(), new SimpleDateFormat("MM-dd HH:mm", Locale.CHINA)));
         viewHolder.tvCommentCount.setText("评论 " + news.getCommentCount());
         viewHolder.tvThumbCount.setText("点赞 " + news.getThumbCount());
+        // todo change default image
         viewHolder.nivPicture.setDefaultImageResId(R.drawable.news);
         viewHolder.nivPicture.setImageUrl(ConfigUtils.getBaseUrl() + news.getPicture(), MyVolley.getImageLoader());
         emphasizeTitle(news.getTitle(), viewHolder.tvTitle);
@@ -122,11 +122,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         this.newsList = newsList;
     }
 
-    public String getKeyword() {
-        return keyword;
-    }
-
     public void setKeyword(String keyword) {
         this.keyword = keyword;
     }
+
 }

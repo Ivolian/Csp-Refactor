@@ -1,4 +1,4 @@
-package com.unicorn.csp.fragment;
+package com.unicorn.csp.fragment.news;
 
 import android.net.Uri;
 import android.os.Bundle;

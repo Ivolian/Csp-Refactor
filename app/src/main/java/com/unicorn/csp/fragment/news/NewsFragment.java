@@ -1,4 +1,4 @@
-package com.unicorn.csp.fragment;
+package com.unicorn.csp.fragment.news;
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -54,7 +54,7 @@ public class NewsFragment extends LazyLoadFragment {
     public RecyclerView recyclerView;
 
 
-    // ==================== answerAdapter ====================
+    // ==================== newsAdapter ====================
 
     public NewsAdapter newsAdapter;
 
@@ -209,21 +209,20 @@ public class NewsFragment extends LazyLoadFragment {
 
     private List<News> parseNewsList(JSONObject response) {
 
-        JSONArray contents = JSONUtils.getJSONArray(response, "content", null);
+        JSONArray newsJSONArray = JSONUtils.getJSONArray(response, "content", null);
         List<News> newsList = new ArrayList<>();
-        for (int i = 0; i != contents.length(); i++) {
-            JSONObject content = JSONUtils.getJSONObject(contents, i);
-            String id = JSONUtils.getString(content, "id", "");
-            String title = JSONUtils.getString(content, "title", "");
-            String picture = JSONUtils.getString(content, "picture", "");
-            int commentCount = JSONUtils.getInt(content, "commentCount", 0);
-            int thumbCount = JSONUtils.getInt(content, "thumbCount", 0);
+        for (int i = 0; i != newsJSONArray.length(); i++) {
+            JSONObject newsJSONObject = JSONUtils.getJSONObject(newsJSONArray, i);
+            String id = JSONUtils.getString(newsJSONObject, "id", "");
+            String title = JSONUtils.getString(newsJSONObject, "title", "");
+            String picture = JSONUtils.getString(newsJSONObject, "picture", "");
+            int commentCount = JSONUtils.getInt(newsJSONObject, "commentCount", 0);
+            int thumbCount = JSONUtils.getInt(newsJSONObject, "thumbCount", 0);
             newsList.add(new News(id, title, new Date(), commentCount, thumbCount, picture));
         }
         return newsList;
     }
 
-    // 检查是否所有数据加载完毕
     private void checkLastPage(JSONObject response) {
 
         if (lastPage = isLastPage(response)) {
