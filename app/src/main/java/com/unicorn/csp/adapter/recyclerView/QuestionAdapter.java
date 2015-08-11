@@ -23,6 +23,10 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 
 public class QuestionAdapter extends ExpandableRecyclerAdapter<QuestionAdapter.QuestionViewHolder, QuestionAdapter.AnswerViewHolder> {
 
@@ -30,8 +34,8 @@ public class QuestionAdapter extends ExpandableRecyclerAdapter<QuestionAdapter.Q
 
     private Activity activity;
 
-    public QuestionAdapter(Context context, List<ParentObject> parentItemList,
-                           int customClickableViewId, long animationDuration) {
+    public QuestionAdapter(Context context, List<ParentObject> parentItemList, int customClickableViewId, long animationDuration) {
+
         super(context, parentItemList, customClickableViewId, animationDuration);
         mInflater = LayoutInflater.from(context);
         activity = (Activity) context;
@@ -39,93 +43,86 @@ public class QuestionAdapter extends ExpandableRecyclerAdapter<QuestionAdapter.Q
 
     @Override
     public QuestionViewHolder onCreateParentViewHolder(ViewGroup parent) {
+
         View view = mInflater.inflate(R.layout.item_quesion, parent, false);
         return new QuestionViewHolder(view);
     }
 
     @Override
     public AnswerViewHolder onCreateChildViewHolder(ViewGroup parent) {
-        View view = mInflater.inflate(R.layout.item_answer, parent, false);
+
+        View view = mInflater.inflate(R.layout.item_question_answer, parent, false);
         return new AnswerViewHolder(view);
     }
 
     @Override
     public void onBindParentViewHolder(QuestionViewHolder parentViewHolder, int position, Object parentObject) {
+
         Question question = (Question) parentObject;
+        parentViewHolder.itvExpand.setVisibility(question.getChildObjectList().size() == 0 ? View.GONE : View.VISIBLE);
+        parentViewHolder.line.setVisibility(question.getChildObjectList().size() == 0 ? View.GONE : View.VISIBLE);
         parentViewHolder.tvContent.setText(question.getContent());
-        if (question.getChildObjectList().size() == 0) {
-            parentViewHolder.itvExpand.setVisibility(View.GONE);
-            parentViewHolder.line.setVisibility(View.GONE);
-        }
         parentViewHolder.tvTime.setText(DateUtils.getFormatDateString(question.getEventTime(), new SimpleDateFormat("MM-dd HH:mm", Locale.CHINA)));
         parentViewHolder.tvUsername.setText(question.getName());
     }
 
     @Override
     public void onBindChildViewHolder(AnswerViewHolder childViewHolder, int position, Object childObject) {
+
         Answer answer = (Answer) childObject;
         childViewHolder.tvContent.setText(answer.getContent());
         childViewHolder.tvTime.setText(DateUtils.getFormatDateString(answer.getEventTime(), new SimpleDateFormat("MM-dd HH:mm", Locale.CHINA)));
         childViewHolder.tvUsername.setText(answer.getName());
-
     }
-
 
     public class QuestionViewHolder extends ParentViewHolder {
 
-        public TextView tvContent;
+        @Bind(R.id.itv_expand)
+        IconTextView itvExpand;
 
-        public IconTextView itvExpand;
+        @Bind(R.id.line)
+        View line;
 
-        public View line;
+        @Bind(R.id.tv_content)
+        TextView tvContent;
 
-        public TextView tvTime;
+        @Bind(R.id.tv_time)
+        TextView tvTime;
 
-        public TextView tvUsername;
+        @Bind(R.id.tv_username)
+        TextView tvUsername;
 
-        /**
-         * Public constructor for the CustomViewHolder.
-         *
-         * @param itemView the view of the parent item. Find/modify views using this.
-         */
         public QuestionViewHolder(View itemView) {
+
             super(itemView);
+            ButterKnife.bind(this, itemView);
+        }
 
-            tvContent = (TextView) itemView.findViewById(R.id.tv_content);
-            itvExpand = (IconTextView) itemView.findViewById(R.id.itv_expand);
-            line = itemView.findViewById(R.id.line);
-            tvTime = (TextView) itemView.findViewById(R.id.tv_time);
-            tvUsername = (TextView) itemView.findViewById(R.id.tv_username);
-            tvContent.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(activity, QuestionDetailActivity.class);
-                    Question question = (Question) mParentItemList.get(getAdapterPosition());
-                    intent.putExtra("question", question);
-                    activity.startActivity(intent);
+        @OnClick(R.id.llClickRegion)
+        public void startQuestionDetailActivity() {
 
-                }
-            });
+            Intent intent = new Intent(activity, QuestionDetailActivity.class);
+            Question question = (Question) mParentItemList.get(getAdapterPosition());
+            intent.putExtra("question", question);
+            activity.startActivity(intent);
         }
     }
 
-
     public class AnswerViewHolder extends ChildViewHolder {
 
-        public TextView tvContent;
+        @Bind(R.id.tv_content)
+        TextView tvContent;
 
-        public TextView tvTime;
+        @Bind(R.id.tv_time)
+        TextView tvTime;
 
-        public TextView tvUsername;
+        @Bind(R.id.tv_username)
+        TextView tvUsername;
 
         public AnswerViewHolder(View itemView) {
             super(itemView);
-
-            tvContent = (TextView) itemView.findViewById(R.id.tv_content);
-            tvTime = (TextView) itemView.findViewById(R.id.tv_time);
-            tvUsername = (TextView) itemView.findViewById(R.id.tv_username);
+            ButterKnife.bind(this, itemView);
         }
-
     }
 
 }
