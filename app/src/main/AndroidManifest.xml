@@ -36,7 +36,7 @@
         <activity android:name=".activity.other.ModifyPasswordActivity" />
         <activity android:name=".activity.search.BookSearchActivity" />
         <activity
-            android:name=".activity.WebViewActivity"
+            android:name=".activity.bookCity.WebViewActivity"
             android:hardwareAccelerated="true" />
         <activity android:name=".activity.question.AddQuestionActivity" />
         <activity android:name=".activity.question.QuestionDetailActivity"

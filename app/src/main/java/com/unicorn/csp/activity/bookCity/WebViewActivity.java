@@ -1,4 +1,4 @@
-package com.unicorn.csp.activity;
+package com.unicorn.csp.activity.bookCity;
 
 
 import android.graphics.Bitmap;
@@ -20,6 +20,7 @@ import com.unicorn.csp.activity.base.ButterKnifeActivity;
 import butterknife.Bind;
 
 
+// todo 重构
 public class WebViewActivity extends ButterKnifeActivity {
 
     @Bind(R.id.myProgressBar)

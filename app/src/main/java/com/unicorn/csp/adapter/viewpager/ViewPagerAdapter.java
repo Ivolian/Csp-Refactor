@@ -5,7 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.unicorn.csp.fragment.BookCityFragment;
+import com.unicorn.csp.fragment.bookCity.BookCityFragment;
 import com.unicorn.csp.fragment.BookFragment;
 import com.unicorn.csp.fragment.ChartFragment;
 import com.unicorn.csp.fragment.MyShelfFragment;

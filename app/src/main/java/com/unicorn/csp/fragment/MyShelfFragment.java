@@ -34,6 +34,7 @@ import java.util.List;
 import butterknife.Bind;
 
 
+// todo 重构
 public class MyShelfFragment extends LazyLoadFragment {
 
     @Override

@@ -35,6 +35,7 @@ import java.util.List;
 import butterknife.Bind;
 
 
+// todo 重构
 public class BookFragment extends LazyLoadFragment {
 
     @Override
@@ -52,7 +53,7 @@ public class BookFragment extends LazyLoadFragment {
     RecyclerView recyclerView;
 
 
-    // ==================== myShelfAdapter ====================
+    // ==================== bookAdapter ====================
 
     BookAdapter bookAdapter;
 

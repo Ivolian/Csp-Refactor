@@ -2,8 +2,8 @@
 <project version="4">
   <component name="Encoding" defaultCharsetForPropertiesFiles="UTF-8">
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/unicorn/csp/activity/main/MainActivity.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/unicorn/csp/adapter/recyclerView/QuestionHeaderAdapter.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/unicorn/csp/fragment/LocalImageHolderView.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/unicorn/csp/adapter/recyclerView/question/QuestionDetailHeaderAdapter.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/unicorn/csp/fragment/bookCity/ImageHolderView.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/unicorn/csp/other/webview/VideoEnabledWebChromeClient.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/unicorn/csp/other/webview/VideoEnabledWebView.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/unicorn/csp/utils/ArrayUtils.java" charset="GBK" />
@@ -15,11 +15,6 @@
     <file url="file://$PROJECT_DIR$/app/src/main/res/drawable-hdpi" charset="GBK" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/drawable-hdpi/book_city.png" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/drawable-hdpi/book_default.jpg" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/app/src/main/res/drawable-hdpi/bookcity1.png" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/app/src/main/res/drawable-hdpi/bookcity2.jpg" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/app/src/main/res/drawable-hdpi/bookcity3.jpg" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/app/src/main/res/drawable-hdpi/bookcity4.jpg" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/app/src/main/res/drawable-hdpi/bookcity5.jpg" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/drawable-hdpi/bottom_tab_shadow.png" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/drawable-hdpi/drawer_header_bg.jpg" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/drawable-hdpi/head.jpg" charset="UTF-8" />
@@ -31,6 +26,11 @@
     <file url="file://$PROJECT_DIR$/app/src/main/res/drawable-hdpi/news.jpg" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/drawable-hdpi/social_region.png" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/drawable-hdpi/study_field.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/drawable-hdpi/zhiwang1.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/drawable-hdpi/zhiwang2.jpg" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/drawable-hdpi/zhiwang3.jpg" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/drawable-hdpi/zhiwang4.jpg" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/drawable-hdpi/zhiwang5.jpg" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/layout" charset="GBK" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_add_answer.xml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_add_comment.xml" charset="UTF-8" />
@@ -45,12 +45,12 @@
     <file url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_chart.xml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_viewpager_l1.xml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_viewpager_l2.xml" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/app/src/main/res/layout/item_answer2.xml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/layout/item_book.xml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/layout/item_comment.xml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/layout/item_news.xml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/layout/item_quesion.xml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/layout/item_question_answer.xml" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/layout/item_question_detail.xml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/layout/toolbar.xml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/layout/toolbar_with_shadow.xml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/menu/more_action.xml" charset="GBK" />

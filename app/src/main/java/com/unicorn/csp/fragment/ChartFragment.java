@@ -34,6 +34,7 @@ import java.util.Map;
 import butterknife.Bind;
 
 
+// todo 重构
 public class ChartFragment extends ButterKnifeFragment {
     protected List<String> mParties = new ArrayList<>();
 
