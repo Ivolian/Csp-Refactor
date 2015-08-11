@@ -14,7 +14,7 @@ import com.bignerdranch.expandablerecyclerview.ViewHolder.ChildViewHolder;
 import com.bignerdranch.expandablerecyclerview.ViewHolder.ParentViewHolder;
 import com.malinskiy.materialicons.widget.IconTextView;
 import com.unicorn.csp.R;
-import com.unicorn.csp.activity.QuestionDetailActivity;
+import com.unicorn.csp.activity.question.QuestionDetailActivity;
 import com.unicorn.csp.model.Answer;
 import com.unicorn.csp.model.Question;
 import com.unicorn.csp.utils.DateUtils;
@@ -28,6 +28,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
+// clear
 public class QuestionAdapter extends ExpandableRecyclerAdapter<QuestionAdapter.QuestionViewHolder, QuestionAdapter.AnswerViewHolder> {
 
     private LayoutInflater mInflater;

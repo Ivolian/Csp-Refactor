@@ -1,5 +1,6 @@
-package com.unicorn.csp.activity;
+package com.unicorn.csp.activity.question;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -32,8 +33,8 @@ public class AddAnswerActivity extends ToolbarActivity {
 
     // ==================== view ====================
 
-    @Bind(R.id.et_answer)
-    EditText etQuestion;
+    @Bind(R.id.et_content)
+    EditText etContent;
 
 
     // ==================== onCreate ====================
@@ -43,13 +44,42 @@ public class AddAnswerActivity extends ToolbarActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_answer);
-        initToolbar("提交回答", true);
+        initToolbar("回答", true);
     }
 
 
-    // ==================== 发送评论 ====================
+    // ====================== toolbar 发送按钮 ======================e
 
-    private void postQuestionToServer() {
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.add_answer:
+                addAnswer();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.add_answer, menu);
+        menu.findItem(R.id.add_answer).setIcon(getActionDrawable());
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    private Drawable getActionDrawable() {
+
+        return new IconDrawable(this, Iconify.IconValue.zmdi_mail_send)
+                .colorRes(android.R.color.white)
+                .actionBarSize();
+    }
+
+
+    // ==================== 添加回答 ====================
+
+    private void addAnswer() {
 
         if (getAnswer().equals("")) {
             ToastUtils.show("回答不能为空");
@@ -61,10 +91,10 @@ public class AddAnswerActivity extends ToolbarActivity {
                     public void onResponse(JSONObject response) {
                         boolean result = JSONUtils.getBoolean(response, "result", false);
                         if (result) {
-                            ToastUtils.show("提交成功");
-                            finish();
+                            ToastUtils.show("回答成功");
+                            startNewsDetailActivityAndFinish();
                         } else {
-                            ToastUtils.show("提交失败");
+                            ToastUtils.show("回答失败");
                         }
                     }
                 },
@@ -80,37 +110,17 @@ public class AddAnswerActivity extends ToolbarActivity {
         return builder.toString();
     }
 
-    // ====================== 菜单 ======================e
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch (item.getItemId()) {
-            case R.id.add_question:
-                postQuestionToServer();
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-        getMenuInflater().inflate(R.menu.add_question, menu);
-        menu.findItem(R.id.add_question).setIcon(getMailSendDrawable());
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    private Drawable getMailSendDrawable() {
-
-        return new IconDrawable(this, Iconify.IconValue.zmdi_mail_send)
-                .colorRes(android.R.color.white)
-                .actionBarSize();
-    }
-
     private String getAnswer() {
 
-        return etQuestion.getText().toString().trim();
+        return etContent.getText().toString().trim();
+    }
+
+    private void startNewsDetailActivityAndFinish() {
+
+        Intent intent = new Intent(this, QuestionDetailActivity.class);
+        intent.putExtra("questionId", questionId);
+        startActivity(intent);
+        finish();
     }
 
 }

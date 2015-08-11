@@ -12,25 +12,27 @@ import com.unicorn.csp.R;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class BigramHeaderAdapter implements StickyHeadersAdapter<BigramHeaderAdapter.ViewHolder> {
+public class QuestionHeaderAdapter implements StickyHeadersAdapter<QuestionHeaderAdapter.ViewHolder> {
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.top_header, parent, false);
 
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.question_header, parent, false);
         return new ViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder headerViewHolder, int position) {
+
         headerViewHolder.tvTitle.setText(position == 0 ? "问题" : "回答");
     }
 
     @Override
     public long getHeaderId(int position) {
-        if (position==0){
+
+        if (position == 0) {
             return 1;
-        }else {
+        } else {
             return 2;
         }
     }

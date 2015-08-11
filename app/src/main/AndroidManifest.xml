@@ -39,8 +39,9 @@
             android:name=".activity.WebViewActivity"
             android:hardwareAccelerated="true" />
         <activity android:name=".activity.question.AddQuestionActivity" />
-        <activity android:name=".activity.QuestionDetailActivity" />
-        <activity android:name=".activity.AddAnswerActivity" />
+        <activity android:name=".activity.question.QuestionDetailActivity"
+            android:launchMode="singleTask"/>
+        <activity android:name=".activity.question.AddAnswerActivity" />
 
     </application>
 

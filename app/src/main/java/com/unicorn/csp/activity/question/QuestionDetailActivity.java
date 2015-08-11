@@ -1,5 +1,7 @@
-package com.unicorn.csp.activity;
+package com.unicorn.csp.activity.question;
 
+import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,10 +13,13 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.eowise.recyclerview.stickyheaders.StickyHeadersBuilder;
 import com.eowise.recyclerview.stickyheaders.StickyHeadersItemDecoration;
 import com.f2prateek.dart.InjectExtra;
+import com.malinskiy.materialicons.IconDrawable;
+import com.malinskiy.materialicons.Iconify;
+import com.melnykov.fab.FloatingActionButton;
 import com.unicorn.csp.R;
 import com.unicorn.csp.activity.base.ToolbarActivity;
 import com.unicorn.csp.adapter.recyclerView.AnswerAdapter;
-import com.unicorn.csp.adapter.recyclerView.BigramHeaderAdapter;
+import com.unicorn.csp.adapter.recyclerView.QuestionHeaderAdapter;
 import com.unicorn.csp.model.Answer;
 import com.unicorn.csp.model.Question;
 import com.unicorn.csp.utils.ConfigUtils;
@@ -31,9 +36,10 @@ import java.util.Date;
 import java.util.List;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 
 
-public class QuestionDetailActivity extends ToolbarActivity{
+public class QuestionDetailActivity extends ToolbarActivity {
 
 
     @InjectExtra("question")
@@ -41,6 +47,9 @@ public class QuestionDetailActivity extends ToolbarActivity{
 
     @Bind(R.id.recyclerView)
     RecyclerView recyclerView;
+
+    @Bind(R.id.fab)
+    FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,16 +82,13 @@ public class QuestionDetailActivity extends ToolbarActivity{
     private void initViews() {
 
         initRecyclerView();
+        initFab();
         reload();
     }
 
-    private StickyHeadersItemDecoration top;
-
-
     private void initRecyclerView() {
 
-        recyclerView.setHasFixedSize(true);
-        final LinearLayoutManager linearLayoutManager =new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(answerAdapter = new AnswerAdapter());
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -105,12 +111,40 @@ public class QuestionDetailActivity extends ToolbarActivity{
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
             }
         });
-        top = new StickyHeadersBuilder()
+        StickyHeadersItemDecoration stickyHeadersItemDecoration = new StickyHeadersBuilder()
                 .setAdapter(answerAdapter)
                 .setRecyclerView(recyclerView)
-                .setStickyHeadersAdapter(new BigramHeaderAdapter())
+                .setStickyHeadersAdapter(new QuestionHeaderAdapter())
                 .build();
-        recyclerView.addItemDecoration(top);
+        recyclerView.addItemDecoration(stickyHeadersItemDecoration);
+    }
+
+    private void initFab() {
+
+        fab.setImageDrawable(getFabDrawable());
+        fab.attachToRecyclerView(recyclerView);
+    }
+
+    private Drawable getFabDrawable() {
+
+        return new IconDrawable(this, Iconify.IconValue.zmdi_edit)
+                .colorRes(android.R.color.white)
+                .actionBarSize();
+    }
+
+    // ==================== 发表评论点击事件 ====================
+
+    @OnClick(R.id.fab)
+    public void onFabClick() {
+
+        startAddAnswerActivity();
+    }
+
+    private void startAddAnswerActivity() {
+
+        Intent intent = new Intent(this, AddAnswerActivity.class);
+        intent.putExtra("questionId", question.getId());
+        startActivity(intent);
     }
 
     public void reload() {
@@ -121,7 +155,8 @@ public class QuestionDetailActivity extends ToolbarActivity{
                     @Override
                     public void onResponse(JSONObject response) {
 
-                        Answer answer =new Answer(question.getId(),question.getContent(),question.getName(),question.getEventTime());
+                        // 将 Question 作为 Answer列表的第一个。
+                        Answer answer = new Answer(question.getId(), question.getContent(), question.getName(), question.getEventTime());
                         List<Answer> answerList = new ArrayList<Answer>();
                         answerList.add(answer);
                         answerAdapter.setAnswerList(answerList);
@@ -161,6 +196,15 @@ public class QuestionDetailActivity extends ToolbarActivity{
                 }));
     }
 
+
+    // ==================== onNewIntent ====================
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+
+        super.onNewIntent(intent);
+        reload();
+    }
 
     // ========================== 通用分页方法 ==========================
 
