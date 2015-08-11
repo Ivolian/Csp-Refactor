@@ -1,4 +1,4 @@
-package com.unicorn.csp.adapter.recyclerView;
+package com.unicorn.csp.adapter.recyclerView.question;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,12 +12,12 @@ import com.unicorn.csp.R;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class QuestionHeaderAdapter implements StickyHeadersAdapter<QuestionHeaderAdapter.ViewHolder> {
+public class QuestionDetailHeaderAdapter implements StickyHeadersAdapter<QuestionDetailHeaderAdapter.ViewHolder> {
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent) {
 
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.question_header, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_question_detail_header, parent, false);
         return new ViewHolder(itemView);
     }
 

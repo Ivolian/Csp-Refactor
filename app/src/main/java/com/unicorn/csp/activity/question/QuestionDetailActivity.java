@@ -18,8 +18,8 @@ import com.malinskiy.materialicons.Iconify;
 import com.melnykov.fab.FloatingActionButton;
 import com.unicorn.csp.R;
 import com.unicorn.csp.activity.base.ToolbarActivity;
-import com.unicorn.csp.adapter.recyclerView.AnswerAdapter;
-import com.unicorn.csp.adapter.recyclerView.QuestionHeaderAdapter;
+import com.unicorn.csp.adapter.recyclerView.question.QuestionDetailAdapter;
+import com.unicorn.csp.adapter.recyclerView.question.QuestionDetailHeaderAdapter;
 import com.unicorn.csp.model.Answer;
 import com.unicorn.csp.model.Question;
 import com.unicorn.csp.utils.ConfigUtils;
@@ -63,7 +63,7 @@ public class QuestionDetailActivity extends ToolbarActivity {
 
     // ==================== answerAdapter ====================
 
-    public AnswerAdapter answerAdapter;
+    public QuestionDetailAdapter questionDetailAdapter;
 
 
     // ==================== page data ====================
@@ -90,7 +90,7 @@ public class QuestionDetailActivity extends ToolbarActivity {
 
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setAdapter(answerAdapter = new AnswerAdapter());
+        recyclerView.setAdapter(questionDetailAdapter = new QuestionDetailAdapter());
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -112,9 +112,9 @@ public class QuestionDetailActivity extends ToolbarActivity {
             }
         });
         StickyHeadersItemDecoration stickyHeadersItemDecoration = new StickyHeadersBuilder()
-                .setAdapter(answerAdapter)
+                .setAdapter(questionDetailAdapter)
                 .setRecyclerView(recyclerView)
-                .setStickyHeadersAdapter(new QuestionHeaderAdapter())
+                .setStickyHeadersAdapter(new QuestionDetailHeaderAdapter())
                 .build();
         recyclerView.addItemDecoration(stickyHeadersItemDecoration);
     }
@@ -159,9 +159,9 @@ public class QuestionDetailActivity extends ToolbarActivity {
                         Answer answer = new Answer(question.getId(), question.getContent(), question.getName(), question.getEventTime());
                         List<Answer> answerList = new ArrayList<Answer>();
                         answerList.add(answer);
-                        answerAdapter.setAnswerList(answerList);
-                        answerAdapter.getAnswerList().addAll(parseAnswerList(response));
-                        answerAdapter.notifyDataSetChanged();
+                        questionDetailAdapter.setAnswerList(answerList);
+                        questionDetailAdapter.getAnswerList().addAll(parseAnswerList(response));
+                        questionDetailAdapter.notifyDataSetChanged();
                         checkLastPage(response);
                     }
                 },
@@ -182,8 +182,8 @@ public class QuestionDetailActivity extends ToolbarActivity {
                     public void onResponse(JSONObject response) {
                         loadingMore = false;
                         pageNo++;
-                        answerAdapter.getAnswerList().addAll(parseAnswerList(response));
-                        answerAdapter.notifyDataSetChanged();
+                        questionDetailAdapter.getAnswerList().addAll(parseAnswerList(response));
+                        questionDetailAdapter.notifyDataSetChanged();
                         checkLastPage(response);
                     }
                 },

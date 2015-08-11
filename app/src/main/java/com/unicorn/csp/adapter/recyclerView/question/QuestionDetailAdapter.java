@@ -1,4 +1,4 @@
-package com.unicorn.csp.adapter.recyclerView;
+package com.unicorn.csp.adapter.recyclerView.question;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -19,9 +19,9 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 
-public class AnswerAdapter extends RecyclerView.Adapter<AnswerAdapter.ViewHolder> {
+public class QuestionDetailAdapter extends RecyclerView.Adapter<QuestionDetailAdapter.ViewHolder> {
 
-    public AnswerAdapter() {
+    public QuestionDetailAdapter() {
         setHasStableIds(true);
     }
 
@@ -48,7 +48,7 @@ public class AnswerAdapter extends RecyclerView.Adapter<AnswerAdapter.ViewHolder
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
 
-        return new ViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_answer2, viewGroup, false));
+        return new ViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_question_detail, viewGroup, false));
     }
 
     @Override

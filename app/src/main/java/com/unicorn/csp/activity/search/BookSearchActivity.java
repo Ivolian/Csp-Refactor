@@ -8,7 +8,7 @@ import com.unicorn.csp.activity.search.base.SearchActivity;
 public class BookSearchActivity extends SearchActivity implements SearchBox.SearchListener {
 
     @Override
-    String getType() {
+    protected String getType() {
         return "book";
     }
 

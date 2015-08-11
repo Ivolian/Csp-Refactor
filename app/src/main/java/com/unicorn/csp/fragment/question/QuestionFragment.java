@@ -15,7 +15,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.bignerdranch.expandablerecyclerview.Model.ParentObject;
 import com.unicorn.csp.R;
-import com.unicorn.csp.adapter.recyclerView.QuestionAdapter;
+import com.unicorn.csp.adapter.recyclerView.question.QuestionFragmentAdapter;
 import com.unicorn.csp.fragment.base.LazyLoadFragment;
 import com.unicorn.csp.model.Answer;
 import com.unicorn.csp.model.Question;
@@ -110,7 +110,7 @@ public class QuestionFragment extends LazyLoadFragment {
         final LinearLayoutManager linearLayoutManager = RecycleViewUtils.getLinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
         questionList = new ArrayList<>();
-        recyclerView.setAdapter(new QuestionAdapter(getActivity(), new ArrayList<ParentObject>(), R.id.itv_expand, 500));
+        recyclerView.setAdapter(new QuestionFragmentAdapter(getActivity(), new ArrayList<ParentObject>(), R.id.itv_expand, 500));
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -186,9 +186,9 @@ public class QuestionFragment extends LazyLoadFragment {
 
     private void notifyDataSetChanged() {
 
-        QuestionAdapter questionAdapter = new QuestionAdapter(getActivity(), questionList, R.id.itv_expand, 500);
-        recyclerView.setAdapter(questionAdapter);
-        questionAdapter.notifyDataSetChanged();
+        QuestionFragmentAdapter questionFragmentAdapter = new QuestionFragmentAdapter(getActivity(), questionList, R.id.itv_expand, 500);
+        recyclerView.setAdapter(questionFragmentAdapter);
+        questionFragmentAdapter.notifyDataSetChanged();
     }
 
 

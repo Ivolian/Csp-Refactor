@@ -34,7 +34,7 @@ public abstract class SearchActivity extends ButterKnifeActivity implements Sear
     // ================================ 抽象方法 ================================
 
     // return book or news
-    abstract String getType();
+    abstract protected String getType();
 
 
     // ================================ views ================================

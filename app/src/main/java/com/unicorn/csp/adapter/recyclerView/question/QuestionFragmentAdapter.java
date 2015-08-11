@@ -1,4 +1,4 @@
-package com.unicorn.csp.adapter.recyclerView;
+package com.unicorn.csp.adapter.recyclerView.question;
 
 import android.app.Activity;
 import android.content.Context;
@@ -29,13 +29,13 @@ import butterknife.OnClick;
 
 
 // clear
-public class QuestionAdapter extends ExpandableRecyclerAdapter<QuestionAdapter.QuestionViewHolder, QuestionAdapter.AnswerViewHolder> {
+public class QuestionFragmentAdapter extends ExpandableRecyclerAdapter<QuestionFragmentAdapter.QuestionViewHolder, QuestionFragmentAdapter.AnswerViewHolder> {
 
     private LayoutInflater mInflater;
 
     private Activity activity;
 
-    public QuestionAdapter(Context context, List<ParentObject> parentItemList, int customClickableViewId, long animationDuration) {
+    public QuestionFragmentAdapter(Context context, List<ParentObject> parentItemList, int customClickableViewId, long animationDuration) {
 
         super(context, parentItemList, customClickableViewId, animationDuration);
         mInflater = LayoutInflater.from(context);
