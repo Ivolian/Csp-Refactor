@@ -44,6 +44,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+import im.dino.dbinspector.activities.DbInspectorActivity;
 
 
 // clear
@@ -125,7 +126,7 @@ public class MainActivity extends ToolbarActivity {
                     public boolean onItemClick(AdapterView<?> parent, View view, int position, long id, IDrawerItem drawerItem) {
                         switch (drawerItem.getIdentifier()) {
                             case 1:
-                                startActivity(FavoriteNewsActivity.class);
+                                startActivity(DbInspectorActivity.class);
                                 break;
                             case 2:
                                 startActivity(AddQuestionActivity.class);
