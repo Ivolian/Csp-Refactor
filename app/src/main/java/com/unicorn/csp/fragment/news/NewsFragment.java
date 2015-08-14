@@ -216,9 +216,10 @@ public class NewsFragment extends LazyLoadFragment {
             String id = JSONUtils.getString(newsJSONObject, "id", "");
             String title = JSONUtils.getString(newsJSONObject, "title", "");
             String picture = JSONUtils.getString(newsJSONObject, "picture", "");
+            Date postTime = new Date(JSONUtils.getLong(newsJSONObject, "postTime", 0));
             int commentCount = JSONUtils.getInt(newsJSONObject, "commentCount", 0);
             int thumbCount = JSONUtils.getInt(newsJSONObject, "thumbCount", 0);
-            newsList.add(new News(id, title, new Date(), commentCount, thumbCount, picture));
+            newsList.add(new News(id, title, postTime, commentCount, thumbCount, picture));
         }
         return newsList;
     }

@@ -27,12 +27,12 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.OnCheckedChangeListener;
 import com.unicorn.csp.MyApplication;
 import com.unicorn.csp.R;
+import com.unicorn.csp.activity.base.ToolbarActivity;
+import com.unicorn.csp.activity.news.FavoriteNewsActivity;
+import com.unicorn.csp.activity.other.ModifyPasswordActivity;
 import com.unicorn.csp.activity.question.AddQuestionActivity;
 import com.unicorn.csp.activity.search.BookSearchActivity;
-import com.unicorn.csp.activity.other.ModifyPasswordActivity;
-import com.unicorn.csp.activity.news.FavoriteNewsActivity;
 import com.unicorn.csp.activity.search.NewsSearchActivity;
-import com.unicorn.csp.activity.base.ToolbarActivity;
 import com.unicorn.csp.adapter.viewpager.ViewPagerAdapter;
 import com.unicorn.csp.greendao.Menu;
 import com.unicorn.csp.greendao.MenuDao;
@@ -44,7 +44,6 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.OnClick;
-import im.dino.dbinspector.activities.DbInspectorActivity;
 
 
 // clear
@@ -126,7 +125,8 @@ public class MainActivity extends ToolbarActivity {
                     public boolean onItemClick(AdapterView<?> parent, View view, int position, long id, IDrawerItem drawerItem) {
                         switch (drawerItem.getIdentifier()) {
                             case 1:
-                                startActivity(DbInspectorActivity.class);
+                                startActivity(FavoriteNewsActivity.class);
+//                                startActivity(DbInspectorActivity.class);
                                 break;
                             case 2:
                                 startActivity(AddQuestionActivity.class);

@@ -72,7 +72,9 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
             case"chart":
                 return new ChartFragment();
             default:
-                throw new RuntimeException("未知的菜单类型");
+                return new BookCityFragment();
+
+//                throw new RuntimeException("未知的菜单类型");
         }
     }
 

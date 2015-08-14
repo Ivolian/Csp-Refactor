@@ -12,6 +12,7 @@ public class News implements Serializable {
 
     private Date time;
 
+
     private int commentCount;
 
     private int thumbCount;
