@@ -47,7 +47,7 @@
             android:name=".activity.news.FavoriteNewsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.other.ModifyPasswordActivity"
+            android:name=".activity.other.ChangePasswordActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.search.BookSearchActivity"

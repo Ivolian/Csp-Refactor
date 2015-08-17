@@ -25,7 +25,7 @@ import butterknife.OnTextChanged;
 
 
 // clear
-public class ModifyPasswordActivity extends ToolbarActivity {
+public class ChangePasswordActivity extends ToolbarActivity {
 
 
     // ========================== views ==========================
@@ -54,7 +54,7 @@ public class ModifyPasswordActivity extends ToolbarActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_modify_password);
+        setContentView(R.layout.activity_change_password);
         initToolbar("修改密码", true);
     }
 
@@ -106,7 +106,6 @@ public class ModifyPasswordActivity extends ToolbarActivity {
 
     private String getUrl() {
 
-        // todo 也许可以将后台修改成统一的 modifyPassword
         Uri.Builder builder = Uri.parse(ConfigUtils.getBaseUrl() + "/api/v1/user/changePassword?").buildUpon();
         builder.appendQueryParameter("userId", ConfigUtils.getUserId());
         builder.appendQueryParameter("oldPassword", getOldPassword());

@@ -102,7 +102,6 @@ public class NewsDetailActivity extends ToolbarActivity implements ObservableScr
             public void toggledFullscreen(boolean fullscreen) {
                 // Your code to handle the full-screen change, for example showing and hiding the title bar. Example:
                 if (fullscreen) {
-                    // TODO MY ADD
                     setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
                     WindowManager.LayoutParams attrs = getWindow().getAttributes();
                     attrs.flags |= WindowManager.LayoutParams.FLAG_FULLSCREEN;

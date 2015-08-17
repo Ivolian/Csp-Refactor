@@ -32,9 +32,8 @@ public class QuestionDetailAdapter extends RecyclerView.Adapter<QuestionDetailAd
         @Bind(R.id.tv_content)
         TextView tvContent;
 
-        // todo modify to eventTime
-        @Bind(R.id.tv_time)
-        TextView tvTime;
+        @Bind(R.id.tv_event_time)
+        TextView tvEventTime;
 
         @Bind(R.id.tv_username)
         TextView tvUsername;
@@ -67,7 +66,7 @@ public class QuestionDetailAdapter extends RecyclerView.Adapter<QuestionDetailAd
 
         Answer answer = answerList.get(position);
         viewHolder.tvContent.setText(answer.getContent());
-        viewHolder.tvTime.setText(DateUtils.getFormatDateString(answer.getEventTime(), new SimpleDateFormat("MM-dd HH:mm", Locale.CHINA)));
+        viewHolder.tvEventTime.setText(DateUtils.getFormatDateString(answer.getEventTime(), new SimpleDateFormat("MM-dd HH:mm", Locale.CHINA)));
         viewHolder.tvUsername.setText(answer.getName());
     }
 

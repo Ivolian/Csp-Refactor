@@ -29,7 +29,7 @@ import com.unicorn.csp.MyApplication;
 import com.unicorn.csp.R;
 import com.unicorn.csp.activity.base.ToolbarActivity;
 import com.unicorn.csp.activity.news.FavoriteNewsActivity;
-import com.unicorn.csp.activity.other.ModifyPasswordActivity;
+import com.unicorn.csp.activity.other.ChangePasswordActivity;
 import com.unicorn.csp.activity.question.AddQuestionActivity;
 import com.unicorn.csp.activity.search.BookSearchActivity;
 import com.unicorn.csp.activity.search.NewsSearchActivity;
@@ -132,7 +132,7 @@ public class MainActivity extends ToolbarActivity {
                                 startActivity(AddQuestionActivity.class);
                                 break;
                             case 3:
-                                startActivity(ModifyPasswordActivity.class);
+                                startActivity(ChangePasswordActivity.class);
                                 break;
                             case 4:
                                 startSelectColorActivity();
