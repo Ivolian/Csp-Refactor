@@ -45,7 +45,7 @@ public class QuestionFragmentAdapter extends ExpandableRecyclerAdapter<QuestionF
     @Override
     public QuestionViewHolder onCreateParentViewHolder(ViewGroup parent) {
 
-        View view = mInflater.inflate(R.layout.item_quesion, parent, false);
+        View view = mInflater.inflate(R.layout.item_question, parent, false);
         return new QuestionViewHolder(view);
     }
 
