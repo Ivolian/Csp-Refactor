@@ -15,31 +15,56 @@
         android:theme="@style/AppTheme.NoActionBar"
         tools:replace="android:icon,android:name,android:label">
 
-        <!-- todo 为大部分 Activity 加上竖屏限制 -->
-        <activity android:name=".activity.main.LoginActivity">
+        <activity
+            android:name=".activity.main.LoginActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.main.MainActivity" />
-        <activity android:name=".other.greenmatter.SelectColorActivity" />
+        <activity
+            android:name=".activity.main.MainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".other.greenmatter.SelectColorActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.news.NewsDetailActivity"
-            android:configChanges="orientation|screenSize" />
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.news.CommentActivity"
-            android:launchMode="singleTask" />
-        <activity android:name=".activity.news.AddCommentActivity" />
-        <activity android:name=".activity.search.NewsSearchActivity" />
-        <activity android:name=".activity.news.FavoriteNewsActivity" />
-        <activity android:name=".activity.other.ModifyPasswordActivity" />
-        <activity android:name=".activity.search.BookSearchActivity" />
-        <activity android:name=".activity.bookCity.WebViewActivity" />
-        <activity android:name=".activity.question.AddQuestionActivity" />
-        <activity android:name=".activity.question.QuestionDetailActivity"
-            android:launchMode="singleTask"/>
-        <activity android:name=".activity.question.AddAnswerActivity" />
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.news.AddCommentActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.search.NewsSearchActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.news.FavoriteNewsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.other.ModifyPasswordActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.search.BookSearchActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.bookCity.WebViewActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.question.AddQuestionActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.question.QuestionDetailActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.question.AddAnswerActivity"
+            android:screenOrientation="portrait" />
 
     </application>
 
