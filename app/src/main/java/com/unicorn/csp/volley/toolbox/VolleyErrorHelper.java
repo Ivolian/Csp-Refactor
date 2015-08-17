@@ -12,7 +12,8 @@ public class VolleyErrorHelper {
     public static String getErrorMessage(VolleyError volleyError) {
 
         if (volleyError instanceof NoConnectionError) {
-            return "手机未连接到网络";
+            return "连接超时，请稍后再试";
+//            return "手机未连接到网络";
         } else if (volleyError instanceof ServerError) {
             return "服务器内部错误，错误码:" + volleyError.networkResponse.statusCode;
         } else if (volleyError instanceof ParseError) {

@@ -199,7 +199,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
         // todo 研究 Fbreader book 的使用
         // todo 目前只是暂时用 BookDetailActivity 解决
         // todo 貌似 bookId 和 bookPath 都不能重复
-        Book bookzz = new Book(book.getId2(), getBookPath(book), book.getName(), null, null);
+        Book bookzz = new Book(book.getOrderNo(), getBookPath(book), book.getName(), null, null);
         Intent intent = new Intent(activity, BookInfoActivity.class);
         FBReaderIntents.putBookExtra(intent, bookzz);
         OrientationUtil.startActivity(activity, intent);

@@ -5,7 +5,7 @@ import java.io.Serializable;
 
 public class Book implements Serializable {
 
-    private Integer id2;
+    private Integer orderNo;
 
     private String name;
 
@@ -22,8 +22,8 @@ public class Book implements Serializable {
     public Book() {
     }
 
-    public Book(Integer id2, String name, String picture, String ebook, String ebookFilename, String summary, String id) {
-        this.id2 = id2;
+    public Book(Integer orderNo, String name, String picture, String ebook, String ebookFilename, String summary, String id) {
+        this.orderNo = orderNo;
         this.name = name;
         this.picture = picture;
         this.ebook = ebook;
@@ -32,12 +32,12 @@ public class Book implements Serializable {
         this.id = id;
     }
 
-    public Integer getId2() {
-        return id2;
+    public Integer getOrderNo() {
+        return orderNo;
     }
 
-    public void setId2(Integer id2) {
-        this.id2 = id2;
+    public void setOrderNo(Integer orderNo) {
+        this.orderNo = orderNo;
     }
 
     public String getName() {
