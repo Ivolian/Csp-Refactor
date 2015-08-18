@@ -3,7 +3,6 @@
   <component name="Encoding" defaultCharsetForPropertiesFiles="UTF-8">
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/unicorn/csp/activity/main/MainActivity.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/unicorn/csp/adapter/recyclerView/question/QuestionDetailHeaderAdapter.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/unicorn/csp/fragment/bookCity/ImageHolderView.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/unicorn/csp/other/webview/VideoEnabledWebChromeClient.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/unicorn/csp/other/webview/VideoEnabledWebView.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/unicorn/csp/utils/ArrayUtils.java" charset="GBK" />
@@ -35,8 +34,8 @@
     <file url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_add_answer.xml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_add_comment.xml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_add_question.xml" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_change_password.xml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_comment.xml" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_modify_password.xml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_news_detail.xml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_question_detail.xml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_select_color.xml" charset="UTF-8" />

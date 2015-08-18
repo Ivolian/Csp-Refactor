@@ -61,7 +61,7 @@ public class QuestionFragment extends LazyLoadFragment {
     @Bind(R.id.recyclerView)
     RecyclerView recyclerView;
 
-
+    int postion;
     // ==================== 因为 ExpandableAdapter 没有提供改变内部值的方法，暂时在 fragment 这边维护 data  ====================
 
     List<ParentObject> questionList;
@@ -69,7 +69,7 @@ public class QuestionFragment extends LazyLoadFragment {
 
     // ==================== page data ====================
 
-    final Integer PAGE_SIZE = 5;
+    final Integer PAGE_SIZE = 20;
 
     Integer pageNo;
 
@@ -186,8 +186,10 @@ public class QuestionFragment extends LazyLoadFragment {
 
     private void notifyDataSetChanged() {
 
+     int position=   ((LinearLayoutManager) recyclerView.getLayoutManager()).findLastVisibleItemPosition();
         QuestionFragmentAdapter questionFragmentAdapter = new QuestionFragmentAdapter(getActivity(), questionList, R.id.itv_expand, 500);
         recyclerView.setAdapter(questionFragmentAdapter);
+        recyclerView.scrollToPosition(position);
         questionFragmentAdapter.notifyDataSetChanged();
     }
 
