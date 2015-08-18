@@ -91,8 +91,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
 
         final com.unicorn.csp.model.Book book = bookList.get(position);
-        // todo change book_default
-        viewHolder.nivPicture.setDefaultImageResId(R.drawable.book_default);
+        viewHolder.nivPicture.setDefaultImageResId(R.drawable.default_book);
         viewHolder.nivPicture.setImageUrl(ConfigUtils.getBaseUrl() + book.getPicture(), MyVolley.getImageLoader());
         viewHolder.tvName.setText(book.getName());
         viewHolder.tvSummary.setText(book.getSummary());
@@ -334,6 +333,5 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
         builder.appendQueryParameter("userId", ConfigUtils.getUserId());
         return builder.toString();
     }
-
 
 }

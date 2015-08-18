@@ -91,8 +91,7 @@ public class MyShelfAdapter extends RecyclerView.Adapter<MyShelfAdapter.ViewHold
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
 
         final com.unicorn.csp.model.Book book = bookList.get(position);
-        // todo change book_default
-        viewHolder.nivPicture.setDefaultImageResId(R.drawable.book_default);
+        viewHolder.nivPicture.setDefaultImageResId(R.drawable.default_book);
         viewHolder.nivPicture.setImageUrl(ConfigUtils.getBaseUrl() + book.getPicture(), MyVolley.getImageLoader());
         viewHolder.tvName.setText(book.getName());
         viewHolder.tvSummary.setText(book.getSummary());

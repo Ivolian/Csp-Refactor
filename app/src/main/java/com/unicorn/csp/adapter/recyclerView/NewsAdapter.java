@@ -86,8 +86,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         viewHolder.tvTime.setText(DateUtils.getFormatDateString(news.getTime(), new SimpleDateFormat("MM-dd HH:mm", Locale.CHINA)));
         viewHolder.tvCommentCount.setText("评论 " + news.getCommentCount());
         viewHolder.tvThumbCount.setText("点赞 " + news.getThumbCount());
-        // todo change default image
-        viewHolder.nivPicture.setDefaultImageResId(R.drawable.news);
+        viewHolder.nivPicture.setDefaultImageResId(R.drawable.default_news);
         viewHolder.nivPicture.setImageUrl(ConfigUtils.getBaseUrl() + news.getPicture(), MyVolley.getImageLoader());
         emphasizeTitle(news.getTitle(), viewHolder.tvTitle);
     }

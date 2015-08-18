@@ -148,7 +148,7 @@ public class QuestionFragment extends LazyLoadFragment {
                     public void onResponse(JSONObject response) {
                         stopRefreshing();
                         questionList = parseQuestionList(response);
-                        notifyDataSetChanged();
+                        notifyDataSetChangedForReload();
                         checkLastPage(response);
                     }
                 },
@@ -186,12 +186,20 @@ public class QuestionFragment extends LazyLoadFragment {
 
     private void notifyDataSetChanged() {
 
-     int position=   ((LinearLayoutManager) recyclerView.getLayoutManager()).findLastVisibleItemPosition();
+        int position = ((LinearLayoutManager) recyclerView.getLayoutManager()).findLastVisibleItemPosition();
         QuestionFragmentAdapter questionFragmentAdapter = new QuestionFragmentAdapter(getActivity(), questionList, R.id.itv_expand, 500);
         recyclerView.setAdapter(questionFragmentAdapter);
+        questionFragmentAdapter.notifyDataSetChanged();
         recyclerView.scrollToPosition(position);
+    }
+
+    private void notifyDataSetChangedForReload() {
+
+        QuestionFragmentAdapter questionFragmentAdapter = new QuestionFragmentAdapter(getActivity(), questionList, R.id.itv_expand, 500);
+        recyclerView.setAdapter(questionFragmentAdapter);
         questionFragmentAdapter.notifyDataSetChanged();
     }
+
 
 
     // ========================== 分页的常见方法 ==========================
