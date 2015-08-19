@@ -1,6 +1,5 @@
 package com.unicorn.csp.activity.base;
 
-import android.content.Intent;
 import android.support.annotation.StringRes;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -83,20 +82,6 @@ public abstract class ToolbarActivity extends ButterKnifeActivity {
     protected Toolbar getToolbar() {
 
         return toolbar;
-    }
-
-
-    // ========================== 其他方法 ==========================
-
-    protected void startActivity(Class activityClass) {
-
-        startActivity(new Intent(this, activityClass));
-    }
-
-    protected void startActivityAndFinish(Class activityClass) {
-
-        startActivity(activityClass);
-        finish();
     }
 
 }

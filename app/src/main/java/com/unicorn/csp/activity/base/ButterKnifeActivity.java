@@ -1,5 +1,6 @@
 package com.unicorn.csp.activity.base;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 
@@ -23,6 +24,20 @@ public abstract class ButterKnifeActivity extends ColorActivity {
 
         super.onCreate(savedInstanceState);
         Dart.inject(this);
+    }
+
+
+    // ========================== 其他方法 ==========================
+
+    public void startActivity(Class activityClass) {
+
+        startActivity(new Intent(this, activityClass));
+    }
+
+    public void startActivityAndFinish(Class activityClass) {
+
+        startActivity(activityClass);
+        finish();
     }
 
 }
