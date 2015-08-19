@@ -55,7 +55,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:layout_marginTop="20dp"
-            android:checked="true"
+            android:checked="false"
             android:text="记住我" />
 
         <com.ivo.flatbutton.FlatButton

@@ -1,6 +1,5 @@
 package com.unicorn.csp.activity.main;
 
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.widget.CheckBox;
@@ -10,27 +9,20 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.ivo.flatbutton.FlatButton;
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.FileAsyncHttpResponseHandler;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.unicorn.csp.MyApplication;
 import com.unicorn.csp.R;
 import com.unicorn.csp.activity.base.ToolbarActivity;
 import com.unicorn.csp.greendao.Menu;
 import com.unicorn.csp.other.TinyDB;
-import com.unicorn.csp.utils.AppUtils;
 import com.unicorn.csp.utils.ConfigUtils;
 import com.unicorn.csp.utils.JSONUtils;
 import com.unicorn.csp.utils.ToastUtils;
 import com.unicorn.csp.volley.MyVolley;
 import com.unicorn.csp.volley.toolbox.VolleyErrorHelper;
 
-import org.apache.commons.io.FileUtils;
-import org.apache.http.Header;
 import org.json.JSONArray;
 import org.json.JSONObject;
-
-import java.io.File;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -43,12 +35,11 @@ public class LoginActivity extends ToolbarActivity {
 
     // ========================== SF 常量 ==========================
 
-    final String SF_USERNAME = "username";
+    public static final String SF_USERNAME = "username";
 
-    final String SF_PASSWORD = "password";
+    public static final String SF_PASSWORD = "password";
 
-    // key 一律驼峰命名
-    final String SF_REMEMBER_ME = "rememberMe";
+    public static final String SF_REMEMBER_ME = "rememberMe";
 
 
     // ========================== views ==========================
@@ -84,107 +75,6 @@ public class LoginActivity extends ToolbarActivity {
 
     private void initViews() {
 
-        checkUpdate();
-        restoreLoginInfo();
-    }
-
-
-    // ========================== 检查更新 ==========================
-
-    private void checkUpdate() {
-
-        MyVolley.addRequest(new JsonObjectRequest(getCheckUpdateUrl(),
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        boolean needUpdate = JSONUtils.getBoolean(response, "needUpdate", false);
-                        if (needUpdate) {
-                            String apk = JSONUtils.getString(response, "apk", "");
-                            showConfirmUpdateDialog(apk);
-                        }
-                    }
-                },
-                MyVolley.getDefaultErrorListener()));
-    }
-
-    private String getCheckUpdateUrl() {
-
-        Uri.Builder builder = Uri.parse(ConfigUtils.getBaseUrl() + "/api/v1/app/checkUpdate?").buildUpon();
-        builder.appendQueryParameter("versionName", AppUtils.getVersionName());
-        return builder.toString();
-    }
-
-    private MaterialDialog showConfirmUpdateDialog(final String apk) {
-
-        // todo 添加更新细节
-        return new MaterialDialog.Builder(this)
-                .title("检测到新版本，是否立即更新？")
-                .cancelable(false)
-                .positiveText("立即更新")
-                .negativeText("下次再说")
-                .callback(new MaterialDialog.ButtonCallback() {
-                    @Override
-                    public void onPositive(MaterialDialog dialog) {
-                        downloadApk(apk);
-                    }
-                })
-                .show();
-    }
-
-    private void downloadApk(String apk) {
-
-        final MaterialDialog downloadDialog = showDownloadApkDialog();
-        String url = ConfigUtils.getBaseUrl() + apk;
-        AsyncHttpClient client = new AsyncHttpClient();
-        client.get(url, new FileAsyncHttpResponseHandler(MyApplication.getInstance()) {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, File response) {
-
-                downloadDialog.dismiss();
-                installApk(response);
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
-
-                downloadDialog.dismiss();
-                ToastUtils.show("下载失败");
-            }
-
-            @Override
-            public void onProgress(long bytesWritten, long totalSize) {
-
-                downloadDialog.setMaxProgress((int) totalSize);
-                downloadDialog.setProgress((int) bytesWritten);
-            }
-        });
-    }
-
-    private MaterialDialog showDownloadApkDialog() {
-
-        return new MaterialDialog.Builder(this)
-                .title("下载APK中")
-                .progress(false, 100)
-                .cancelable(false)
-                .show();
-    }
-
-    private void installApk(File response) {
-
-        String apkPath = ConfigUtils.getDownloadDirPath() + "/csp.apk";
-        File apk = new File(apkPath);
-        if (apk.exists()) {
-            apk.delete();
-        }
-        try {
-            FileUtils.copyFile(response, apk);
-        } catch (Exception e) {
-            //
-        }
-
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setDataAndType(Uri.fromFile(apk), "application/vnd.android.package-archive");
-        LoginActivity.this.startActivity(intent);
     }
 
 
@@ -316,17 +206,7 @@ public class LoginActivity extends ToolbarActivity {
     }
 
 
-    // ========================== 记住密码 ==========================
-
-    private void restoreLoginInfo() {
-
-        TinyDB tinyDB = new TinyDB(this);
-        cbRememberMe.setChecked(tinyDB.getBoolean(SF_REMEMBER_ME, false));
-        if (cbRememberMe.isChecked()) {
-            etUsername.setText(tinyDB.getString(SF_USERNAME));
-            etPassword.setText(tinyDB.getString(SF_PASSWORD));
-        }
-    }
+    // ========================== 保存登录信息 ==========================
 
     private void storeLoginInfo() {
 
