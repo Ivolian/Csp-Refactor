@@ -168,6 +168,7 @@ public class NewsDetailActivity extends ToolbarActivity implements ObservableScr
     private String getUrl() {
 
         Uri.Builder builder = Uri.parse(ConfigUtils.getBaseUrl() + "/api/v1/news/newsData?").buildUpon();
+        builder.appendQueryParameter("userId", ConfigUtils.getUserId());
         builder.appendQueryParameter("newsId", news.getId());
         return builder.toString();
     }

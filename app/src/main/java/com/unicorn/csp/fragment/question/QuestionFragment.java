@@ -13,11 +13,9 @@ import android.view.ViewGroup;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.bignerdranch.expandablerecyclerview.Model.ParentObject;
 import com.unicorn.csp.R;
-import com.unicorn.csp.adapter.recyclerView.question.QuestionFragmentAdapter;
+import com.unicorn.csp.adapter.recyclerView.question.QuestionAdapter;
 import com.unicorn.csp.fragment.base.LazyLoadFragment;
-import com.unicorn.csp.model.Answer;
 import com.unicorn.csp.model.Question;
 import com.unicorn.csp.other.greenmatter.ColorOverrider;
 import com.unicorn.csp.utils.ConfigUtils;
@@ -61,15 +59,15 @@ public class QuestionFragment extends LazyLoadFragment {
     @Bind(R.id.recyclerView)
     RecyclerView recyclerView;
 
-    int postion;
-    // ==================== 因为 ExpandableAdapter 没有提供改变内部值的方法，暂时在 fragment 这边维护 data  ====================
 
-    List<ParentObject> questionList;
+    // ==================== QuestionAdapter ====================
+
+    public QuestionAdapter questionAdapter;
 
 
     // ==================== page data ====================
 
-    final Integer PAGE_SIZE = 20;
+    final Integer PAGE_SIZE = 10;
 
     Integer pageNo;
 
@@ -109,8 +107,7 @@ public class QuestionFragment extends LazyLoadFragment {
         recyclerView.setHasFixedSize(true);
         final LinearLayoutManager linearLayoutManager = RecycleViewUtils.getLinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
-        questionList = new ArrayList<>();
-        recyclerView.setAdapter(new QuestionFragmentAdapter(getActivity(), new ArrayList<ParentObject>(), R.id.itv_expand, 500));
+        recyclerView.setAdapter(questionAdapter = new QuestionAdapter());
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -147,8 +144,8 @@ public class QuestionFragment extends LazyLoadFragment {
                     @Override
                     public void onResponse(JSONObject response) {
                         stopRefreshing();
-                        questionList = parseQuestionList(response);
-                        notifyDataSetChangedForReload();
+                        questionAdapter.setQuestionList(parseQuestionList(response));
+                        questionAdapter.notifyDataSetChanged();
                         checkLastPage(response);
                     }
                 },
@@ -170,8 +167,8 @@ public class QuestionFragment extends LazyLoadFragment {
                     public void onResponse(JSONObject response) {
                         loadingMore = false;
                         pageNo++;
-                        questionList.addAll(parseQuestionList(response));
-                        notifyDataSetChanged();
+                        questionAdapter.getQuestionList().addAll(parseQuestionList(response));
+                        questionAdapter.notifyDataSetChanged();
                         checkLastPage(response);
                     }
                 },
@@ -184,23 +181,6 @@ public class QuestionFragment extends LazyLoadFragment {
                 }));
     }
 
-    private void notifyDataSetChanged() {
-
-        int position = ((LinearLayoutManager) recyclerView.getLayoutManager()).findLastVisibleItemPosition();
-        QuestionFragmentAdapter questionFragmentAdapter = new QuestionFragmentAdapter(getActivity(), questionList, R.id.itv_expand, 500);
-        recyclerView.setAdapter(questionFragmentAdapter);
-        questionFragmentAdapter.notifyDataSetChanged();
-        recyclerView.scrollToPosition(position);
-    }
-
-    private void notifyDataSetChangedForReload() {
-
-        QuestionFragmentAdapter questionFragmentAdapter = new QuestionFragmentAdapter(getActivity(), questionList, R.id.itv_expand, 500);
-        recyclerView.setAdapter(questionFragmentAdapter);
-        questionFragmentAdapter.notifyDataSetChanged();
-    }
-
-
 
     // ========================== 分页的常见方法 ==========================
 
@@ -212,37 +192,22 @@ public class QuestionFragment extends LazyLoadFragment {
         return builder.toString();
     }
 
-    private List<ParentObject> parseQuestionList(JSONObject response) {
+    private List<Question> parseQuestionList(JSONObject response) {
 
         JSONArray questionJSONArray = JSONUtils.getJSONArray(response, "content", null);
-        List<ParentObject> questionList = new ArrayList<>();
+        List<Question> questionList = new ArrayList<>();
         for (int i = 0; i != questionJSONArray.length(); i++) {
             JSONObject questionJSONObject = JSONUtils.getJSONObject(questionJSONArray, i);
             String id = JSONUtils.getString(questionJSONObject, "id", "");
             String content = JSONUtils.getString(questionJSONObject, "content", "");
             String username = JSONUtils.getString(questionJSONObject, "username", "");
             Date eventTime = new Date(JSONUtils.getLong(questionJSONObject, "eventTime", 0));
-            Question question = new Question(id, content, username, eventTime);
-            question.setChildObjectList(parseAnswerList(questionJSONObject));
-            questionList.add(question);
+            questionList.add(new Question(id, content, username, eventTime));
         }
         return questionList;
     }
 
-    private List<Object> parseAnswerList(JSONObject questionJSONObject) {
 
-        List<Object> answerList = new ArrayList<>();
-        JSONArray answerJSONArray = JSONUtils.getJSONArray(questionJSONObject, "answerList", new JSONArray());
-        for (int i = 0; i != answerJSONArray.length(); i++) {
-            JSONObject answerJSONObject = JSONUtils.getJSONObject(answerJSONArray, i);
-            String id = JSONUtils.getString(answerJSONObject, "id", "");
-            String content = JSONUtils.getString(answerJSONObject, "content", "");
-            String username = JSONUtils.getString(answerJSONObject, "username", "");
-            Date eventTime = new Date(JSONUtils.getLong(answerJSONObject, "eventTime", 0));
-            answerList.add(new Answer(id, content, username, eventTime));
-        }
-        return answerList;
-    }
 
     private void clearPageData() {
 

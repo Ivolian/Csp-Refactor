@@ -61,20 +61,12 @@
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
-            <View
-                android:id="@+id/line"
-                android:layout_width="1dp"
-                android:layout_height="20dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:background="#ccc" />
-
             <com.malinskiy.materialicons.widget.IconTextView
                 android:id="@+id/itv_expand"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:gravity="center"
-                android:text="{zmdi-chevron-down}"
+                android:text="{zmdi-chevron-right}"
                 android:textColor="?attr/colorAccent"
                 android:textSize="30dp" />
 

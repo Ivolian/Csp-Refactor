@@ -68,7 +68,7 @@ public class QuestionDetailActivity extends ToolbarActivity {
 
     // ==================== page data ====================
 
-    protected final Integer PAGE_SIZE = 5;
+    protected final Integer PAGE_SIZE = 10;
 
     Integer pageNo;
 

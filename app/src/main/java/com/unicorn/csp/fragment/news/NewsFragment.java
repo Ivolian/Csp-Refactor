@@ -61,7 +61,7 @@ public class NewsFragment extends LazyLoadFragment {
 
     // ==================== page data ====================
 
-    protected final Integer PAGE_SIZE = 5;
+    protected final Integer PAGE_SIZE = 10;
 
     Integer pageNo;
 

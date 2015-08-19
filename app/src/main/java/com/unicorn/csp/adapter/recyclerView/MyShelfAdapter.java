@@ -195,7 +195,6 @@ public class MyShelfAdapter extends RecyclerView.Adapter<MyShelfAdapter.ViewHold
 
     private void openBook(com.unicorn.csp.model.Book book) {
 
-        // todo 研究 Fbreader book 的使用
         // todo 目前只是暂时用 BookDetailActivity 解决
         // todo 貌似 bookId 和 bookPath 都不能重复
         Book bookzz = new Book(book.getOrderNo(), getBookPath(book), book.getName(), null, null);
@@ -228,8 +227,8 @@ public class MyShelfAdapter extends RecyclerView.Adapter<MyShelfAdapter.ViewHold
             @Override
             public void onProgress(long bytesWritten, long totalSize) {
 
-                downloadDialog.setMaxProgress((int) totalSize / 1024);
-                downloadDialog.setProgress((int) bytesWritten / 1024);
+                downloadDialog.setMaxProgress((int) totalSize );
+                downloadDialog.setProgress((int) bytesWritten );
             }
         });
     }
@@ -337,6 +336,5 @@ public class MyShelfAdapter extends RecyclerView.Adapter<MyShelfAdapter.ViewHold
         builder.appendQueryParameter("userId", ConfigUtils.getUserId());
         return builder.toString();
     }
-
 
 }

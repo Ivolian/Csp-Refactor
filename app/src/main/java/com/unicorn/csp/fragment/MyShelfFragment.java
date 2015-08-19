@@ -59,7 +59,7 @@ public class MyShelfFragment extends LazyLoadFragment {
 
     // ==================== page data ====================
 
-    final Integer PAGE_SIZE = 5;
+    final Integer PAGE_SIZE = 10;
 
     Integer pageNo;
 

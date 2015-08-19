@@ -69,7 +69,7 @@ public class CommentActivity extends ToolbarActivity {
 
     // ==================== page data ====================
 
-    final Integer PAGE_SIZE = 5;
+    final Integer PAGE_SIZE = 10;
 
     Integer pageNo;
 
@@ -194,10 +194,11 @@ public class CommentActivity extends ToolbarActivity {
         List<Comment> commentList = new ArrayList<>();
         for (int i = 0; i != commentJSONArray.length(); i++) {
             JSONObject commentJSONObject = JSONUtils.getJSONObject(commentJSONArray, i);
+            String courtName = JSONUtils.getString(commentJSONObject, "courtName", "");
             String username = JSONUtils.getString(commentJSONObject, "username", "");
             Date eventTime = new Date(JSONUtils.getLong(commentJSONObject, "eventtime", 0));
             String content = JSONUtils.getString(commentJSONObject, "content", "");
-            commentList.add(new Comment(username, eventTime, content));
+            commentList.add(new Comment(courtName, username, eventTime, content));
         }
         return commentList;
     }
