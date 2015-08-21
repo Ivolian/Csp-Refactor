@@ -35,7 +35,6 @@ import java.util.List;
 import butterknife.Bind;
 
 
-// todo 重构
 public class BookFragment extends LazyLoadFragment {
 
     @Override
@@ -216,7 +215,7 @@ public class BookFragment extends LazyLoadFragment {
             String ebookFilename = JSONUtils.getString(bookJSONObject, "ebookFilename", "");
             String summary = JSONUtils.getString(bookJSONObject, "summary", "");
             String id = JSONUtils.getString(bookJSONObject, "id", "");
-            bookList.add(new Book(orderNo, name, picture, ebook, ebookFilename,summary,id));
+            bookList.add(new Book(orderNo, name, picture, ebook, ebookFilename, summary, id));
         }
         return bookList;
     }

@@ -266,12 +266,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
         if (toFile.exists() && rewrite) {
             toFile.delete();
         }
-        // if (!toFile.canWrite()) {
-        // MessageDialog.openError(new Shell(),"错误信息","不能够写将要复制的目标文件" + toFile.getPath());
-        // Toast.makeText(this,"不能够写将要复制的目标文件", Toast.LENGTH_SHORT);
-        // return ;
 
-        // }
 
         try {
 

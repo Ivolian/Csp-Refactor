@@ -241,7 +241,7 @@ public class QuestionDetailActivity extends ToolbarActivity {
     private void checkLastPage(JSONObject response) {
 
         if (lastPage = isLastPage(response)) {
-            ToastUtils.show(noData(response) ? "暂无数据" : "已加载全部数据");
+            ToastUtils.show(noData(response) ? "暂无回答" : "已加载全部数据");
         }
     }
 
