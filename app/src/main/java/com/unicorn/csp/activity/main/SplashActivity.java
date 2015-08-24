@@ -22,6 +22,7 @@ import org.json.JSONObject;
 
 public class SplashActivity extends ButterKnifeActivity {
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -58,6 +59,7 @@ public class SplashActivity extends ButterKnifeActivity {
                             startActivityAndFinish(MainActivity.class);
                         } else {
                             ToastUtils.show("用户名或密码错误");
+                            startActivityAndFinish(LoginActivity.class);
                         }
                     }
                 },

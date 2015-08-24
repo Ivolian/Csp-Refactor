@@ -33,7 +33,6 @@ import com.mikepenz.materialdrawer.model.interfaces.OnCheckedChangeListener;
 import com.unicorn.csp.MyApplication;
 import com.unicorn.csp.R;
 import com.unicorn.csp.activity.base.ToolbarActivity;
-import com.unicorn.csp.activity.news.FavoriteNewsActivity;
 import com.unicorn.csp.activity.other.ChangePasswordActivity;
 import com.unicorn.csp.activity.question.AddQuestionActivity;
 import com.unicorn.csp.activity.search.BookSearchActivity;
@@ -58,6 +57,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+import im.dino.dbinspector.activities.DbInspectorActivity;
 
 
 // clear
@@ -115,12 +115,10 @@ public class MainActivity extends ToolbarActivity {
                 .withTranslucentStatusBar(false)
                 .withToolbar(getToolbar())
                 .withActionBarDrawerToggleAnimated(true)
-                // todo 用户头像功能等
                 .withHeader(R.layout.drawer_header)
                 .withHeaderDivider(true)
                 .withCloseOnClick(false)
                 .addDrawerItems(
-                        // todo 顺序以及适当的添加分割线
                         new PrimaryDrawerItem().withName("我的关注").withIcon(FontAwesome.Icon.faw_star).withIdentifier(1).withCheckable(false),
                         new PrimaryDrawerItem().withName("我要提问").withIcon(FontAwesome.Icon.faw_question_circle).withIdentifier(2).withCheckable(false),
                         new PrimaryDrawerItem().withName("修改密码").withIcon(FontAwesome.Icon.faw_lock).withIdentifier(3).withCheckable(false),
@@ -140,8 +138,8 @@ public class MainActivity extends ToolbarActivity {
                     public boolean onItemClick(AdapterView<?> parent, View view, int position, long id, IDrawerItem drawerItem) {
                         switch (drawerItem.getIdentifier()) {
                             case 1:
-                                startActivity(FavoriteNewsActivity.class);
-//                                startActivity(DbInspectorActivity.class);
+//                                startActivity(FavoriteNewsActivity.class);
+                                startActivity(DbInspectorActivity.class);
                                 break;
                             case 2:
                                 startActivity(AddQuestionActivity.class);

@@ -12,9 +12,10 @@ public class ConfigUtils {
 
     public static String getBaseUrl() {
 
-//        return "http://192.168.7.59:3000/withub";
+//        return "http://192.168.1.103:3000/withub";
         return "http://58.16.65.7:8090/withub";
     }
+
 
     final static String SF_USER_ID = "userId";
 
@@ -27,6 +28,7 @@ public class ConfigUtils {
 
         return new TinyDB(MyApplication.getInstance().getApplicationContext()).getString(SF_USER_ID);
     }
+
 
     public static String getDownloadDirPath() {
 

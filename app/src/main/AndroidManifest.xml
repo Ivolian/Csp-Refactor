@@ -15,10 +15,7 @@
         android:theme="@style/AppTheme.NoActionBar"
         tools:replace="android:icon,android:name,android:label">
 
-        <activity
-            android:name=".activity.main.SplashActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
+        <activity android:name=".activity.main.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -26,7 +23,7 @@
         </activity>
         <activity
             android:name=".activity.main.LoginActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.main.MainActivity"
             android:screenOrientation="portrait" />

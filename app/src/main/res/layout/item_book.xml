@@ -10,7 +10,7 @@
 
     <com.unicorn.csp.other.PercentLinearLayout
         android:layout_width="match_parent"
-        android:layout_height="180dp"
+        android:layout_height="170dp"
         android:orientation="horizontal"
         android:padding="12dp">
 
@@ -63,7 +63,7 @@
                 android:layout_height="0dp"
                 android:layout_marginTop="12dp"
                 android:layout_weight="1"
-                android:maxLines="5"
+                android:maxLines="4"
                 android:ellipsize="end"
                 android:text="苏菲也差不多是你这个年纪  在奇妙的下午被一个神秘的人引导她认识了欧洲哲学的"
                 android:textColor="#888" />
