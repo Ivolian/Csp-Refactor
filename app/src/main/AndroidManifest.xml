@@ -23,49 +23,49 @@
         </activity>
         <activity
             android:name=".activity.main.LoginActivity"
-            android:screenOrientation="portrait"/>
+            />
         <activity
             android:name=".activity.main.MainActivity"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".other.greenmatter.SelectColorActivity"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".activity.news.NewsDetailActivity"
             android:configChanges="orientation|screenSize"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".activity.news.CommentActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".activity.news.AddCommentActivity"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".activity.search.NewsSearchActivity"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".activity.news.FavoriteNewsActivity"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".activity.other.ChangePasswordActivity"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".activity.search.BookSearchActivity"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".activity.bookCity.WebViewActivity"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".activity.question.AddQuestionActivity"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".activity.question.QuestionDetailActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".activity.question.AddAnswerActivity"
-            android:screenOrientation="portrait" />
+            />
 
     </application>
 
