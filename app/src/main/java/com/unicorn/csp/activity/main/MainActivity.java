@@ -171,7 +171,6 @@ public class MainActivity extends ToolbarActivity {
                 .callback(new MaterialDialog.ButtonCallback() {
                     @Override
                     public void onPositive(MaterialDialog dialog) {
-                        // todo make sure 后台登出
                         startActivityAndFinish(LoginActivity.class);
                     }
                 })
