@@ -1,5 +1,6 @@
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:id="@+id/cardview"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -31,31 +32,42 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="top">
+                android:gravity="top"
+                android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/tv_name"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:text="刑事诉讼法2013"
-                    android:maxLines="3"
-                    android:textSize="18dp"
-                    android:gravity="top"
+                    android:layout_weight="1"
                     android:ellipsize="end"
-                    android:textColor="@android:color/black" />
+                    android:gravity="top"
+                    android:maxLines="3"
+                    android:text="刑事诉讼法2013"
+                    android:textColor="@android:color/black"
+                    android:textSize="18dp" />
 
                 <com.malinskiy.materialicons.widget.IconTextView
                     android:id="@+id/itv_more_action"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="26dp"
+                    android:layout_height="26dp"
                     android:gravity="center"
                     android:text="{zmdi-more-vert}"
                     android:textColor="?attr/colorAccent"
-                    android:textSize="24dp" />
+                    android:textSize="26dp" />
 
             </LinearLayout>
+
+            <com.daimajia.numberprogressbar.NumberProgressBar
+                android:layout_marginTop="12dp"
+                android:id="@+id/progress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                custom:progress_reached_color="?attr/colorAccent"
+                custom:progress_unreached_bar_height="1.5dp"
+                custom:progress_reached_bar_height="2.5dp"
+                custom:progress_text_size="10sp"
+                custom:progress_text_color="?attr/colorAccent" />
 
             <TextView
                 android:id="@+id/tv_summary"
@@ -63,8 +75,8 @@
                 android:layout_height="0dp"
                 android:layout_marginTop="12dp"
                 android:layout_weight="1"
-                android:maxLines="4"
                 android:ellipsize="end"
+                android:maxLines="4"
                 android:text="苏菲也差不多是你这个年纪  在奇妙的下午被一个神秘的人引导她认识了欧洲哲学的"
                 android:textColor="#888" />
 

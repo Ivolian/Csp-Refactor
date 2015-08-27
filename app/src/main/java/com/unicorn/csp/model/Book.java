@@ -19,6 +19,10 @@ public class Book implements Serializable {
 
     private String id;
 
+    private Integer numerator;
+
+    private Integer denominator;
+
     public Book() {
     }
 
@@ -86,6 +90,22 @@ public class Book implements Serializable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public Integer getNumerator() {
+        return numerator;
+    }
+
+    public void setNumerator(Integer numerator) {
+        this.numerator = numerator;
+    }
+
+    public Integer getDenominator() {
+        return denominator;
+    }
+
+    public void setDenominator(Integer denominator) {
+        this.denominator = denominator;
     }
 }
 

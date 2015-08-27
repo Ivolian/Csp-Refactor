@@ -18,11 +18,13 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.android.volley.Response;
 import com.android.volley.toolbox.NetworkImageView;
 import com.android.volley.toolbox.StringRequest;
+import com.daimajia.numberprogressbar.NumberProgressBar;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.FileAsyncHttpResponseHandler;
 import com.malinskiy.materialicons.widget.IconTextView;
 import com.unicorn.csp.MyApplication;
 import com.unicorn.csp.R;
+import com.unicorn.csp.model.BookHelper;
 import com.unicorn.csp.utils.ConfigUtils;
 import com.unicorn.csp.utils.ToastUtils;
 import com.unicorn.csp.volley.MyVolley;
@@ -69,6 +71,10 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
         @Bind(R.id.tv_summary)
         TextView tvSummary;
 
+        @Bind(R.id.progress)
+        NumberProgressBar readProgress;
+
+
         ViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
@@ -92,8 +98,12 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
 
         final com.unicorn.csp.model.Book book = bookList.get(position);
         viewHolder.nivPicture.setDefaultImageResId(R.drawable.default_book);
+        BookHelper.getBookReadingProgress(book);
+
         viewHolder.nivPicture.setImageUrl(ConfigUtils.getBaseUrl() + book.getPicture(), MyVolley.getImageLoader());
-        viewHolder.tvName.setText(book.getName());
+        int percent = book.getDenominator() != 0 ? book.getNumerator() * 100 / book.getDenominator() : 0;
+        viewHolder.readProgress.setProgress(percent);
+        viewHolder.tvName.setText(book.getName() + " " + percent);
         viewHolder.tvSummary.setText(book.getSummary());
 
         // 添加事件
