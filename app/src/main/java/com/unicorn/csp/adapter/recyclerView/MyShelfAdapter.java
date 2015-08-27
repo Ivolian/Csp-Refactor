@@ -4,11 +4,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.widget.CardView;
-import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -20,7 +18,6 @@ import com.android.volley.toolbox.NetworkImageView;
 import com.android.volley.toolbox.StringRequest;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.FileAsyncHttpResponseHandler;
-import com.malinskiy.materialicons.widget.IconTextView;
 import com.unicorn.csp.MyApplication;
 import com.unicorn.csp.R;
 import com.unicorn.csp.utils.ConfigUtils;
@@ -60,11 +57,8 @@ public class MyShelfAdapter extends RecyclerView.Adapter<MyShelfAdapter.ViewHold
         @Bind(R.id.niv_picture)
         NetworkImageView nivPicture;
 
-        @Bind(R.id.tv_name)
+        @Bind(R.id.tv_book_name)
         TextView tvName;
-
-        @Bind(R.id.itv_more_action)
-        IconTextView itvMoreAction;
 
         @Bind(R.id.tv_summary)
         TextView tvSummary;
@@ -97,33 +91,33 @@ public class MyShelfAdapter extends RecyclerView.Adapter<MyShelfAdapter.ViewHold
         viewHolder.tvSummary.setText(book.getSummary());
 
         // 添加事件
-        viewHolder.itvMoreAction.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                PopupMenu popupMenu = new PopupMenu(activity, v);
-                popupMenu.inflate(R.menu.more_action2);
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem menuItem) {
-                        switch (menuItem.getItemId()) {
-                            case R.id.remove:
-                                removeFavoriteBook(book);
-                                return true;
-                            case R.id.delete:
-                                if (isBookExist(book)) {
-                                    showConfirmDeleteDialog(book);
-                                } else {
-                                    ToastUtils.show("该书籍尚未缓存");
-                                }
-                                return true;
-                        }
-                        return false;
-                    }
-                });
-                popupMenu.show();
-            }
-        });
+//        viewHolder.itvMoreAction.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                PopupMenu popupMenu = new PopupMenu(activity, v);
+//                popupMenu.inflate(R.menu.more_action2);
+//                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+//                    @Override
+//                    public boolean onMenuItemClick(MenuItem menuItem) {
+//                        switch (menuItem.getItemId()) {
+//                            case R.id.remove:
+//                                removeFavoriteBook(book);
+//                                return true;
+//                            case R.id.delete:
+//                                if (isBookExist(book)) {
+//                                    showConfirmDeleteDialog(book);
+//                                } else {
+//                                    ToastUtils.show("该书籍尚未缓存");
+//                                }
+//                                return true;
+//                        }
+//                        return false;
+//                    }
+//                });
+//                popupMenu.show();
+//            }
+//        });
 
         // 添加事件
         viewHolder.cardView.setOnClickListener(new View.OnClickListener() {

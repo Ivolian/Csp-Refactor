@@ -51,7 +51,7 @@
     <file url="file://$PROJECT_DIR$/app/src/main/res/layout/item_question_detail.xml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/layout/toolbar.xml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/layout/toolbar_with_shadow.xml" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/app/src/main/res/menu/more_action.xml" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/menu/book_pop_menu.xml" charset="GBK" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/menu/more_action2.xml" charset="GBK" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/values" charset="GBK" />
     <file url="PROJECT" charset="UTF-8" />
