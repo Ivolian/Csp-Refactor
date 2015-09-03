@@ -34,8 +34,8 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.ViewHo
         @Bind(R.id.tv_time)
         TextView tvTime;
 
-        @Bind(R.id.tv_username)
-        TextView tvUsername;
+        @Bind(R.id.tv_display_name)
+        TextView tvDisplayName;
 
         ViewHolder(View view) {
             super(view);
@@ -70,7 +70,7 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.ViewHo
         Question question = questionList.get(position);
         viewHolder.tvContent.setText(question.getContent());
         viewHolder.tvTime.setText(DateUtils.getFormatDateString(question.getEventTime(), new SimpleDateFormat("MM-dd HH:mm", Locale.CHINA)));
-        viewHolder.tvUsername.setText(question.getName());
+        viewHolder.tvDisplayName.setText(question.getDisplayName());
     }
 
     public List<Question> getQuestionList() {

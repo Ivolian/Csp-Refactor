@@ -156,7 +156,7 @@ public class QuestionDetailActivity extends ToolbarActivity {
                     public void onResponse(JSONObject response) {
 
                         // 将 Question 作为 Answer列表的第一个。
-                        Answer answer = new Answer(question.getId(), question.getContent(), question.getName(), question.getEventTime());
+                        Answer answer = new Answer(question.getContent(), question.getDisplayName(), question.getEventTime());
                         List<Answer> answerList = new ArrayList<Answer>();
                         answerList.add(answer);
                         questionDetailAdapter.setAnswerList(answerList);
@@ -210,7 +210,7 @@ public class QuestionDetailActivity extends ToolbarActivity {
 
     protected String getUrl(Integer pageNo) {
 
-        Uri.Builder builder = Uri.parse(ConfigUtils.getBaseUrl() + "/api/v1/answer/list?").buildUpon();
+        Uri.Builder builder = Uri.parse(ConfigUtils.getBaseUrl() + "/api/v1/answer/listForMobile?").buildUpon();
         builder.appendQueryParameter("pageNo", pageNo.toString());
         builder.appendQueryParameter("pageSize", PAGE_SIZE.toString());
         builder.appendQueryParameter("questionId", question.getId());
@@ -223,11 +223,10 @@ public class QuestionDetailActivity extends ToolbarActivity {
         List<Answer> answerList = new ArrayList<>();
         for (int i = 0; i != contents.length(); i++) {
             JSONObject answerJSONObject = JSONUtils.getJSONObject(contents, i);
-            String id = JSONUtils.getString(answerJSONObject, "id", "");
             String content = JSONUtils.getString(answerJSONObject, "content", "");
-            String username = JSONUtils.getString(answerJSONObject, "username", "");
+            String displayName = JSONUtils.getString(answerJSONObject, "displayName", "");
             Date eventTime = new Date(JSONUtils.getLong(answerJSONObject, "eventTime", 0));
-            answerList.add(new Answer(id, content, username, eventTime));
+            answerList.add(new Answer( content, displayName, eventTime));
         }
         return answerList;
     }

@@ -94,7 +94,7 @@ public class AddAnswerActivity extends ToolbarActivity {
                             ToastUtils.show("回答成功");
                             startNewsDetailActivityAndFinish();
                         } else {
-                            ToastUtils.show("回答失败");
+                            ToastUtils.show(JSONUtils.getString(response, "errorMsg", ""));
                         }
                     }
                 },

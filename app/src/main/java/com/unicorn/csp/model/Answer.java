@@ -6,20 +6,17 @@ import java.util.Date;
 
 public class Answer implements Serializable {
 
-    private String id;
-
     private String content;
 
-    private String name;
+    private String displayName;
 
     private Date eventTime;
 
      //
 
-    public Answer(String id, String content, String name, Date eventTime) {
-        this.id = id;
+    public Answer( String content, String displayName, Date eventTime) {
         this.content = content;
-        this.name = name;
+        this.displayName = displayName;
         this.eventTime = eventTime;
     }
 
@@ -31,12 +28,12 @@ public class Answer implements Serializable {
         this.content = content;
     }
 
-    public String getName() {
-        return name;
+    public String getDisplayName() {
+        return displayName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
     }
 
     public Date getEventTime() {
@@ -47,11 +44,4 @@ public class Answer implements Serializable {
         this.eventTime = eventTime;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 }

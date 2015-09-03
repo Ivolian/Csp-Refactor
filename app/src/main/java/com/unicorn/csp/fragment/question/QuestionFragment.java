@@ -186,7 +186,7 @@ public class QuestionFragment extends LazyLoadFragment {
 
     private String getUrl(Integer pageNo) {
 
-        Uri.Builder builder = Uri.parse(ConfigUtils.getBaseUrl() + "/api/v1/question/list").buildUpon();
+        Uri.Builder builder = Uri.parse(ConfigUtils.getBaseUrl() + "/api/v1/question/listForMobile").buildUpon();
         builder.appendQueryParameter("pageNo", pageNo.toString());
         builder.appendQueryParameter("pageSize", PAGE_SIZE.toString());
         return builder.toString();
@@ -200,13 +200,12 @@ public class QuestionFragment extends LazyLoadFragment {
             JSONObject questionJSONObject = JSONUtils.getJSONObject(questionJSONArray, i);
             String id = JSONUtils.getString(questionJSONObject, "id", "");
             String content = JSONUtils.getString(questionJSONObject, "content", "");
-            String username = JSONUtils.getString(questionJSONObject, "username", "");
+            String displayName = JSONUtils.getString(questionJSONObject, "displayName", "");
             Date eventTime = new Date(JSONUtils.getLong(questionJSONObject, "eventTime", 0));
-            questionList.add(new Question(id, content, username, eventTime));
+            questionList.add(new Question(id, content, displayName, eventTime));
         }
         return questionList;
     }
-
 
 
     private void clearPageData() {

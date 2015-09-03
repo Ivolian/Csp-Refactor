@@ -28,7 +28,6 @@ public class SplashActivity extends ButterKnifeActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-
         if (getRememberMe()){
             login();
         }else {

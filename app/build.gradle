@@ -73,4 +73,6 @@ dependencies {
     compile(name: 'library-release', ext: 'aar')
     compile 'commons-io:commons-io:2.4'
     compile 'com.daimajia.numberprogressbar:library:1.2@aar'
+//    compile(name: 'emojicon', ext: 'aar')
+
 }
