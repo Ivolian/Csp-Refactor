@@ -5,35 +5,24 @@ import java.util.Date;
 
 public class Comment {
 
-    private String courtName;
-
-    private String username;
+    private String displayName;
 
     private Date eventTime;
 
     private String content;
 
-    public Comment(String courtName,String username, Date eventTime, String content) {
-        this.courtName = courtName;
-        this.username = username;
+    public Comment(String displayName,Date eventTime, String content) {
+        this.displayName =displayName;
         this.eventTime = eventTime;
         this.content = content;
     }
 
-    public String getCourtName() {
-        return courtName;
+    public String getDisplayName() {
+        return displayName;
     }
 
-    public void setCourtName(String courtName) {
-        this.courtName = courtName;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
     }
 
     public Date getEventTime() {

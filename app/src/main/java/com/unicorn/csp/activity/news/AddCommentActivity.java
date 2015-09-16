@@ -99,7 +99,7 @@ public class AddCommentActivity extends ToolbarActivity {
                             ToastUtils.show("发表评论成功");
                             startCommentActivityAndFinish();
                         } else {
-                            ToastUtils.show("发表评论失败");
+                            ToastUtils.show(JSONUtils.getString(response, "errorMsg", ""));
                         }
                     }
                 },

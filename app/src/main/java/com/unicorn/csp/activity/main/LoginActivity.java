@@ -121,7 +121,7 @@ public class LoginActivity extends ToolbarActivity {
                             storeLoginInfo();
                             startActivityAndFinish(MainActivity.class);
                         } else {
-                            ToastUtils.show("用户名或密码错误");
+                            ToastUtils.show(JSONUtils.getString(response,"errorMsg",""));
                         }
                     }
                 },

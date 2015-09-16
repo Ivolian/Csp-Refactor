@@ -1,6 +1,7 @@
 <component name="ProjectDictionaryState">
   <dictionary name="Administrator">
     <words>
+      <w>appkey</w>
       <w>bugsnag</w>
       <w>cardview</w>
       <w>ccca</w>
@@ -12,6 +13,8 @@
       <w>ebook</w>
       <w>eventtime</w>
       <w>favoritebook</w>
+      <w>ifnull</w>
+      <w>jpush</w>
       <w>neenbedankt</w>
       <w>nonacad</w>
       <w>recycleview</w>

@@ -10,8 +10,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.SeekBar;
 
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
@@ -56,6 +58,8 @@ public class NewsDetailActivity extends ToolbarActivity implements ObservableScr
 
     VideoEnabledWebChromeClient webChromeClient;
 
+    @Bind(R.id.seekbar)
+    SeekBar seekBar;
 
     // =============================== onCreate ===============================
 
@@ -66,6 +70,22 @@ public class NewsDetailActivity extends ToolbarActivity implements ObservableScr
         setContentView(R.layout.activity_news_detail);
         initToolbar(news.getTitle(), true);
         initViews();
+
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                ToastUtils.show(progress+"");
+                webView.getSettings().setTextZoom(progress);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+        });
     }
 
     private void initViews() {
@@ -77,7 +97,14 @@ public class NewsDetailActivity extends ToolbarActivity implements ObservableScr
 
     private void initWebView() {
 
-        webView.getSettings().setJavaScriptEnabled(true);
+        WebSettings webSettings = webView.getSettings();
+        webSettings.setJavaScriptEnabled(true);
+        webSettings.setSupportZoom(true);
+        webSettings.setBuiltInZoomControls(true);
+        webSettings.setDisplayZoomControls(false);
+//        webSettings.setUseWideViewPort(true);
+//        webSettings.setLoadWithOverviewMode(true);
+webSettings.setTextZoom(160);
         webView.setWebViewClient(new WebViewClient());
         webView.setScrollViewCallbacks(this);
         enableVideo();
@@ -148,6 +175,13 @@ public class NewsDetailActivity extends ToolbarActivity implements ObservableScr
         if (webView != null) {
             webView.destroy();
         }
+    }
+
+    @Override
+    public void finish() {
+        ViewGroup view = (ViewGroup) getWindow().getDecorView();
+        view.removeAllViews();
+        super.finish();
     }
 
 

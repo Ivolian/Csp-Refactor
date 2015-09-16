@@ -181,7 +181,7 @@ public class CommentActivity extends ToolbarActivity {
 
     private String getUrl(Integer pageNo) {
 
-        Uri.Builder builder = Uri.parse(ConfigUtils.getBaseUrl() + "/api/v1/comment?").buildUpon();
+        Uri.Builder builder = Uri.parse(ConfigUtils.getBaseUrl() + "/api/v1/comment/listForMobile?").buildUpon();
         builder.appendQueryParameter("pageNo", pageNo.toString());
         builder.appendQueryParameter("pageSize", PAGE_SIZE.toString());
         builder.appendQueryParameter("newsId", newsId);
@@ -194,11 +194,10 @@ public class CommentActivity extends ToolbarActivity {
         List<Comment> commentList = new ArrayList<>();
         for (int i = 0; i != commentJSONArray.length(); i++) {
             JSONObject commentJSONObject = JSONUtils.getJSONObject(commentJSONArray, i);
-            String courtName = JSONUtils.getString(commentJSONObject, "courtName", "");
-            String username = JSONUtils.getString(commentJSONObject, "username", "");
+            String displayName = JSONUtils.getString(commentJSONObject, "displayName", "");
             Date eventTime = new Date(JSONUtils.getLong(commentJSONObject, "eventtime", 0));
             String content = JSONUtils.getString(commentJSONObject, "content", "");
-            commentList.add(new Comment(courtName, username, eventTime, content));
+            commentList.add(new Comment(displayName, eventTime, content));
         }
         return commentList;
     }

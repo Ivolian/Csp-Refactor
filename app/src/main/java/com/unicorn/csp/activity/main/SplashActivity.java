@@ -19,6 +19,8 @@ import com.unicorn.csp.volley.MyVolley;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import cn.jpush.android.api.JPushInterface;
+
 
 public class SplashActivity extends ButterKnifeActivity {
 
@@ -57,7 +59,7 @@ public class SplashActivity extends ButterKnifeActivity {
                             saveMenu(response);
                             startActivityAndFinish(MainActivity.class);
                         } else {
-                            ToastUtils.show("用户名或密码错误");
+                            ToastUtils.show(JSONUtils.getString(response, "errorMsg", ""));
                             startActivityAndFinish(LoginActivity.class);
                         }
                     }
@@ -137,6 +139,23 @@ public class SplashActivity extends ButterKnifeActivity {
 
         TinyDB tinyDB = new TinyDB(this);
         return tinyDB.getBoolean(LoginActivity.SF_REMEMBER_ME, false);
+    }
+
+
+    // ========================== JPush ==========================
+
+    @Override
+    protected void onResume() {
+
+        JPushInterface.onResume(this);
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+
+        JPushInterface.onPause(this);
+        super.onPause();
     }
 
 }

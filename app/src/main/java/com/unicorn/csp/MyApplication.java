@@ -11,6 +11,7 @@ import com.unicorn.csp.volley.MyVolley;
 import org.geometerplus.zlibrary.ui.android.library.ZLAndroidApplication;
 
 import cat.ereza.customactivityoncrash.CustomActivityOnCrash;
+import cn.jpush.android.api.JPushInterface;
 
 
 public class MyApplication extends ZLAndroidApplication {
@@ -29,6 +30,8 @@ public class MyApplication extends ZLAndroidApplication {
         CustomActivityOnCrash.install(this);
         MyVolley.init(this);
         initGreenDao();
+//        JPushInterface.setDebugMode(true);
+        JPushInterface.init(this);
         instance = this;
     }
 

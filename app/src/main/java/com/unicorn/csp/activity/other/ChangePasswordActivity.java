@@ -80,7 +80,7 @@ public class ChangePasswordActivity extends ToolbarActivity {
                             ToastUtils.show("修改成功");
                             finish();
                         } else {
-                            ToastUtils.show("旧密码错误");
+                            ToastUtils.show(JSONUtils.getString(response,"errorMsg",""));
                         }
                     }
                 },
