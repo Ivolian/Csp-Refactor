@@ -30,7 +30,6 @@ public class MyApplication extends ZLAndroidApplication {
         CustomActivityOnCrash.install(this);
         MyVolley.init(this);
         initGreenDao();
-//        JPushInterface.setDebugMode(true);
         JPushInterface.init(this);
         instance = this;
     }

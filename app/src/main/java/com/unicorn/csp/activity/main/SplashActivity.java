@@ -19,7 +19,11 @@ import com.unicorn.csp.volley.MyVolley;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.api.TagAliasCallback;
 
 
 public class SplashActivity extends ButterKnifeActivity {
@@ -49,12 +53,22 @@ public class SplashActivity extends ButterKnifeActivity {
 
     private void login() {
 
+        // TODO LOGIN ACTIVITY 里也要加这个
         MyVolley.addRequest(new JsonObjectRequest(getLoginUrl(),
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         boolean result = JSONUtils.getBoolean(response, "result", false);
                         if (result) {
+                            String courtId = JSONUtils.getString(response,"courtId","");
+                            Set<String> tags = new HashSet<>();
+                            tags.add(courtId);
+                            JPushInterface.setTags(SplashActivity.this, tags, new TagAliasCallback() {
+                                @Override
+                                public void gotResult(int i, String s, Set<String> set) {
+
+                                }
+                            });
                             saveUserId(response);
                             saveMenu(response);
                             startActivityAndFinish(MainActivity.class);
