@@ -30,7 +30,7 @@ public class MyApplication extends ZLAndroidApplication {
         CustomActivityOnCrash.install(this);
         MyVolley.init(this);
         initGreenDao();
-        JPushInterface.init(this);
+        initJPush();
         instance = this;
     }
 
@@ -52,6 +52,11 @@ public class MyApplication extends ZLAndroidApplication {
         SQLiteDatabase db = helper.getWritableDatabase();
         DaoMaster daoMaster = new DaoMaster(db);
         daoSession = daoMaster.newSession();
+    }
+
+    private void initJPush(){
+
+        JPushInterface.init(this);
     }
 
 }

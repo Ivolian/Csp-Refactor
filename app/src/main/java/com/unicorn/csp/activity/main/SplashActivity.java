@@ -3,6 +3,7 @@ package com.unicorn.csp.activity.main;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 
 import com.android.volley.Response;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -10,6 +11,7 @@ import com.unicorn.csp.MyApplication;
 import com.unicorn.csp.R;
 import com.unicorn.csp.activity.base.ButterKnifeActivity;
 import com.unicorn.csp.greendao.Menu;
+import com.unicorn.csp.jpush.JPushUtils;
 import com.unicorn.csp.other.TinyDB;
 import com.unicorn.csp.utils.ConfigUtils;
 import com.unicorn.csp.utils.JSONUtils;
@@ -61,6 +63,10 @@ public class SplashActivity extends ButterKnifeActivity {
                         boolean result = JSONUtils.getBoolean(response, "result", false);
                         if (result) {
                             String courtId = JSONUtils.getString(response,"courtId","");
+                            if (!JPushUtils.isValidTagAndAlias(courtId)){
+                           Log.e("result",courtId);
+                                ToastUtils.show("非法别名！");
+                            }
                             Set<String> tags = new HashSet<>();
                             tags.add(courtId);
                             JPushInterface.setTags(SplashActivity.this, tags, new TagAliasCallback() {
