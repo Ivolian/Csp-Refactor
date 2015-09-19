@@ -1,18 +1,14 @@
-package com.unicorn.csp.activity.main;
+package com.unicorn.csp.activity.setting;
 
 import android.os.Bundle;
 
 import com.unicorn.csp.R;
 import com.unicorn.csp.activity.base.ToolbarActivity;
-import com.unicorn.csp.activity.other.ChangePasswordActivity;
 
 import butterknife.OnClick;
 
 
 public class SettingActivity extends ToolbarActivity {
-
-//    @Bind(R.id.tv_select_color)
-//    TextView tvSelectColor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +22,12 @@ public class SettingActivity extends ToolbarActivity {
     public void startChangePasswordActivity(){
 
         startActivity(ChangePasswordActivity.class);
+    }
+
+    @OnClick(R.id.tv_about)
+    public void startAboutActivity(){
+
+        startActivity(AboutActivity.class);
     }
 
 }
