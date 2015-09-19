@@ -81,7 +81,6 @@ public class SplashActivity extends ButterKnifeActivity {
                             saveMenu(response);
                             startActivityAndFinish(MainActivity.class);
                         } else {
-                            ToastUtils.show(JSONUtils.getString(response, "errorMsg", ""));
                             startActivityAndFinish(LoginActivity.class);
                         }
                     }

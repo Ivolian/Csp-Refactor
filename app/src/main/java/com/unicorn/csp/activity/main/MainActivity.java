@@ -30,7 +30,6 @@ import com.unicorn.csp.MyApplication;
 import com.unicorn.csp.R;
 import com.unicorn.csp.activity.base.ToolbarActivity;
 import com.unicorn.csp.activity.news.FavoriteNewsActivity;
-import com.unicorn.csp.activity.other.ChangePasswordActivity;
 import com.unicorn.csp.activity.question.AddQuestionActivity;
 import com.unicorn.csp.activity.search.BookSearchActivity;
 import com.unicorn.csp.activity.search.NewsSearchActivity;
@@ -117,8 +116,7 @@ public class MainActivity extends ToolbarActivity {
                 .addDrawerItems(
                         new PrimaryDrawerItem().withName("我的关注").withIcon(FontAwesome.Icon.faw_star).withIdentifier(1).withCheckable(false),
                         new PrimaryDrawerItem().withName("我要提问").withIcon(FontAwesome.Icon.faw_question_circle).withIdentifier(2).withCheckable(false),
-//                        new PrimaryDrawerItem().withName("修改密码").withIcon(FontAwesome.Icon.faw_lock).withIdentifier(3).withCheckable(false),
-//                        new PrimaryDrawerItem().withName("主题色彩").withIcon(FontAwesome.Icon.faw_paint_brush).withIdentifier(4).withCheckable(false),
+                        new PrimaryDrawerItem().withName("主题色彩").withIcon(FontAwesome.Icon.faw_paint_brush).withIdentifier(4).withCheckable(false),
                         new PrimaryDrawerItem().withName("用户登出").withIcon(FontAwesome.Icon.faw_sign_out).withIdentifier(5).withCheckable(false),
                         new PrimaryDrawerItem().withName("更多设置").withIcon(FontAwesome.Icon.faw_cog).withIdentifier(6).withCheckable(false)
 //                        new SwitchDrawerItem().withName("隐藏标题栏").withChecked(false).withOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -139,9 +137,6 @@ public class MainActivity extends ToolbarActivity {
                                 break;
                             case 2:
                                 startActivity(AddQuestionActivity.class);
-                                break;
-                            case 3:
-                                startActivity(ChangePasswordActivity.class);
                                 break;
                             case 4:
                                 startSelectColorActivity();
