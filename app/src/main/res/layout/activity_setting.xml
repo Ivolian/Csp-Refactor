@@ -1,0 +1,93 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:background="@color/background_material_light"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+
+
+        <!-- -->
+
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="安全"
+            android:textColor="?attr/colorAccent"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_marginTop="6dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:gravity="center_vertical"
+            android:padding="6dp"
+            android:text="个人信息"
+            android:textSize="17sp" />
+
+        <include layout="@layout/divide_line" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_marginTop="6dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:gravity="center_vertical"
+            android:padding="6dp"
+            android:text="修改密码"
+            android:textSize="17sp" />
+
+
+        <!-- -->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:text="个性化"
+            android:textColor="?attr/colorAccent"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/ll_alert_dialog"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_marginTop="6dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:gravity="center_vertical"
+            android:padding="6dp"
+            android:text="主题色彩"
+            android:textSize="17sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:text="其他"
+            android:textColor="?attr/colorAccent"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_marginTop="6dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:gravity="center_vertical"
+            android:padding="6dp"
+            android:text="关于"
+            android:textSize="17sp" />
+
+    </LinearLayout>
+
+    <include layout="@layout/toolbar" />
+
+</FrameLayout>
+
+

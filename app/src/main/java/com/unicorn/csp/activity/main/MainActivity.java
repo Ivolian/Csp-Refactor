@@ -10,7 +10,6 @@ import android.support.v4.app.Fragment;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -25,11 +24,8 @@ import com.malinskiy.materialicons.Iconify;
 import com.mikepenz.iconics.typeface.FontAwesome;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
-import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
-import com.mikepenz.materialdrawer.model.SwitchDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
-import com.mikepenz.materialdrawer.model.interfaces.OnCheckedChangeListener;
 import com.unicorn.csp.MyApplication;
 import com.unicorn.csp.R;
 import com.unicorn.csp.activity.base.ToolbarActivity;
@@ -121,16 +117,16 @@ public class MainActivity extends ToolbarActivity {
                 .addDrawerItems(
                         new PrimaryDrawerItem().withName("我的关注").withIcon(FontAwesome.Icon.faw_star).withIdentifier(1).withCheckable(false),
                         new PrimaryDrawerItem().withName("我要提问").withIcon(FontAwesome.Icon.faw_question_circle).withIdentifier(2).withCheckable(false),
-                        new PrimaryDrawerItem().withName("修改密码").withIcon(FontAwesome.Icon.faw_lock).withIdentifier(3).withCheckable(false),
-                        new PrimaryDrawerItem().withName("主题色彩").withIcon(FontAwesome.Icon.faw_paint_brush).withIdentifier(4).withCheckable(false),
+//                        new PrimaryDrawerItem().withName("修改密码").withIcon(FontAwesome.Icon.faw_lock).withIdentifier(3).withCheckable(false),
+//                        new PrimaryDrawerItem().withName("主题色彩").withIcon(FontAwesome.Icon.faw_paint_brush).withIdentifier(4).withCheckable(false),
                         new PrimaryDrawerItem().withName("用户登出").withIcon(FontAwesome.Icon.faw_sign_out).withIdentifier(5).withCheckable(false),
-                        new DividerDrawerItem(),
-                        new SwitchDrawerItem().withName("隐藏标题栏").withChecked(false).withOnCheckedChangeListener(new OnCheckedChangeListener() {
-                            @Override
-                            public void onCheckedChanged(IDrawerItem iDrawerItem, CompoundButton compoundButton, boolean b) {
-                                toggleToolbar();
-                            }
-                        })
+                        new PrimaryDrawerItem().withName("更多设置").withIcon(FontAwesome.Icon.faw_cog).withIdentifier(6).withCheckable(false)
+//                        new SwitchDrawerItem().withName("隐藏标题栏").withChecked(false).withOnCheckedChangeListener(new OnCheckedChangeListener() {
+//                            @Override
+//                            public void onCheckedChanged(IDrawerItem iDrawerItem, CompoundButton compoundButton, boolean b) {
+//                                toggleToolbar();
+//                            }
+//                        })
                 )
                 .withSelectedItem(-1)
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
@@ -153,6 +149,8 @@ public class MainActivity extends ToolbarActivity {
                             case 5:
                                 showSignOutDialog();
                                 break;
+                            case 6:
+                                startActivity(SettingActivity.class);
                         }
                         return false;
                     }

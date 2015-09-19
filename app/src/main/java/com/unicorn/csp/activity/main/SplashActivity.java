@@ -56,13 +56,14 @@ public class SplashActivity extends ButterKnifeActivity {
     private void login() {
 
         // TODO LOGIN ACTIVITY 里也要加这个
+        // TODO uuid 的别名合法性验证
         MyVolley.addRequest(new JsonObjectRequest(getLoginUrl(),
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         boolean result = JSONUtils.getBoolean(response, "result", false);
                         if (result) {
-                            String courtId = JSONUtils.getString(response,"courtId","");
+                            final String courtId = JSONUtils.getString(response,"courtId","");
                             if (!JPushUtils.isValidTagAndAlias(courtId)){
                            Log.e("result",courtId);
                                 ToastUtils.show("非法别名！");
@@ -72,6 +73,7 @@ public class SplashActivity extends ButterKnifeActivity {
                             JPushInterface.setTags(SplashActivity.this, tags, new TagAliasCallback() {
                                 @Override
                                 public void gotResult(int i, String s, Set<String> set) {
+                                    ToastUtils.show(courtId);
 
                                 }
                             });
