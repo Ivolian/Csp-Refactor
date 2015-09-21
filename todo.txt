@@ -1,84 +1,47 @@
 // todo
-1. 统计
-2. 推送更新，检查更新，自动更新放弃。
-3. 删除用户时删除相关的东西，比如评论和点赞。
+1. 数据库修改，新加字段 csp_user 添加 currentVersionName, pushTag
 
-6. pdf
-7. newDetail 的适配问题
+ SplashActivity 重构
+2. 登录逻辑抽象
+3. newDetail 的适配问题
+4. 新的后台，必须满足旧APK和新APK同时能更新。
+5. 有问有答删除，数据移动到学习交流。 加设建议意见。
+6. APP 里提供下载链接。
+//
 
+链接
+角色
+通知
+周三
 
-
-// 一些想法
-1. 考虑过增量更新
-但从技术上说，不是很简单的东西。
-从复杂度上来看，也是个作死的东西。
-2. 更新必须要注意的地方：
-新的后台，必须满足旧APK和新APK同时能更新。
+ames 实体，角色，角色菜单。
 
 
 // todo 暂时没空搞的
 1. 个人信息
 2. 用户头像上传
 3. 表情功能
-4. 删除评论
+4. 手机端删除评论
 5. PDF （pdf插件）
 6. PPT
 7. 马涛说把app挂到学习平台云平台上面
 8. https://github.com/r0adkll/Slidr
 
-// 一些理念
-1. 数据是根本
-2. 逻辑删除的优点
-3. 手机端一定要保证响应效率和减少流量
-4. 测试是保障
+
+// todo 优先级较低
+1. courtId 36位 并不是合法的 tag
+2. 语音识别的 API
+3. 新的项目
 
 
-// 可能是问题的东西
+// todo 可能是问题的东西
 1. 主题颜色是本地保存的，不与账户绑定。
 2. 阅读进度也是本地保存的，不与账户绑定。
 
 
-SELECT
-a.username '用户名',
-a.cn_name '姓名',
-f.name '所属法院',
-IFNULL(b.loginTimes,0) '登录次数',
-IFNULL(c.readTimes,0) '阅读次数',
-IFNULL(d.commentCount,0) '评论次数',
-IFNULL(e.thumbCount,0) '点赞次数'
-FROM csp_user a
-
-LEFT JOIN
-(
-SELECT user_id,COUNT(*) loginTimes FROM csp_user_login
-
-GROUP BY user_id
-)b ON a.id = b.user_id
-
-LEFT JOIN
-(
-SELECT user_id,COUNT(*) readTimes FROM csp_news_read
-GROUP BY user_id
-)c ON a.id = c.user_id
-
-LEFT JOIN
-(
-SELECT user_id,COUNT(*) commentCount FROM csp_comment
-GROUP BY user_id
-)d ON a.id = d.user_id
-
-LEFT JOIN
-(
-SELECT user_id,COUNT(*) thumbCount FROM csp_thumb
-GROUP BY user_id
-)e ON a.id = e.user_id
-
-LEFT JOIN csp_court f ON a.court_id = f.id
-
-
-WHERE a.court_id = '15'
-ORDER BY b.loginTimes DESC
-
-===
-
+// 一些理念
+1. 数据是根本
+2. 逻辑删除的优点: 数据恢复，健壮
+3. 手机端一定要保证响应效率和减少流量
+4. 测试是保障
 

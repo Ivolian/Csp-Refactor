@@ -7,11 +7,9 @@ import com.unicorn.csp.MyApplication;
 
 public class ToastUtils {
 
-    static Toast toast = Toast.makeText(MyApplication.getInstance(), "", Toast.LENGTH_SHORT);
-
     public static void show(String msg) {
 
-        toast.setText(msg);
+        Toast toast = Toast.makeText(MyApplication.getInstance(), msg, Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.CENTER, 0, 0);
         toast.show();
     }

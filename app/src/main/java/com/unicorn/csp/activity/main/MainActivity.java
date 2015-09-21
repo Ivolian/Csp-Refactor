@@ -3,7 +3,6 @@ package com.unicorn.csp.activity.main;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -15,10 +14,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.android.volley.Response;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.FileAsyncHttpResponseHandler;
 import com.malinskiy.materialicons.IconDrawable;
 import com.malinskiy.materialicons.Iconify;
 import com.mikepenz.iconics.typeface.FontAwesome;
@@ -39,17 +34,8 @@ import com.unicorn.csp.greendao.Menu;
 import com.unicorn.csp.greendao.MenuDao;
 import com.unicorn.csp.other.greenmatter.ColorOverrider;
 import com.unicorn.csp.other.greenmatter.SelectColorActivity;
-import com.unicorn.csp.utils.AppUtils;
-import com.unicorn.csp.utils.ConfigUtils;
-import com.unicorn.csp.utils.JSONUtils;
 import com.unicorn.csp.utils.ToastUtils;
-import com.unicorn.csp.volley.MyVolley;
 
-import org.apache.commons.io.FileUtils;
-import org.apache.http.Header;
-import org.json.JSONObject;
-
-import java.io.File;
 import java.util.List;
 
 import butterknife.Bind;
@@ -96,7 +82,6 @@ public class MainActivity extends ToolbarActivity {
 
         initDrawer();
         initBottomTabList();
-        checkUpdate();
     }
 
 
@@ -327,105 +312,6 @@ public class MainActivity extends ToolbarActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-
-    // ========================== 检查更新 ==========================
-
-    private void checkUpdate() {
-
-        MyVolley.addRequest(new JsonObjectRequest(getCheckUpdateUrl(),
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        boolean needUpdate = JSONUtils.getBoolean(response, "needUpdate", false);
-                        if (needUpdate) {
-                            String apk = JSONUtils.getString(response, "apk", "");
-                            showConfirmUpdateDialog(apk);
-                        }
-                    }
-                },
-                MyVolley.getDefaultErrorListener()));
-    }
-
-    private String getCheckUpdateUrl() {
-
-        Uri.Builder builder = Uri.parse(ConfigUtils.getBaseUrl() + "/api/v1/app/checkUpdate?").buildUpon();
-        builder.appendQueryParameter("versionName", AppUtils.getVersionName());
-        return builder.toString();
-    }
-
-    private MaterialDialog showConfirmUpdateDialog(final String apk) {
-
-        // todo 添加更新细节
-        return new MaterialDialog.Builder(this)
-                .title("检测到新版本，是否立即更新？")
-                .cancelable(false)
-                .positiveText("立即更新")
-                .negativeText("下次再说")
-                .callback(new MaterialDialog.ButtonCallback() {
-                    @Override
-                    public void onPositive(MaterialDialog dialog) {
-                        downloadApk(apk);
-                    }
-                })
-                .show();
-    }
-
-    private void downloadApk(String apk) {
-
-        final MaterialDialog downloadDialog = showDownloadApkDialog();
-        String url = ConfigUtils.getBaseUrl() + apk;
-        AsyncHttpClient client = new AsyncHttpClient();
-        client.get(url, new FileAsyncHttpResponseHandler(MyApplication.getInstance()) {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, File response) {
-
-                downloadDialog.dismiss();
-                installApk(response);
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
-
-                downloadDialog.dismiss();
-                ToastUtils.show("下载失败");
-            }
-
-            @Override
-            public void onProgress(long bytesWritten, long totalSize) {
-
-                downloadDialog.setMaxProgress((int) totalSize);
-                downloadDialog.setProgress((int) bytesWritten);
-            }
-        });
-    }
-
-    private MaterialDialog showDownloadApkDialog() {
-
-        return new MaterialDialog.Builder(this)
-                .title("下载APK中")
-                .progress(false, 100)
-                .cancelable(false)
-                .show();
-    }
-
-    private void installApk(File response) {
-
-        String apkPath = ConfigUtils.getDownloadDirPath() + "/csp.apk";
-        File apk = new File(apkPath);
-        if (apk.exists()) {
-            apk.delete();
-        }
-        try {
-            FileUtils.copyFile(response, apk);
-        } catch (Exception e) {
-            //
-        }
-
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setDataAndType(Uri.fromFile(apk), "application/vnd.android.package-archive");
-        startActivity(intent);
     }
 
 

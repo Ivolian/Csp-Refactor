@@ -3,7 +3,6 @@ package com.unicorn.csp.activity.main;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 
 import com.android.volley.Response;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -11,11 +10,10 @@ import com.unicorn.csp.MyApplication;
 import com.unicorn.csp.R;
 import com.unicorn.csp.activity.base.ButterKnifeActivity;
 import com.unicorn.csp.greendao.Menu;
-import com.unicorn.csp.jpush.JPushUtils;
 import com.unicorn.csp.other.TinyDB;
+import com.unicorn.csp.utils.AppUtils;
 import com.unicorn.csp.utils.ConfigUtils;
 import com.unicorn.csp.utils.JSONUtils;
-import com.unicorn.csp.utils.ToastUtils;
 import com.unicorn.csp.volley.MyVolley;
 
 import org.json.JSONArray;
@@ -36,9 +34,9 @@ public class SplashActivity extends ButterKnifeActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        if (getRememberMe()){
+        if (getRememberMe()) {
             login();
-        }else {
+        } else {
             gotoLoginActivity();
         }
     }
@@ -55,30 +53,27 @@ public class SplashActivity extends ButterKnifeActivity {
 
     private void login() {
 
-        // TODO LOGIN ACTIVITY 里也要加这个
-        // TODO uuid 的别名合法性验证
         MyVolley.addRequest(new JsonObjectRequest(getLoginUrl(),
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         boolean result = JSONUtils.getBoolean(response, "result", false);
                         if (result) {
-                            final String courtId = JSONUtils.getString(response,"courtId","");
-                            if (!JPushUtils.isValidTagAndAlias(courtId)){
-                           Log.e("result",courtId);
-                                ToastUtils.show("非法别名！");
-                            }
+                            final String courtId = JSONUtils.getString(response, "courtId", "");
+
+
+                            saveUserId(response);
+                            saveMenu(response);
+
                             Set<String> tags = new HashSet<>();
                             tags.add(courtId);
                             JPushInterface.setTags(SplashActivity.this, tags, new TagAliasCallback() {
                                 @Override
                                 public void gotResult(int i, String s, Set<String> set) {
-                                    ToastUtils.show(courtId);
-
+                                    if (i == 0)
+                                        updatePushTag(courtId);
                                 }
                             });
-                            saveUserId(response);
-                            saveMenu(response);
                             startActivityAndFinish(MainActivity.class);
                         } else {
                             startActivityAndFinish(LoginActivity.class);
@@ -88,11 +83,32 @@ public class SplashActivity extends ButterKnifeActivity {
                 MyVolley.getDefaultErrorListener()));
     }
 
+    private void updatePushTag(String pushTag) {
+
+        MyVolley.addRequest(new JsonObjectRequest(getUpdatePushTagUrl(pushTag),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                    }
+                },
+                MyVolley.getDefaultErrorListener()));
+    }
+
+    private String getUpdatePushTagUrl(String pushTag) {
+
+        Uri.Builder builder = Uri.parse(ConfigUtils.getBaseUrl() + "/api/v1/user/updatePushTag?").buildUpon();
+        builder.appendQueryParameter("userId", ConfigUtils.getUserId());
+        builder.appendQueryParameter("pushTag", pushTag);
+        return builder.toString();
+    }
+
+
     private String getLoginUrl() {
 
         Uri.Builder builder = Uri.parse(ConfigUtils.getBaseUrl() + "/api/v1/user/login?").buildUpon();
         builder.appendQueryParameter("username", getUsername());
         builder.appendQueryParameter("password", getPassword());
+        builder.appendQueryParameter("currentVersionName", AppUtils.getVersionName());
         return builder.toString();
     }
 
@@ -142,7 +158,7 @@ public class SplashActivity extends ButterKnifeActivity {
     }
 
 
-    // ========================== 其他方法 ==========================
+    // ========================== 底层方法 ==========================
 
     private String getUsername() {
 
@@ -178,5 +194,6 @@ public class SplashActivity extends ButterKnifeActivity {
         JPushInterface.onPause(this);
         super.onPause();
     }
+
 
 }
