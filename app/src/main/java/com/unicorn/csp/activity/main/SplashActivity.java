@@ -6,6 +6,7 @@ import android.os.Handler;
 
 import com.android.volley.Response;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.unicorn.csp.MyApplication;
 import com.unicorn.csp.R;
 import com.unicorn.csp.activity.base.ButterKnifeActivity;
@@ -34,6 +35,7 @@ public class SplashActivity extends ButterKnifeActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+
         if (getRememberMe()) {
             login();
         } else {
@@ -67,11 +69,14 @@ public class SplashActivity extends ButterKnifeActivity {
 
                             Set<String> tags = new HashSet<>();
                             tags.add(courtId);
+
+                            final String userTag = ConfigUtils.getUserId().replace("-","_");
+                            tags.add(userTag);
                             JPushInterface.setTags(SplashActivity.this, tags, new TagAliasCallback() {
                                 @Override
                                 public void gotResult(int i, String s, Set<String> set) {
                                     if (i == 0)
-                                        updatePushTag(courtId);
+                                        updatePushTag(userTag + "," + courtId);
                                 }
                             });
                             startActivityAndFinish(MainActivity.class);
@@ -85,10 +90,10 @@ public class SplashActivity extends ButterKnifeActivity {
 
     private void updatePushTag(String pushTag) {
 
-        MyVolley.addRequest(new JsonObjectRequest(getUpdatePushTagUrl(pushTag),
-                new Response.Listener<JSONObject>() {
+        MyVolley.addRequest(new StringRequest(getUpdatePushTagUrl(pushTag),
+                new Response.Listener<String>() {
                     @Override
-                    public void onResponse(JSONObject response) {
+                    public void onResponse(String response) {
                     }
                 },
                 MyVolley.getDefaultErrorListener()));

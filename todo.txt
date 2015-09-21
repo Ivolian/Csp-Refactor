@@ -1,20 +1,14 @@
 // todo
 1. 数据库修改，新加字段 csp_user 添加 currentVersionName, pushTag
-
- SplashActivity 重构
-2. 登录逻辑抽象
-3. newDetail 的适配问题
+2. 重构 SplashActivity ，抽象登录逻辑
+3. 新闻界面的适配问题
 4. 新的后台，必须满足旧APK和新APK同时能更新。
 5. 有问有答删除，数据移动到学习交流。 加设建议意见。
-6. APP 里提供下载链接。
-//
+6. 我在他第一次登陆时，记录下当前日期。然后，他发出任何请求时检测下这个时间，是否过了一天。如果过了一天，帮他自动登录下。
+7. https://github.com/r0adkll/Slidr
+8. app挂到学习平台云平台上面
+9. courtId 36位 并不是合法的 tag
 
-链接
-角色
-通知
-周三
-
-ames 实体，角色，角色菜单。
 
 
 // todo 暂时没空搞的
@@ -24,14 +18,12 @@ ames 实体，角色，角色菜单。
 4. 手机端删除评论
 5. PDF （pdf插件）
 6. PPT
-7. 马涛说把app挂到学习平台云平台上面
-8. https://github.com/r0adkll/Slidr
+9. 角色权限
 
 
-// todo 优先级较低
-1. courtId 36位 并不是合法的 tag
-2. 语音识别的 API
-3. 新的项目
+// todo 别的项目
+1. 语音识别的 API
+2. 新的项目
 
 
 // todo 可能是问题的东西

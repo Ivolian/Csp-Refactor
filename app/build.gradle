@@ -34,21 +34,7 @@ android {
             jniLibs.srcDirs = ['jniLibs']
         }
     }
-
-//    task nativeLibsToJar(type: Zip, description: "create a jar archive of the native libs") {
-//        destinationDir file("$projectDir/libs")
-//        baseName "Native_Libs2"
-//        extension "jar"
-//        from fileTree(dir: "libs", include: "**/*.so")
-//        into "lib"
-//    }
-//
-//    tasks.withType(JavaCompile) {
-//        compileTask -> compileTask.dependsOn(nativeLibsToJar)
-//    }
 }
-
-
 
 
 dependencies {
@@ -96,5 +82,6 @@ dependencies {
     compile 'com.daimajia.numberprogressbar:library:1.2@aar'
 //    compile(name: 'emojicon', ext: 'aar')
     compile files('libs/jpush-sdk-release1.8.0.jar')
+    compile 'com.r0adkll:slidableactivity:2.0.4'
 
 }

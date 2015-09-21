@@ -16,6 +16,8 @@ import com.f2prateek.dart.InjectExtra;
 import com.malinskiy.materialicons.IconDrawable;
 import com.malinskiy.materialicons.Iconify;
 import com.melnykov.fab.FloatingActionButton;
+import com.r0adkll.slidr.Slidr;
+import com.r0adkll.slidr.model.SlidrConfig;
 import com.unicorn.csp.R;
 import com.unicorn.csp.activity.base.ToolbarActivity;
 import com.unicorn.csp.adapter.recyclerView.CommentAdapter;
@@ -87,6 +89,12 @@ public class CommentActivity extends ToolbarActivity {
         setContentView(R.layout.activity_comment);
         initToolbar("评论", true);
         initViews();
+
+        SlidrConfig config = new SlidrConfig.Builder()
+                .edge(true)
+                .build();
+        Slidr.attach(this, config);
+
     }
 
     private void initViews() {
@@ -174,6 +182,10 @@ public class CommentActivity extends ToolbarActivity {
         Intent intent = new Intent(this, AddCommentActivity.class);
         intent.putExtra("newsId", newsId);
         startActivity(intent);
+
+        SlidrConfig config = new SlidrConfig.Builder()
+                .edge(true)
+                .build();
     }
 
 

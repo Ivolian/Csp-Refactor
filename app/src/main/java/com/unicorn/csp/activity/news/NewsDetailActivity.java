@@ -24,6 +24,8 @@ import com.linroid.filtermenu.library.FilterMenu;
 import com.linroid.filtermenu.library.FilterMenuLayout;
 import com.malinskiy.materialicons.IconDrawable;
 import com.malinskiy.materialicons.Iconify;
+import com.r0adkll.slidr.Slidr;
+import com.r0adkll.slidr.model.SlidrConfig;
 import com.unicorn.csp.R;
 import com.unicorn.csp.activity.base.ToolbarActivity;
 import com.unicorn.csp.model.News;
@@ -70,6 +72,12 @@ public class NewsDetailActivity extends ToolbarActivity implements ObservableScr
         setContentView(R.layout.activity_news_detail);
         initToolbar(news.getTitle(), true);
         initViews();
+
+        SlidrConfig config = new SlidrConfig.Builder()
+                                .edge(true)
+                                .build();
+
+        Slidr.attach(this, config);
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
