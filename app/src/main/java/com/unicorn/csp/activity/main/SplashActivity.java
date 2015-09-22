@@ -29,7 +29,6 @@ import cn.jpush.android.api.TagAliasCallback;
 
 public class SplashActivity extends ButterKnifeActivity {
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -39,46 +38,26 @@ public class SplashActivity extends ButterKnifeActivity {
         if (getRememberMe()) {
             login();
         } else {
-            gotoLoginActivity();
+            startLoginActivity();
         }
     }
 
-    private void gotoLoginActivity() {
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                startActivityAndFinish(LoginActivity.class);
-            }
-        }, 2000);
-    }
-
     private void login() {
-
         MyVolley.addRequest(new JsonObjectRequest(getLoginUrl(),
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         boolean result = JSONUtils.getBoolean(response, "result", false);
                         if (result) {
+                            final String userId = JSONUtils.getString(response, "userId", "");
                             final String courtId = JSONUtils.getString(response, "courtId", "");
+                            String userTag = idToTag(userId);
+                            String courtTag = idToTag(courtId);
+                            registerTag(userTag, courtTag);
 
-
-                            saveUserId(response);
+                            ConfigUtils.saveUserId(userId);
                             saveMenu(response);
 
-                            Set<String> tags = new HashSet<>();
-                            tags.add(courtId);
-
-                            final String userTag = ConfigUtils.getUserId().replace("-","_");
-                            tags.add(userTag);
-                            JPushInterface.setTags(SplashActivity.this, tags, new TagAliasCallback() {
-                                @Override
-                                public void gotResult(int i, String s, Set<String> set) {
-                                    if (i == 0)
-                                        updatePushTag(userTag + "," + courtId);
-                                }
-                            });
                             startActivityAndFinish(MainActivity.class);
                         } else {
                             startActivityAndFinish(LoginActivity.class);
@@ -86,6 +65,20 @@ public class SplashActivity extends ButterKnifeActivity {
                     }
                 },
                 MyVolley.getDefaultErrorListener()));
+    }
+
+    private void registerTag(final String userTag, final String courtTag) {
+
+        Set<String> tags = new HashSet<>();
+        tags.add(userTag);
+        tags.add(courtTag);
+        JPushInterface.setTags(SplashActivity.this, tags, new TagAliasCallback() {
+            @Override
+            public void gotResult(int i, String s, Set<String> set) {
+                if (i == 0)
+                    updatePushTag(userTag + "," + courtTag);
+            }
+        });
     }
 
     private void updatePushTag(String pushTag) {
@@ -107,20 +100,14 @@ public class SplashActivity extends ButterKnifeActivity {
         return builder.toString();
     }
 
+    private void startLoginActivity() {
 
-    private String getLoginUrl() {
-
-        Uri.Builder builder = Uri.parse(ConfigUtils.getBaseUrl() + "/api/v1/user/login?").buildUpon();
-        builder.appendQueryParameter("username", getUsername());
-        builder.appendQueryParameter("password", getPassword());
-        builder.appendQueryParameter("currentVersionName", AppUtils.getVersionName());
-        return builder.toString();
-    }
-
-    private void saveUserId(JSONObject response) {
-
-        String userId = JSONUtils.getString(response, "userId", "");
-        ConfigUtils.saveUserId(userId);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                startActivityAndFinish(LoginActivity.class);
+            }
+        }, 2000);
     }
 
 
@@ -165,6 +152,21 @@ public class SplashActivity extends ButterKnifeActivity {
 
     // ========================== 底层方法 ==========================
 
+    private String getLoginUrl() {
+
+        Uri.Builder builder = Uri.parse(ConfigUtils.getBaseUrl() + "/api/v1/user/login?").buildUpon();
+        builder.appendQueryParameter("username", getUsername());
+        builder.appendQueryParameter("password", getPassword());
+        builder.appendQueryParameter("currentVersionName", AppUtils.getVersionName());
+        return builder.toString();
+    }
+
+    private boolean getRememberMe() {
+
+        TinyDB tinyDB = new TinyDB(this);
+        return tinyDB.getBoolean(LoginActivity.SF_REMEMBER_ME, false);
+    }
+
     private String getUsername() {
 
         TinyDB tinyDB = new TinyDB(this);
@@ -177,10 +179,9 @@ public class SplashActivity extends ButterKnifeActivity {
         return tinyDB.getString(LoginActivity.SF_PASSWORD);
     }
 
-    private boolean getRememberMe() {
+    private String idToTag(String id) {
 
-        TinyDB tinyDB = new TinyDB(this);
-        return tinyDB.getBoolean(LoginActivity.SF_REMEMBER_ME, false);
+        return id.replace("-", "_");
     }
 
 
