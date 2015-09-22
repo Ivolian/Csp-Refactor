@@ -45,6 +45,7 @@ public class AddAnswerActivity extends ToolbarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_answer);
         initToolbar("回答", true);
+        enableSlidr();
     }
 
 

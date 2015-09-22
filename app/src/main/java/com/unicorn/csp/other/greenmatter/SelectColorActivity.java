@@ -51,6 +51,7 @@ public class SelectColorActivity extends ToolbarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_color);
         initToolbar("主题色彩", true);
+        enableSlidr();
 
         // 成功设置主题
         final ColorOverrider overrider = ColorOverrider.getInstance(this);

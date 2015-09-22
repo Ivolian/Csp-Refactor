@@ -57,6 +57,8 @@ public class QuestionDetailActivity extends ToolbarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question_detail);
         initToolbar("问答详情", true);
+        enableSlidr();
+
         initViews();
     }
 

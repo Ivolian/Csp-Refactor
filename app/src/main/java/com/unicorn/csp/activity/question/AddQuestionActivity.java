@@ -40,6 +40,7 @@ public class AddQuestionActivity extends ToolbarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_question);
         initToolbar("我要提问", true);
+        enableSlidr();
     }
 
 

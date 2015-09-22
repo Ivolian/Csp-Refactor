@@ -16,6 +16,8 @@ public class FavoriteNewsActivity extends ToolbarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorite_news);
         initToolbar("我的关注", true);
+        enableSlidr();
+
         replaceFragment();
     }
 

@@ -5,11 +5,12 @@ import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 
 import com.f2prateek.dart.Dart;
+import com.r0adkll.slidr.Slidr;
+import com.r0adkll.slidr.model.SlidrConfig;
 
 import butterknife.ButterKnife;
 
 
-// clear
 public abstract class ButterKnifeActivity extends ColorActivity {
 
     @Override
@@ -24,6 +25,15 @@ public abstract class ButterKnifeActivity extends ColorActivity {
 
         super.onCreate(savedInstanceState);
         Dart.inject(this);
+    }
+
+
+    // ========================== 滑动移除 ==========================
+
+    public void enableSlidr() {
+
+        SlidrConfig config = new SlidrConfig.Builder().edge(true).build();
+        Slidr.attach(this, config);
     }
 
 

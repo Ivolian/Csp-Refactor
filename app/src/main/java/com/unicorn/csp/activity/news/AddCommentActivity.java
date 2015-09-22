@@ -50,6 +50,7 @@ public class AddCommentActivity extends ToolbarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_comment);
         initToolbar("发表评论", true);
+        enableSlidr();
     }
 
 

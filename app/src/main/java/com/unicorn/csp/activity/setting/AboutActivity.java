@@ -38,6 +38,7 @@ public class AboutActivity extends ToolbarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
         initToolbar("关于", true);
+        enableSlidr();
 
         initViews();
         checkUpdate();
