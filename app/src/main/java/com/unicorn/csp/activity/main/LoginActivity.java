@@ -8,6 +8,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.ivo.flatbutton.FlatButton;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.unicorn.csp.MyApplication;
@@ -15,6 +16,7 @@ import com.unicorn.csp.R;
 import com.unicorn.csp.activity.base.ToolbarActivity;
 import com.unicorn.csp.greendao.Menu;
 import com.unicorn.csp.other.TinyDB;
+import com.unicorn.csp.utils.AppUtils;
 import com.unicorn.csp.utils.ConfigUtils;
 import com.unicorn.csp.utils.JSONUtils;
 import com.unicorn.csp.utils.ToastUtils;
@@ -24,9 +26,14 @@ import com.unicorn.csp.volley.toolbox.VolleyErrorHelper;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import butterknife.Bind;
 import butterknife.OnClick;
 import butterknife.OnTextChanged;
+import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.api.TagAliasCallback;
 
 
 // clear
@@ -70,11 +77,6 @@ public class LoginActivity extends ToolbarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         initToolbar("登录", false);
-        initViews();
-    }
-
-    private void initViews() {
-
     }
 
 
@@ -101,12 +103,7 @@ public class LoginActivity extends ToolbarActivity {
     // ========================== 登录 ==========================
 
     @OnClick(R.id.btn_login)
-    public void onLoginBtnClick() {
-
-        login();
-    }
-
-    private void login() {
+    public void login() {
 
         loginDialog = showLoginDialog();
         MyVolley.addRequest(new JsonObjectRequest(getLoginUrl(),
@@ -116,13 +113,21 @@ public class LoginActivity extends ToolbarActivity {
                         hideLoginDialog();
                         boolean result = JSONUtils.getBoolean(response, "result", false);
                         if (result) {
-                            saveUserId(response);
+                            final String userId = JSONUtils.getString(response, "userId", "");
+                            final String courtId = JSONUtils.getString(response, "courtId", "");
+                            String userTag = idToTag(userId);
+                            String courtTag = idToTag(courtId);
+                            registerTag(userTag, courtTag);
+
+                            ConfigUtils.saveUserId(userId);
                             saveMenu(response);
                             storeLoginInfo();
+
                             startActivityAndFinish(MainActivity.class);
                         } else {
-                            ToastUtils.show(JSONUtils.getString(response,"errorMsg",""));
+                            ToastUtils.show(JSONUtils.getString(response, "errorMsg", ""));
                         }
+
                     }
                 },
                 new Response.ErrorListener() {
@@ -134,6 +139,38 @@ public class LoginActivity extends ToolbarActivity {
                 }));
     }
 
+    private void registerTag(final String userTag, final String courtTag) {
+
+        Set<String> tags = new HashSet<>();
+        tags.add(userTag);
+        tags.add(courtTag);
+        JPushInterface.setTags(LoginActivity.this, tags, new TagAliasCallback() {
+            @Override
+            public void gotResult(int i, String s, Set<String> set) {
+                if (i == 0)
+                    updatePushTag(userTag + "," + courtTag);
+            }
+        });
+    }
+
+    private void updatePushTag(String pushTag) {
+
+        MyVolley.addRequest(new StringRequest(getUpdatePushTagUrl(pushTag),
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                    }
+                },
+                MyVolley.getDefaultErrorListener()));
+    }
+
+    private String getUpdatePushTagUrl(String pushTag) {
+
+        Uri.Builder builder = Uri.parse(ConfigUtils.getBaseUrl() + "/api/v1/user/updatePushTag?").buildUpon();
+        builder.appendQueryParameter("userId", ConfigUtils.getUserId());
+        builder.appendQueryParameter("pushTag", pushTag);
+        return builder.toString();
+    }
 
     private MaterialDialog showLoginDialog() {
 
@@ -150,6 +187,7 @@ public class LoginActivity extends ToolbarActivity {
         Uri.Builder builder = Uri.parse(ConfigUtils.getBaseUrl() + "/api/v1/user/login?").buildUpon();
         builder.appendQueryParameter("username", getUsername());
         builder.appendQueryParameter("password", getPassword());
+        builder.appendQueryParameter("currentVersionName", AppUtils.getVersionName());
         return builder.toString();
     }
 
@@ -160,10 +198,9 @@ public class LoginActivity extends ToolbarActivity {
         }
     }
 
-    private void saveUserId(JSONObject response) {
+    private String idToTag(String id) {
 
-        String userId = JSONUtils.getString(response, "userId", "");
-        ConfigUtils.saveUserId(userId);
+        return id.replace("-", "_");
     }
 
 

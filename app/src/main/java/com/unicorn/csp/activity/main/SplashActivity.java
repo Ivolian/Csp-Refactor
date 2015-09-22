@@ -75,8 +75,9 @@ public class SplashActivity extends ButterKnifeActivity {
         JPushInterface.setTags(SplashActivity.this, tags, new TagAliasCallback() {
             @Override
             public void gotResult(int i, String s, Set<String> set) {
-                if (i == 0)
+                if (i == 0) {
                     updatePushTag(userTag + "," + courtTag);
+                }
             }
         });
     }

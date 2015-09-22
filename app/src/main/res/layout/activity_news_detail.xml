@@ -13,15 +13,16 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="?attr/actionBarSize"
+            android:background="@color/background_material_light"
             android:orientation="vertical">
 
-            <SeekBar
+            <org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
                 android:id="@+id/seekbar"
-                android:max="200"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:layout_marginTop="8dp" />
+                android:layout_marginTop="8dp"
+                app:dsb_max="200" />
 
             <com.unicorn.csp.other.webview.VideoEnabledWebView
                 android:id="@+id/webview"

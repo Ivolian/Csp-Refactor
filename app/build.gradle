@@ -83,5 +83,5 @@ dependencies {
 //    compile(name: 'emojicon', ext: 'aar')
     compile files('libs/jpush-sdk-release1.8.0.jar')
     compile 'com.r0adkll:slidableactivity:2.0.4'
-
+    compile 'org.adw.library:discrete-seekbar:1.0.0'
 }

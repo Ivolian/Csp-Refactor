@@ -7,13 +7,13 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.SeekBar;
 
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
@@ -27,6 +27,7 @@ import com.malinskiy.materialicons.Iconify;
 import com.unicorn.csp.R;
 import com.unicorn.csp.activity.base.ToolbarActivity;
 import com.unicorn.csp.model.News;
+import com.unicorn.csp.other.TinyDB;
 import com.unicorn.csp.other.greenmatter.ColorOverrider;
 import com.unicorn.csp.other.webview.VideoEnabledWebChromeClient;
 import com.unicorn.csp.other.webview.VideoEnabledWebView;
@@ -34,10 +35,11 @@ import com.unicorn.csp.utils.ConfigUtils;
 import com.unicorn.csp.utils.ToastUtils;
 import com.unicorn.csp.volley.MyVolley;
 
+import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar;
+
 import butterknife.Bind;
 
 
-// clear
 public class NewsDetailActivity extends ToolbarActivity implements ObservableScrollViewCallbacks, FilterMenu.OnMenuChangeListener {
 
     /*
@@ -59,7 +61,8 @@ public class NewsDetailActivity extends ToolbarActivity implements ObservableScr
     VideoEnabledWebChromeClient webChromeClient;
 
     @Bind(R.id.seekbar)
-    SeekBar seekBar;
+    DiscreteSeekBar seekBar;
+
 
     // =============================== onCreate ===============================
 
@@ -69,32 +72,49 @@ public class NewsDetailActivity extends ToolbarActivity implements ObservableScr
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_detail);
         initToolbar(news.getTitle(), true);
-        initViews();
         enableSlidr();
 
-        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                ToastUtils.show(progress+"");
-                webView.getSettings().setTextZoom(progress);
-            }
+        initViews();
 
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-            }
 
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-            }
-        });
     }
 
     private void initViews() {
 
+        initSeekBar();
         initWebView();
         initFilterMenuLayout();
         loadContent();
     }
+
+    private void initSeekBar() {
+
+        seekBar.setVisibility(View.GONE);
+        seekBar.setProgress(getTextZoom());
+        seekBar.setOnProgressChangeListener(new DiscreteSeekBar.OnProgressChangeListener() {
+            @Override
+            public void onProgressChanged(DiscreteSeekBar discreteSeekBar, int i, boolean b) {
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(DiscreteSeekBar discreteSeekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(DiscreteSeekBar discreteSeekBar) {
+
+                int progress = discreteSeekBar.getProgress();
+                webView.getSettings().setTextZoom(progress);
+                saveTextZoom(progress);
+            }
+        });
+
+    }
+
+
+    // =============================== initWebView ===============================
 
     private void initWebView() {
 
@@ -103,9 +123,7 @@ public class NewsDetailActivity extends ToolbarActivity implements ObservableScr
         webSettings.setSupportZoom(true);
         webSettings.setBuiltInZoomControls(true);
         webSettings.setDisplayZoomControls(false);
-//        webSettings.setUseWideViewPort(true);
-//        webSettings.setLoadWithOverviewMode(true);
-webSettings.setTextZoom(160);
+        webSettings.setTextZoom(getTextZoom());
         webView.setWebViewClient(new WebViewClient());
         webView.setScrollViewCallbacks(this);
         enableVideo();
@@ -351,5 +369,52 @@ webSettings.setTextZoom(160);
         builder.appendQueryParameter("userId", ConfigUtils.getUserId());
         return builder.toString();
     }
+
+
+    // =============================== textZoom ===============================
+
+    private String SF_TEXT_ZOOM = "text_zoom";
+
+    private int getTextZoom() {
+
+        TinyDB tinyDB = new TinyDB(this);
+        return tinyDB.getInt(SF_TEXT_ZOOM, 100);
+    }
+
+    private void saveTextZoom(int textZoom) {
+
+        TinyDB tinyDB = new TinyDB(this);
+        tinyDB.putInt(SF_TEXT_ZOOM, textZoom);
+    }
+
+
+    // ========================== 菜单 ==========================
+
+    @Override
+    public boolean onCreateOptionsMenu(android.view.Menu menu) {
+
+        getMenuInflater().inflate(R.menu.news_detail, menu);
+        menu.findItem(R.id.font).setIcon(getActionDrawable());
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    private Drawable getActionDrawable() {
+
+        return new IconDrawable(this, Iconify.IconValue.zmdi_font)
+                .colorRes(android.R.color.white)
+                .actionBarSize();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (seekBar.getVisibility() == View.GONE) {
+            seekBar.setVisibility(View.VISIBLE);
+        } else {
+            seekBar.setVisibility(View.GONE);
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 
 }
