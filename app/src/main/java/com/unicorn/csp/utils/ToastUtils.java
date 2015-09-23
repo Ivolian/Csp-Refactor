@@ -7,13 +7,18 @@ import com.unicorn.csp.MyApplication;
 
 public class ToastUtils {
 
-//    static Toast toast;
+    private static Toast mToast = null;
 
-    public static void show(String msg) {
+    public static void show(String text) {
+        if (mToast == null) {
+            mToast = Toast.makeText(MyApplication.getInstance(), text, Toast.LENGTH_SHORT);
+        } else {
+            mToast.setText(text);
+            mToast.setGravity(Gravity.CENTER, 0, 0);
+            mToast.setDuration(Toast.LENGTH_SHORT);
+        }
 
-        Toast toast = Toast.makeText(MyApplication.getInstance(), msg, Toast.LENGTH_SHORT);
-        toast.setGravity(Gravity.CENTER, 0, 0);
-        toast.show();
+        mToast.show();
     }
 
 }

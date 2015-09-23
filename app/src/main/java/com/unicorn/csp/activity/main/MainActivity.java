@@ -275,13 +275,13 @@ public class MainActivity extends ToolbarActivity {
                 setToolbarTitle(R.string.study_field);
                 break;
             case 2:
-                setToolbarTitle(R.string.book_city);
+                setToolbarTitle(R.string.social_region);
                 break;
             case 3:
                 setToolbarTitle(R.string.my_study);
                 break;
             case 4:
-                setToolbarTitle(R.string.social_region);
+                setToolbarTitle(R.string.book_city);
                 break;
         }
     }
