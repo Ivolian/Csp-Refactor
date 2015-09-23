@@ -9,6 +9,7 @@ import android.widget.EditText;
 
 import com.android.volley.Response;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.f2prateek.dart.InjectExtra;
 import com.malinskiy.materialicons.IconDrawable;
 import com.malinskiy.materialicons.Iconify;
 import com.unicorn.csp.R;
@@ -31,6 +32,8 @@ public class AddQuestionActivity extends ToolbarActivity {
     @Bind(R.id.et_content)
     EditText etContent;
 
+    @InjectExtra("type")
+    String type;
 
     // ==================== onCreate ====================
 
@@ -101,6 +104,7 @@ public class AddQuestionActivity extends ToolbarActivity {
 
         Uri.Builder builder = Uri.parse(ConfigUtils.getBaseUrl() + "/api/v1/question/create?").buildUpon();
         builder.appendQueryParameter("userId", ConfigUtils.getUserId());
+        builder.appendQueryParameter("type", type);
         builder.appendQueryParameter("content", getQuestion());
         return builder.toString();
     }
