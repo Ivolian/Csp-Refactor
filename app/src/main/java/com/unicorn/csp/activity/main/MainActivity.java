@@ -139,15 +139,15 @@ public class MainActivity extends ToolbarActivity {
                 }).build();
     }
 
-    private void showChoiceDialog(){
+    private void showChoiceDialog() {
 
-         new MaterialDialog.Builder(this)
+        new MaterialDialog.Builder(this)
                 .title("问题分类")
-                .items(new String[]{"有问有答","建议意见"})
+                .items(new String[]{"有问有答", "建议意见"})
                 .itemsCallbackSingleChoice(0, new MaterialDialog.ListCallbackSingleChoice() {
                     @Override
                     public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
-                       startAddQuestionActivity(text.toString());
+                        startAddQuestionActivity(text.toString());
                         return true;
                     }
                 })
@@ -155,10 +155,10 @@ public class MainActivity extends ToolbarActivity {
                 .show();
     }
 
-    private void startAddQuestionActivity(String type){
+    private void startAddQuestionActivity(String type) {
 
         Intent intent = new Intent(this, AddQuestionActivity.class);
-        intent.putExtra("type",type);
+        intent.putExtra("type", type);
         startActivity(intent);
     }
 
@@ -226,7 +226,8 @@ public class MainActivity extends ToolbarActivity {
 
     // ========================== 底部栏 ==========================
 
-    @Bind({R.id.llHotSpot, R.id.llStudyField, R.id.llBookCity, R.id.llMyStudy, R.id.llSocialRegion})
+    // todo replace bookcity
+    @Bind({R.id.llHotSpot, R.id.llStudyField, R.id.llSocialRegion, R.id.llMyStudy, R.id.llBookCity})
     List<LinearLayout> bottomTabList;
 
     private void initBottomTabList() {
@@ -236,7 +237,7 @@ public class MainActivity extends ToolbarActivity {
         }
     }
 
-    @OnClick({R.id.llHotSpot, R.id.llStudyField, R.id.llBookCity, R.id.llMyStudy, R.id.llSocialRegion})
+    @OnClick({R.id.llHotSpot, R.id.llStudyField, R.id.llSocialRegion, R.id.llMyStudy, R.id.llBookCity})
     public void onBottomTabClick(LinearLayout bottomTab) {
         selectBottomTab(bottomTabList.indexOf(bottomTab), true);
     }
@@ -287,7 +288,7 @@ public class MainActivity extends ToolbarActivity {
 
     private void replaceFragment(int index) {
 
-        String[] names = {"资讯热点", "学习园地", "网上书城", "我的学习", "互动专区"};
+        String[] names = {"资讯热点", "学习园地", "互动专区", "我的学习", "学术交流"};
         Menu menu = findMenuByName(names[index]);
         Fragment fragment = ViewPagerAdapter.getFragmentByMenu(menu, true);
         replaceFragment_(fragment);

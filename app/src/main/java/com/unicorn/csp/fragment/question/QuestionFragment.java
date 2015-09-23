@@ -35,9 +35,9 @@ import java.util.List;
 import butterknife.Bind;
 
 
-// clear
-public class QuestionFragment extends LazyLoadFragment {
+public abstract class QuestionFragment extends LazyLoadFragment {
 
+    abstract String getType();
 
     @Override
     public int getLayoutResId() {
@@ -189,7 +189,7 @@ public class QuestionFragment extends LazyLoadFragment {
         Uri.Builder builder = Uri.parse(ConfigUtils.getBaseUrl() + "/api/v1/question/listForMobile").buildUpon();
         builder.appendQueryParameter("pageNo", pageNo.toString());
         builder.appendQueryParameter("pageSize", PAGE_SIZE.toString());
-        builder.appendQueryParameter("type","有问有答");
+        builder.appendQueryParameter("type",getType());
         return builder.toString();
     }
 

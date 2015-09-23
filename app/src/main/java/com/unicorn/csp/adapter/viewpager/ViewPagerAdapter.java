@@ -7,10 +7,10 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.unicorn.csp.fragment.BookCityFragment;
 import com.unicorn.csp.fragment.BookFragment;
-import com.unicorn.csp.fragment.ChartFragment;
 import com.unicorn.csp.fragment.MyShelfFragment;
 import com.unicorn.csp.fragment.news.NewsFragment;
-import com.unicorn.csp.fragment.question.QuestionFragment;
+import com.unicorn.csp.fragment.question.AdviceFragment;
+import com.unicorn.csp.fragment.question.QaQuestionFragment;
 import com.unicorn.csp.fragment.viewpager.ViewPagerFragmentL1;
 import com.unicorn.csp.fragment.viewpager.ViewPagerFragmentL2;
 import com.unicorn.csp.greendao.Menu;
@@ -65,16 +65,14 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
                 return new BookFragment();
             case "bookCity":
                 return new BookCityFragment();
-            case "question":
-                return new QuestionFragment();
+            case "qa":
+                return new QaQuestionFragment();
+            case "advice":
+                return new AdviceFragment();
             case "myShelf":
                 return new MyShelfFragment();
-            case"chart":
-                return new ChartFragment();
             default:
                 return new BookCityFragment();
-
-//                throw new RuntimeException("未知的菜单类型");
         }
     }
 
