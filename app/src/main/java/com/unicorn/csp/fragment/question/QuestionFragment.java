@@ -189,6 +189,7 @@ public class QuestionFragment extends LazyLoadFragment {
         Uri.Builder builder = Uri.parse(ConfigUtils.getBaseUrl() + "/api/v1/question/listForMobile").buildUpon();
         builder.appendQueryParameter("pageNo", pageNo.toString());
         builder.appendQueryParameter("pageSize", PAGE_SIZE.toString());
+        builder.appendQueryParameter("type","有问有答");
         return builder.toString();
     }
 

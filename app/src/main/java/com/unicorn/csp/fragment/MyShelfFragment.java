@@ -13,10 +13,15 @@ import android.view.ViewGroup;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.nispok.snackbar.Snackbar;
+import com.nispok.snackbar.SnackbarManager;
+import com.nispok.snackbar.listeners.ActionClickListener;
 import com.unicorn.csp.R;
 import com.unicorn.csp.adapter.recyclerView.MyShelfAdapter;
 import com.unicorn.csp.fragment.base.LazyLoadFragment;
 import com.unicorn.csp.model.Book;
+import com.unicorn.csp.other.SwipeableRecyclerViewTouchListener;
 import com.unicorn.csp.other.greenmatter.ColorOverrider;
 import com.unicorn.csp.utils.ConfigUtils;
 import com.unicorn.csp.utils.JSONUtils;
@@ -38,7 +43,7 @@ public class MyShelfFragment extends LazyLoadFragment {
 
     @Override
     public int getLayoutResId() {
-        return R.layout.fragment_refresh_recycleview;
+        return R.layout.fragment_my_shelf;
     }
 
 
@@ -125,6 +130,7 @@ public class MyShelfFragment extends LazyLoadFragment {
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
             }
         });
+        addSwipeListenerForRecycleView();
     }
 
     public void reload() {
@@ -178,6 +184,78 @@ public class MyShelfFragment extends LazyLoadFragment {
                 }));
     }
 
+    private void addSwipeListenerForRecycleView() {
+
+        SwipeableRecyclerViewTouchListener swipeTouchListener =
+                new SwipeableRecyclerViewTouchListener(recyclerView,
+                        new SwipeableRecyclerViewTouchListener.SwipeListener() {
+                            @Override
+                            public boolean canSwipe(int position) {
+                                return true;
+                            }
+
+                            @Override
+                            public void onDismissedBySwipeLeft(RecyclerView recyclerView, int[] reverseSortedPositions) {
+                                for (int position : reverseSortedPositions) {
+                                    String bookId = myShelfAdapter.getBookList().get(position).getId();
+                                    showConfirmBar(bookId);
+                                    myShelfAdapter.getBookList().remove(position);
+                                    myShelfAdapter.notifyItemRemoved(position);
+                                }
+                                myShelfAdapter.notifyDataSetChanged();
+                            }
+
+                            @Override
+                            public void onDismissedBySwipeRight(RecyclerView recyclerView, int[] reverseSortedPositions) {
+                                for (int position : reverseSortedPositions) {
+                                    String bookId = myShelfAdapter.getBookList().get(position).getId();
+                                    showConfirmBar(bookId);
+                                    myShelfAdapter.getBookList().remove(position);
+                                    myShelfAdapter.notifyItemRemoved(position);
+                                }
+                                myShelfAdapter.notifyDataSetChanged();
+                            }
+                        });
+        recyclerView.addOnItemTouchListener(swipeTouchListener);
+    }
+
+    private void showConfirmBar(final String bookId) {
+
+        SnackbarManager.show(
+                Snackbar.with(getActivity())
+                        .text("确认从我的书架中移除？")
+                        .actionLabel("确认")
+                        .actionColor(ColorOverrider.getInstance(getActivity()).getColorAccent())
+                        .actionListener(new ActionClickListener() {
+                            @Override
+                            public void onActionClicked(Snackbar snackbar) {
+                                removeFavoriteBook(bookId);
+                            }
+                        })
+                , getActivity());
+    }
+
+    private void removeFavoriteBook(String bookId) {
+
+        MyVolley.addRequest(new StringRequest(getRemoveFavoriteBookUrl(bookId),
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        boolean result = response.equals(Boolean.TRUE.toString());
+                        ToastUtils.show(result ? "移除成功" : "移除失败");
+                    }
+                },
+                MyVolley.getDefaultErrorListener()));
+    }
+
+    private String getRemoveFavoriteBookUrl(String bookId) {
+
+        Uri.Builder builder = Uri.parse(ConfigUtils.getBaseUrl() + "/api/v1/favoritebook/delete?").buildUpon();
+        builder.appendQueryParameter("bookId", bookId);
+        builder.appendQueryParameter("userId", ConfigUtils.getUserId());
+        return builder.toString();
+    }
+
 
     // ========================== 基础方法 ==========================
 
@@ -209,7 +287,7 @@ public class MyShelfFragment extends LazyLoadFragment {
             String ebookFilename = JSONUtils.getString(bookJSONObject, "ebookFilename", "");
             String summary = JSONUtils.getString(bookJSONObject, "summary", "");
             String id = JSONUtils.getString(bookJSONObject, "id", "");
-            bookList.add(new Book(id2, name, picture, ebook, ebookFilename,summary,id));
+            bookList.add(new Book(id2, name, picture, ebook, ebookFilename, summary, id));
         }
         return bookList;
     }

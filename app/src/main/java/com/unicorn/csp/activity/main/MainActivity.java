@@ -122,7 +122,8 @@ public class MainActivity extends ToolbarActivity {
 //                                startActivity(DbInspectorActivity.class);
                                 break;
                             case 2:
-                                startActivity(AddQuestionActivity.class);
+                                showChoiceDialog();
+//                                startActivity(AddQuestionActivity.class);
                                 break;
                             case 3:
                                 startSelectColorActivity();
@@ -136,6 +137,29 @@ public class MainActivity extends ToolbarActivity {
                         return false;
                     }
                 }).build();
+    }
+
+    private void showChoiceDialog(){
+
+         new MaterialDialog.Builder(this)
+                .title("问题分类")
+                .items(new String[]{"有问有答","建议意见"})
+                .itemsCallbackSingleChoice(0, new MaterialDialog.ListCallbackSingleChoice() {
+                    @Override
+                    public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+                       startAddQuestionActivity(text.toString());
+                        return true;
+                    }
+                })
+                .positiveText("确定")
+                .show();
+    }
+
+    private void startAddQuestionActivity(String type){
+
+        Intent intent = new Intent(this, AddQuestionActivity.class);
+        intent.putExtra("type",type);
+        startActivity(intent);
     }
 
 

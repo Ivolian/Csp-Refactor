@@ -2,20 +2,15 @@ package com.unicorn.csp.adapter.recyclerView;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
 import android.support.v7.widget.CardView;
-import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.android.volley.Response;
 import com.android.volley.toolbox.NetworkImageView;
-import com.android.volley.toolbox.StringRequest;
 import com.daimajia.numberprogressbar.NumberProgressBar;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.FileAsyncHttpResponseHandler;
@@ -164,60 +159,6 @@ public class MyShelfAdapter extends RecyclerView.Adapter<MyShelfAdapter.ViewHold
                 .show();
     }
 
-
-    //
-
-    private void removeFavoriteBook(final com.unicorn.csp.model.Book book) {
-
-        MyVolley.addRequest(new StringRequest(getRemoveFavoriteBookUrl(book.getId()),
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        boolean result = response.equals(Boolean.TRUE.toString());
-                        ToastUtils.show(result ? "移除成功" : "移除失败");
-                        bookList.remove(book);
-                        notifyDataSetChanged();
-                    }
-                },
-                MyVolley.getDefaultErrorListener()));
-    }
-
-    private String getRemoveFavoriteBookUrl(String bookId) {
-
-        Uri.Builder builder = Uri.parse(ConfigUtils.getBaseUrl() + "/api/v1/favoritebook/delete?").buildUpon();
-        builder.appendQueryParameter("bookId", bookId);
-        builder.appendQueryParameter("userId", ConfigUtils.getUserId());
-        return builder.toString();
-    }
-
-    private MaterialDialog showConfirmDeleteDialog(final com.unicorn.csp.model.Book book) {
-
-        return new MaterialDialog.Builder(activity)
-                .title("确认要删除该书籍缓存？")
-                .positiveText("确认")
-                .negativeText("取消")
-                .cancelable(false)
-                .callback(new MaterialDialog.ButtonCallback() {
-                    @Override
-                    public void onPositive(MaterialDialog dialog) {
-                        File file = new File(getBookPath(book));
-                        boolean result = file.delete();
-                        showDeleteResultDialog(result ? "删除成功" : "删除失败");
-                    }
-                })
-                .show();
-    }
-
-    private MaterialDialog showDeleteResultDialog(String result) {
-
-        return new MaterialDialog.Builder(activity)
-                .title(result)
-                .positiveText("确认")
-                .cancelable(false)
-                .show();
-    }
-
-
     //
 
     @Override
@@ -241,35 +182,6 @@ public class MyShelfAdapter extends RecyclerView.Adapter<MyShelfAdapter.ViewHold
                 } else {
                     showConfirmDownloadDialog(book);
                 }
-            }
-        });
-
-        viewHolder.cardView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-
-                PopupMenu popupMenu = new PopupMenu(activity, v);
-                popupMenu.inflate(R.menu.my_shelf_pop_menu);
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem menuItem) {
-                        switch (menuItem.getItemId()) {
-                            case R.id.remove:
-                                removeFavoriteBook(book);
-                                return true;
-                            case R.id.delete:
-                                if (isBookExist(book)) {
-                                    showConfirmDeleteDialog(book);
-                                } else {
-                                    ToastUtils.show("该书籍尚未缓存");
-                                }
-                                return true;
-                        }
-                        return false;
-                    }
-                });
-                popupMenu.show();
-                return true;
             }
         });
     }
