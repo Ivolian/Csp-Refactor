@@ -143,7 +143,7 @@ public class MainActivity extends ToolbarActivity {
 
         new MaterialDialog.Builder(this)
                 .title("问题分类")
-                .items(new String[]{"有问有答", "建议意见"})
+                .items(new String[]{"学习交流", "建议意见"})
                 .itemsCallbackSingleChoice(0, new MaterialDialog.ListCallbackSingleChoice() {
                     @Override
                     public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {

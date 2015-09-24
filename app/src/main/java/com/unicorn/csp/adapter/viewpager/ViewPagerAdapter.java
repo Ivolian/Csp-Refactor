@@ -10,7 +10,7 @@ import com.unicorn.csp.fragment.BookFragment;
 import com.unicorn.csp.fragment.MyShelfFragment;
 import com.unicorn.csp.fragment.news.NewsFragment;
 import com.unicorn.csp.fragment.question.AdviceFragment;
-import com.unicorn.csp.fragment.question.QaQuestionFragment;
+import com.unicorn.csp.fragment.question.StudyFragment;
 import com.unicorn.csp.fragment.viewpager.ViewPagerFragmentL1;
 import com.unicorn.csp.fragment.viewpager.ViewPagerFragmentL2;
 import com.unicorn.csp.greendao.Menu;
@@ -65,8 +65,8 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
                 return new BookFragment();
             case "bookCity":
                 return new BookCityFragment();
-            case "qa":
-                return new QaQuestionFragment();
+            case "study":
+                return new StudyFragment();
             case "advice":
                 return new AdviceFragment();
             case "myShelf":
