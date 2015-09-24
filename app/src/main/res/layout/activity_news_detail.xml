@@ -22,7 +22,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="8dp"
-                app:dsb_max="200" />
+                app:dsb_min="60"
+                app:dsb_max="140" />
 
             <com.unicorn.csp.other.webview.VideoEnabledWebView
                 android:id="@+id/webview"
