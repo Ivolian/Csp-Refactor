@@ -42,7 +42,6 @@ import butterknife.Bind;
 import butterknife.OnClick;
 
 
-// clear
 public class MainActivity extends ToolbarActivity {
 
 
@@ -101,7 +100,7 @@ public class MainActivity extends ToolbarActivity {
                 .withCloseOnClick(false)
                 .addDrawerItems(
                         new PrimaryDrawerItem().withName("我的关注").withIcon(FontAwesome.Icon.faw_star).withIdentifier(1).withCheckable(false),
-                        new PrimaryDrawerItem().withName("我要提问").withIcon(FontAwesome.Icon.faw_question_circle).withIdentifier(2).withCheckable(false),
+                        new PrimaryDrawerItem().withName("互动专区").withIcon(FontAwesome.Icon.faw_group).withIdentifier(2).withCheckable(false),
                         new PrimaryDrawerItem().withName("主题色彩").withIcon(FontAwesome.Icon.faw_paint_brush).withIdentifier(3).withCheckable(false),
                         new PrimaryDrawerItem().withName("用户登出").withIcon(FontAwesome.Icon.faw_sign_out).withIdentifier(4).withCheckable(false),
                         new PrimaryDrawerItem().withName("更多设置").withIcon(FontAwesome.Icon.faw_cog).withIdentifier(5).withCheckable(false)
@@ -142,7 +141,7 @@ public class MainActivity extends ToolbarActivity {
     private void showChoiceDialog() {
 
         new MaterialDialog.Builder(this)
-                .title("问题分类")
+                .title("互动专区")
                 .items(new String[]{"学习交流", "建议意见"})
                 .itemsCallbackSingleChoice(0, new MaterialDialog.ListCallbackSingleChoice() {
                     @Override
