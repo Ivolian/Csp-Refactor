@@ -27,7 +27,6 @@ import com.unicorn.csp.utils.ToastUtils;
 import com.unicorn.csp.volley.MyVolley;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.http.Header;
 import org.geometerplus.android.fbreader.OrientationUtil;
 import org.geometerplus.android.fbreader.api.FBReaderIntents;
 import org.geometerplus.android.fbreader.library.BookInfoActivity;
@@ -39,6 +38,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import cz.msebera.android.httpclient.Header;
 
 
 public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {

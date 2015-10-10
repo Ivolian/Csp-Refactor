@@ -20,12 +20,12 @@ import com.unicorn.csp.utils.ToastUtils;
 import com.unicorn.csp.volley.MyVolley;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.http.Header;
 import org.json.JSONObject;
 
 import java.io.File;
 
 import butterknife.Bind;
+import cz.msebera.android.httpclient.Header;
 
 public class AboutActivity extends ToolbarActivity {
 

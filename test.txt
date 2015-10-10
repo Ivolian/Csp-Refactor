@@ -1,0 +1,131 @@
+SELECT  
+                  a.name, 
+                  b.user_count, 
+                  c.login_count_20, 
+                  c.login_count_0_20, 
+                  c.login_count_0, 
+                  b.login_times, 
+                  b.read_times, 
+                  b.comment_count, 
+                  b.thumb_count  
+                FROM 
+                  csp_court a  
+                  LEFT JOIN  
+                    (SELECT  
+                      f.id court_id, 
+                      COUNT(a.id) user_count, 
+                      SUM(IFNULL(b.loginTimes, 0)) login_times, 
+                      SUM(IFNULL(c.readTimes, 0)) read_times, 
+                      SUM(IFNULL(d.commentCount, 0)) comment_count, 
+                      SUM(IFNULL(e.thumbCount, 0)) thumb_count  
+                    FROM 
+                      csp_user a  
+                      LEFT JOIN  
+                        (SELECT  
+                          user_id, 
+                          COUNT(*) loginTimes  
+                        FROM 
+                          csp_user_login  
+                WHERE event_time > '2015-09-01 00:00:00' 
+                AND event_time < '2015-09-29 15:30:00' 
+                        GROUP BY user_id) b  
+                        ON a.id = b.user_id  
+                      LEFT JOIN  
+                        (SELECT  
+                          user_id, 
+                          COUNT(*) readTimes  
+                        FROM 
+                          csp_news_read  
+                WHERE event_time > '2015-09-01 00:00:00' 
+                AND event_time < '2015-09-29 15:30:00' 
+                        GROUP BY user_id) c  
+                        ON a.id = c.user_id  
+                      LEFT JOIN  
+                        (SELECT  
+                          user_id, 
+                          COUNT(*) commentCount  
+                        FROM 
+                          csp_comment  
+                WHERE event_time > '2015-09-01 00:00:00' 
+                AND event_time < '2015-09-29 15:30:00' 
+                        GROUP BY user_id) d  
+                        ON a.id = d.user_id  
+                      LEFT JOIN  
+                        (SELECT  
+                          user_id, 
+                          COUNT(*) thumbCount  
+                        FROM 
+                          csp_thumb  
+                WHERE event_time > '2015-09-01 00:00:00' 
+                AND event_time < '2015-09-29 15:30:00' 
+                        GROUP BY user_id) e  
+                        ON a.id = e.user_id  
+                      LEFT JOIN csp_court f  
+                        ON a.court_id = f.id  
+                    GROUP BY f.id) b  
+                    ON a.id = b.court_id  
+                  LEFT JOIN  
+                    (SELECT  
+                      a.court_id, 
+                      SUM( 
+                        CASE 
+                          WHEN times = '>20'  
+                          THEN a.count  
+                          ELSE 0  
+                        END 
+                      ) AS 'login_count_20', 
+                      SUM( 
+                        CASE 
+                          WHEN times = '0~20'  
+                          THEN a.count  
+                          ELSE 0  
+                        END 
+                      ) AS 'login_count_0_20', 
+                      SUM( 
+                        CASE 
+                          WHEN times = '0'  
+                          THEN a.count  
+                          ELSE 0  
+                        END 
+                      ) AS 'login_count_0'  
+                    FROM 
+                      (SELECT  
+                        a.court_id, 
+                        CASE 
+                          WHEN a.loginTimes = 0  
+                          THEN '0'  
+                          WHEN a.loginTimes > 20  
+                          THEN '>20'  
+                          ELSE '0~20'  
+                        END times, 
+                        COUNT(1) COUNT 
+                      FROM 
+                        (SELECT  
+                          f.id court_id, 
+                          IFNULL(b.loginTimes, 0) loginTimes  
+                        FROM 
+                          csp_user a  
+                          LEFT JOIN  
+                            (SELECT  
+                              user_id, 
+                              COUNT(*) loginTimes  
+                            FROM 
+                              csp_user_login  
+                WHERE event_time > '2015-09-01 00:00:00' 
+                AND event_time < '2015-09-29 15:30:00' 
+                            GROUP BY user_id) b  
+                            ON a.id = b.user_id  
+                          LEFT JOIN csp_court f  
+                            ON a.court_id = f.id  
+                        ORDER BY loginTimes) a  
+                      GROUP BY a.court_id, 
+                        CASE 
+                          WHEN a.loginTimes = 0  
+                          THEN 1  
+                          WHEN a.loginTimes > 20  
+                          THEN 2  
+                          ELSE 3  
+                        END) a  
+                 
+                    GROUP BY a.court_id) c  
+                    ON a.id = c.court_id ;
