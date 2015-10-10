@@ -82,4 +82,5 @@ dependencies {
     compile 'org.adw.library:discrete-seekbar:1.0.0'
     compile 'com.android.support:appcompat-v7:23.0.1'
     compile 'cz.msebera.android:httpclient:4.3.6'
+    compile 'com.joanzapata.pdfview:android-pdfview:1.0.4@aar'
 }

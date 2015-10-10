@@ -3,6 +3,7 @@
 2. 新闻 item dp 替换 sp
 3. 导出数据时
 4. PDF
+5.  couldn't find "libjpush180.so"
 
 // todo later
 1. 在他第一次登陆时，记录下当前日期。
